@@ -41,7 +41,7 @@ export default function Contact() {
                                 </div>
                                 <div>
                                     <div className="text-sm text-gray-400">Adres</div>
-                                    <div className="font-medium">Maltepe, İstanbul</div>
+                                    <div className="font-medium">Girne, Meriç Sk. No:13, 34852 Maltepe/İstanbul</div>
                                 </div>
                             </div>
 
@@ -63,10 +63,10 @@ export default function Contact() {
                                 <div>
                                     <div className="text-sm text-gray-400">Telefon</div>
                                     <a
-                                        href="tel:+905XXXXXXXXX"
+                                        href="tel:+905314002959"
                                         className="font-medium hover:text-[var(--primary)] transition-colors"
                                     >
-                                        0532 XXX XX XX
+                                        0531 400 29 59
                                     </a>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@ export default function Contact() {
                         {/* CTAs */}
                         <div className="flex flex-wrap gap-4">
                             <a
-                                href="https://wa.me/905XXXXXXXXX?text=Merhaba, ücretsiz keşif için bilgi almak istiyorum."
+                                href="https://wa.me/905314002959?text=Merhaba, ücretsiz keşif için bilgi almak istiyorum."
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn-press inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white px-6 py-3 rounded-xl font-medium transition-colors"
@@ -137,14 +137,14 @@ export default function Contact() {
                     {/* Right - Map Placeholder */}
                     <div className="relative aspect-square lg:aspect-[4/3] rounded-2xl overflow-hidden bg-gray-800">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48192.24888673715!2d29.10844331744384!3d40.93418540000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac78f8ef2b317%3A0x11eeee152c5cfb81!2sMaltepe%2C%20Istanbul!5e0!3m2!1sen!2str!4v1703150000000!5m2!1sen!2str"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3013.5!2d29.13!3d40.93!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sGirne%2C%20Meri%C3%A7%20Sk.%20No%3A13%2C%2034852%20Maltepe%2F%C4%B0stanbul!5e0!3m2!1str!2str"
                             width="100%"
                             height="100%"
                             style={{ border: 0 }}
                             allowFullScreen
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
-                            title="Ata Yapı Konum - Maltepe, İstanbul"
+                            title="Ata Yapı Konum - Girne, Meriç Sk. No:13, 34852 Maltepe/İstanbul"
                         />
                     </div>
                 </div>

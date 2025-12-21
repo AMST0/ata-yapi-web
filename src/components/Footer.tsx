@@ -30,7 +30,7 @@ export default function Footer() {
                         </p>
                         <div className="flex gap-4">
                             <a
-                                href="https://wa.me/905XXXXXXXXX"
+                                href="https://wa.me/905314002959"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-[var(--accent)] rounded-full transition-colors"
@@ -46,7 +46,7 @@ export default function Footer() {
                                 </svg>
                             </a>
                             <a
-                                href="tel:+905XXXXXXXXX"
+                                href="tel:+905314002959"
                                 className="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-[var(--secondary)] rounded-full transition-colors"
                                 aria-label="Telefon"
                             >
@@ -101,7 +101,7 @@ export default function Footer() {
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                                     <circle cx="12" cy="10" r="3" />
                                 </svg>
-                                <span>Maltepe, İstanbul</span>
+                                <span>Girne, Meriç Sk. No:13, 34852 Maltepe/İstanbul</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <svg
@@ -116,8 +116,8 @@ export default function Footer() {
                                 >
                                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                                 </svg>
-                                <a href="tel:+905XXXXXXXXX" className="hover:text-white transition-colors">
-                                    0532 XXX XX XX
+                                <a href="tel:+905314002959" className="hover:text-white transition-colors">
+                                    0531 400 29 59
                                 </a>
                             </li>
                             <li className="flex items-start gap-3">
