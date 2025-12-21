@@ -1,34 +1,40 @@
-import { db } from './db';
-import { visitors, messages, pageViews, dailyStats, NewVisitor, NewMessage } from './schema';
-import { eq, desc, sql, and, gte, lte } from 'drizzle-orm';
+import { getDb } from './db';
+import { visitors, messages, pageViews, NewVisitor, NewMessage } from './schema';
+import { eq, desc, sql, gte } from 'drizzle-orm';
 
 // ============ VISITORS ============
 
 export async function createVisitor(data: NewVisitor) {
+    const db = getDb();
     const result = await db.insert(visitors).values(data).returning();
     return result[0];
 }
 
 export async function getVisitorByIp(ip: string) {
+    const db = getDb();
     const result = await db.select().from(visitors).where(eq(visitors.ip, ip)).limit(1);
     return result[0] || null;
 }
 
 export async function updateVisitor(id: number, data: Partial<NewVisitor>) {
+    const db = getDb();
     await db.update(visitors).set({ ...data, lastVisit: new Date() }).where(eq(visitors.id, id));
 }
 
 export async function getAllVisitors(limit = 50) {
+    const db = getDb();
     return db.select().from(visitors).orderBy(desc(visitors.lastVisit)).limit(limit);
 }
 
 export async function getVisitorsToday() {
+    const db = getDb();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return db.select().from(visitors).where(gte(visitors.lastVisit, today));
 }
 
 export async function getVisitorCount() {
+    const db = getDb();
     const result = await db.select({ count: sql<number>`count(*)` }).from(visitors);
     return result[0]?.count || 0;
 }
@@ -36,23 +42,28 @@ export async function getVisitorCount() {
 // ============ MESSAGES ============
 
 export async function createMessage(data: NewMessage) {
+    const db = getDb();
     const result = await db.insert(messages).values(data).returning();
     return result[0];
 }
 
 export async function getAllMessages(limit = 50) {
+    const db = getDb();
     return db.select().from(messages).orderBy(desc(messages.createdAt)).limit(limit);
 }
 
 export async function getUnreadMessages() {
+    const db = getDb();
     return db.select().from(messages).where(eq(messages.read, false)).orderBy(desc(messages.createdAt));
 }
 
 export async function markMessageAsRead(id: number) {
+    const db = getDb();
     await db.update(messages).set({ read: true }).where(eq(messages.id, id));
 }
 
 export async function getUnreadMessageCount() {
+    const db = getDb();
     const result = await db.select({ count: sql<number>`count(*)` }).from(messages).where(eq(messages.read, false));
     return result[0]?.count || 0;
 }
@@ -60,10 +71,12 @@ export async function getUnreadMessageCount() {
 // ============ PAGE VIEWS ============
 
 export async function recordPageView(path: string, visitorId?: number) {
+    const db = getDb();
     await db.insert(pageViews).values({ path, visitorId });
 }
 
 export async function getPageViewStats() {
+    const db = getDb();
     const result = await db
         .select({
             path: pageViews.path,
@@ -73,13 +86,14 @@ export async function getPageViewStats() {
         .groupBy(pageViews.path)
         .orderBy(desc(sql`count(*)`));
 
-    return result.reduce((acc, row) => {
+    return result.reduce((acc: Record<string, number>, row) => {
         acc[row.path] = row.count;
         return acc;
     }, {} as Record<string, number>);
 }
 
 export async function getTotalPageViews() {
+    const db = getDb();
     const result = await db.select({ count: sql<number>`count(*)` }).from(pageViews);
     return result[0]?.count || 0;
 }
@@ -96,7 +110,7 @@ export async function getVisitorStats() {
     const devices: Record<string, number> = {};
     const cities: Record<string, number> = {};
 
-    allVisitors.forEach(v => {
+    allVisitors.forEach((v) => {
         if (v.browser) browsers[v.browser] = (browsers[v.browser] || 0) + 1;
         if (v.device) devices[v.device] = (devices[v.device] || 0) + 1;
         if (v.city) cities[v.city] = (cities[v.city] || 0) + 1;
