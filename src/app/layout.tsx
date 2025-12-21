@@ -29,10 +29,6 @@ export const metadata: Metadata = {
     "sürme cam balkon",
   ],
   authors: [{ name: "Ata Yapı" }],
-  icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
-  },
   openGraph: {
     title: "Ata Yapı | Maltepe Cam Balkon, Sineklik & Tente Sistemleri",
     description:
