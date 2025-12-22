@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, useSpring, useTransform } from "framer-motion";
 
 interface AnimatedNumberProps {
@@ -16,8 +16,6 @@ export default function AnimatedNumber({
     reducedMotion,
     className = "",
 }: AnimatedNumberProps) {
-    const [displayValue, setDisplayValue] = useState(value);
-
     const spring = useSpring(value, {
         stiffness: 100,
         damping: 30,
@@ -28,22 +26,25 @@ export default function AnimatedNumber({
         current.toFixed(decimals)
     );
 
-    useEffect(() => {
-        if (reducedMotion) {
-            setDisplayValue(value);
-        } else {
-            spring.set(value);
-        }
-    }, [value, spring, reducedMotion]);
+    const displayRef = useRef<HTMLSpanElement>(null);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- spring.set is stable
     useEffect(() => {
         if (!reducedMotion) {
+            spring.set(value);
+        }
+    }, [value, reducedMotion]);
+
+    useEffect(() => {
+        if (!reducedMotion && displayRef.current) {
             const unsubscribe = display.on("change", (v) => {
-                setDisplayValue(parseFloat(v));
+                if (displayRef.current) {
+                    displayRef.current.textContent = parseFloat(v).toFixed(decimals);
+                }
             });
             return () => unsubscribe();
         }
-    }, [display, reducedMotion]);
+    }, [display, reducedMotion, decimals]);
 
     if (reducedMotion) {
         return (
@@ -55,7 +56,7 @@ export default function AnimatedNumber({
 
     return (
         <motion.span className={className}>
-            {displayValue.toFixed(decimals)}
+            <span ref={displayRef}>{value.toFixed(decimals)}</span>
         </motion.span>
     );
 }

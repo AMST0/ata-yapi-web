@@ -1,17 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { generateMockVisitors, getStats, Visitor } from "@/lib/visitor-store";
+import { useMemo } from "react";
+import { generateMockVisitors, getStats } from "@/lib/visitor-store";
 
 export default function AnalyticsPage() {
-    const [visitors, setVisitors] = useState<Visitor[]>([]);
-    const [stats, setStats] = useState<ReturnType<typeof getStats> | null>(null);
-
-    useEffect(() => {
-        const data = generateMockVisitors();
-        setVisitors(data);
-        setStats(getStats(data));
-    }, []);
+    // Generate data once on mount
+    const visitors = useMemo(() => generateMockVisitors(), []);
+    const stats = useMemo(() => getStats(visitors), [visitors]);
 
     // Calculate daily visits for last 7 days
     const getDailyVisits = () => {
@@ -48,10 +43,10 @@ export default function AnalyticsPage() {
 
             {/* Overview Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <MetricCard label="Toplam Ziyaretçi" value={stats?.totalVisitors || 0} />
-                <MetricCard label="Sayfa Görüntüleme" value={stats?.totalPageViews || 0} />
-                <MetricCard label="Ort. Oturum Süresi" value={`${stats?.avgSessionDuration || 0}s`} />
-                <MetricCard label="Bugün" value={stats?.todayVisitors || 0} />
+                <MetricCard label="Toplam Ziyaretçi" value={stats.totalVisitors} />
+                <MetricCard label="Sayfa Görüntüleme" value={stats.totalPageViews} />
+                <MetricCard label="Ort. Oturum Süresi" value={`${stats.avgSessionDuration}s`} />
+                <MetricCard label="Bugün" value={stats.todayVisitors} />
             </div>
 
             {/* Daily Chart */}
@@ -78,26 +73,25 @@ export default function AnalyticsPage() {
                 <div className="bg-gray-800 rounded-xl border border-gray-700 p-6">
                     <h2 className="text-xl font-semibold text-white mb-4">Sayfa Görüntülemeleri</h2>
                     <div className="space-y-3">
-                        {stats &&
-                            Object.entries(stats.pageViews)
-                                .sort(([, a], [, b]) => b - a)
-                                .map(([page, count]) => {
-                                    const percentage = (count / stats.totalPageViews) * 100;
-                                    return (
-                                        <div key={page}>
-                                            <div className="flex justify-between text-sm mb-1">
-                                                <span className="text-white">{page}</span>
-                                                <span className="text-gray-400">{count} ({percentage.toFixed(1)}%)</span>
-                                            </div>
-                                            <div className="w-full bg-gray-700 rounded-full h-2">
-                                                <div
-                                                    className="bg-[var(--secondary)] h-2 rounded-full"
-                                                    style={{ width: `${percentage}%` }}
-                                                />
-                                            </div>
+                        {Object.entries(stats.pageViews)
+                            .sort(([, a], [, b]) => b - a)
+                            .map(([page, count]) => {
+                                const percentage = (count / stats.totalPageViews) * 100;
+                                return (
+                                    <div key={page}>
+                                        <div className="flex justify-between text-sm mb-1">
+                                            <span className="text-white">{page}</span>
+                                            <span className="text-gray-400">{count} ({percentage.toFixed(1)}%)</span>
                                         </div>
-                                    );
-                                })}
+                                        <div className="w-full bg-gray-700 rounded-full h-2">
+                                            <div
+                                                className="bg-[var(--secondary)] h-2 rounded-full"
+                                                style={{ width: `${percentage}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                );
+                            })}
                     </div>
                 </div>
 

@@ -1,16 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { generateMockVisitors, Visitor } from "@/lib/visitor-store";
 
 export default function VisitorsPage() {
-    const [visitors, setVisitors] = useState<Visitor[]>([]);
+    const visitors = useMemo(() => generateMockVisitors(), []);
     const [selectedVisitor, setSelectedVisitor] = useState<Visitor | null>(null);
     const [filter, setFilter] = useState("");
-
-    useEffect(() => {
-        setVisitors(generateMockVisitors());
-    }, []);
 
     const filteredVisitors = visitors.filter(
         (v) =>

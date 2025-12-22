@@ -21,14 +21,6 @@ interface Visitor {
     lastVisit: string;
 }
 
-interface Message {
-    id: number;
-    name: string;
-    phone: string;
-    read: boolean;
-    createdAt: string;
-}
-
 export default function AdminDashboard() {
     const [stats, setStats] = useState<Stats | null>(null);
     const [visitors, setVisitors] = useState<Visitor[]>([]);

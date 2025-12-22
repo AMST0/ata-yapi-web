@@ -1,15 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 import { generateMockMessages, Message } from "@/lib/visitor-store";
 
 export default function MessagesPage() {
-    const [messages, setMessages] = useState<Message[]>([]);
+    const initialMessages = useMemo(() => generateMockMessages(), []);
+    const [messages, setMessages] = useState<Message[]>(initialMessages);
     const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
-
-    useEffect(() => {
-        setMessages(generateMockMessages());
-    }, []);
 
     const markAsRead = (id: string) => {
         setMessages((prev) =>
@@ -48,10 +45,10 @@ export default function MessagesPage() {
                                         if (!message.read) markAsRead(message.id);
                                     }}
                                     className={`p-4 rounded-xl border cursor-pointer transition-colors ${selectedMessage?.id === message.id
-                                            ? "bg-gray-700 border-[var(--primary)]"
-                                            : message.read
-                                                ? "bg-gray-800 border-gray-700 hover:border-gray-600"
-                                                : "bg-gray-800 border-gray-700 hover:border-gray-600"
+                                        ? "bg-gray-700 border-[var(--primary)]"
+                                        : message.read
+                                            ? "bg-gray-800 border-gray-700 hover:border-gray-600"
+                                            : "bg-gray-800 border-gray-700 hover:border-gray-600"
                                         }`}
                                 >
                                     <div className="flex items-start justify-between mb-2">

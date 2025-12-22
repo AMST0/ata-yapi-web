@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -16,6 +16,7 @@
     "drizzle-kit": "^0.31.8",
     "drizzle-orm": "^0.45.1",
     "framer-motion": "^12.23.26",
+    "jspdf": "^3.0.4",
     "next": "16.1.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
