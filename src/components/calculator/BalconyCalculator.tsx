@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import BalconyPreview from "./BalconyPreview";
 import AnimatedNumber from "./AnimatedNumber";
 import Toast from "./Toast";
+import { trackCalculatorWhatsApp } from "@/lib/analytics";
 
 type BalconyType = "flat" | "L" | "U";
 
@@ -214,8 +215,8 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                             key={type.id}
                                             onClick={() => setBalconyType(type.id)}
                                             className={`relative flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${balconyType === type.id
-                                                    ? "text-white shadow-lg"
-                                                    : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
+                                                ? "text-white shadow-lg"
+                                                : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
                                                 }`}
                                         >
                                             <span className="text-lg">{type.icon}</span>
@@ -390,6 +391,7 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                             href={`https://wa.me/905314002959?text=${generateWhatsAppMessage()}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            onClick={trackCalculatorWhatsApp}
                                             className="mt-6 flex items-center justify-center gap-3 w-full bg-gradient-to-r from-[var(--accent)] to-emerald-500 hover:from-emerald-500 hover:to-[var(--accent)] text-white px-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg shadow-green-500/25 hover:shadow-green-500/40"
                                             whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
                                             whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}

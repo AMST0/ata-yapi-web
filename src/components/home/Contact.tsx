@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { trackWhatsAppClick, trackPhoneClick } from "@/lib/analytics";
 
 export default function Contact() {
     return (
@@ -64,6 +67,7 @@ export default function Contact() {
                                     <div className="text-sm text-gray-400">Telefon</div>
                                     <a
                                         href="tel:+905314002959"
+                                        onClick={trackPhoneClick}
                                         className="font-medium hover:text-[var(--primary)] transition-colors"
                                     >
                                         0531 400 29 59
@@ -100,6 +104,7 @@ export default function Contact() {
                                 href="https://wa.me/905314002959?text=Merhaba, ücretsiz keşif için bilgi almak istiyorum."
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={trackWhatsAppClick}
                                 className="btn-press inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white px-6 py-3 rounded-xl font-medium transition-colors"
                             >
                                 <svg

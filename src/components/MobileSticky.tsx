@@ -1,12 +1,15 @@
 "use client";
 
+import { trackWhatsAppClick, trackPhoneClick } from "@/lib/analytics";
+
 export default function MobileSticky() {
     return (
         <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-gray-200 shadow-lg">
             <div className="flex">
                 {/* Call Button */}
                 <a
-                    href="tel:+905XXXXXXXXX"
+                    href="tel:+905314002959"
+                    onClick={trackPhoneClick}
                     className="flex-1 flex items-center justify-center gap-2 py-3 bg-[var(--secondary)] text-white font-medium btn-press"
                 >
                     <svg
@@ -26,9 +29,10 @@ export default function MobileSticky() {
 
                 {/* WhatsApp Button */}
                 <a
-                    href="https://wa.me/905XXXXXXXXX?text=Merhaba, cam balkon hakkında bilgi almak istiyorum."
+                    href="https://wa.me/905314002959?text=Merhaba, cam balkon hakkında bilgi almak istiyorum."
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={trackWhatsAppClick}
                     className="flex-1 flex items-center justify-center gap-2 py-3 bg-[var(--accent)] text-white font-medium btn-press"
                 >
                     <svg
@@ -45,3 +49,4 @@ export default function MobileSticky() {
         </div>
     );
 }
+
