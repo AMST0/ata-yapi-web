@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
     title: "Tente Sistemleri | Ata Yapı Maltepe",
@@ -13,18 +14,24 @@ const tenteTypes = [
         description:
             "Klasik kol sistemi ile açılıp kapanan tente. Balkon ve teraslar için ideal.",
         features: ["Manuel veya motorlu", "3-6 metre genişlik", "Dayanıklı kumaş", "Kolay kullanım"],
+        image: "/mafsalli-tente.png",
+        href: "/tente/mafsalli",
     },
     {
         title: "Kasetli Tente",
         description:
             "Kumaşın kaset içinde korunduğu premium sistem. Uzun ömürlü kullanım.",
         features: ["Kumaş koruması", "Modern görünüm", "Motorlu sistem", "Uzaktan kumanda"],
+        image: "/kasetli-tente.png",
+        href: "/tente/kasetli",
     },
     {
         title: "Pergola Tente",
         description:
             "Sabit yapı üzerine monte edilen geniş alan tente sistemi.",
         features: ["Geniş alan", "Sağlam yapı", "Yağmur/güneş koruması", "Özel tasarım"],
+        image: "/tente-service.png",
+        href: "/tente/pergola",
     },
 ];
 
@@ -56,6 +63,17 @@ export default function TentePage() {
         <>
             {/* Hero */}
             <section className="relative py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0">
+                    <Image
+                        src="/tente-service.png"
+                        alt="Tente Sistemleri"
+                        fill
+                        className="object-cover opacity-30"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent" />
+                </div>
                 <div className="container relative z-10">
                     <div className="max-w-2xl">
                         <span className="inline-block text-sm font-semibold text-[var(--accent)] uppercase tracking-wider mb-3 animate-fade-in">
@@ -95,25 +113,46 @@ export default function TentePage() {
 
                     <div className="grid lg:grid-cols-3 gap-8">
                         {tenteTypes.map((type, index) => (
-                            <div
+                            <Link
                                 key={index}
-                                className="card-hover p-8 bg-white rounded-2xl border border-gray-100 shadow-sm"
+                                href={type.href}
+                                className="group block overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                             >
-                                <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'var(--font-heading)' }}>
-                                    {type.title}
-                                </h3>
-                                <p className="text-gray-600 mb-4">{type.description}</p>
-                                <ul className="space-y-2">
-                                    {type.features.map((feature, i) => (
-                                        <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <polyline points="20 6 9 17 4 12" />
-                                            </svg>
-                                            {feature}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                                {/* Image */}
+                                <div className="relative h-48 overflow-hidden">
+                                    <Image
+                                        src={type.image}
+                                        alt={type.title}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
+                                    <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+                                        {type.title}
+                                    </h3>
+                                </div>
+                                {/* Content */}
+                                <div className="p-6">
+                                    <p className="text-gray-600 mb-4">{type.description}</p>
+                                    <ul className="space-y-2">
+                                        {type.features.map((feature, i) => (
+                                            <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg>
+                                                {feature}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <div className="mt-4 flex items-center gap-2 text-[var(--accent)] font-semibold">
+                                        <span>Detaylı Bilgi</span>
+                                        <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <line x1="5" y1="12" x2="19" y2="12" />
+                                            <polyline points="12 5 19 12 12 19" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

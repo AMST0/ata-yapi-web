@@ -79,64 +79,89 @@ export default function TeklifPage() {
         return new Intl.NumberFormat("tr-TR").format(amount);
     };
 
+    // Normalize text for PDF (convert Turkish chars to ASCII equivalents for PDF compatibility)
+    const normalizeTurkish = (text: string): string => {
+        const turkishMap: { [key: string]: string } = {
+            'ğ': 'g', 'Ğ': 'G',
+            'ü': 'u', 'Ü': 'U',
+            'ş': 's', 'Ş': 'S',
+            'ı': 'i', 'İ': 'I',
+            'ö': 'o', 'Ö': 'O',
+            'ç': 'c', 'Ç': 'C'
+        };
+        return text.replace(/[ğĞüÜşŞıİöÖçÇ]/g, (char) => turkishMap[char] || char);
+    };
+
     // Generate PDF
     const generatePDF = () => {
         const doc = new jsPDF();
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
         const margin = 20;
-        let yPos = 20;
+        let yPos = 25;
 
-        // Header - Logo text (since we can't easily add image)
-        doc.setFontSize(28);
+        // ========== HEADER ==========
+        // Logo - "ata" in red
+        doc.setFontSize(32);
         doc.setTextColor(227, 30, 36); // Primary red
-        doc.text("ata", margin, yPos + 10);
-        doc.setFontSize(10);
-        doc.setTextColor(0, 0, 0);
-        doc.text("YAPI", margin + 22, yPos + 10);
+        doc.setFont("helvetica", "bold");
+        doc.text("ata", margin, yPos);
 
-        // Title and date
-        doc.setFontSize(14);
+        // "YAPI" in gray below logo
+        doc.setFontSize(9);
         doc.setTextColor(100, 100, 100);
-        doc.text("CAM BALKON SİSTEMLERİ", margin + 45, yPos + 5);
+        doc.setFont("helvetica", "normal");
+        doc.text("YAPI", margin + 24, yPos);
+
+        // Title: "CAM BALKON SISTEMLERI" and date
+        doc.setFontSize(15);
+        doc.setTextColor(227, 30, 36);
+        doc.setFont("helvetica", "bold");
+        doc.text("CAM BALKON SISTEMLERI", margin + 45, yPos - 5);
 
         const today = new Date();
         const dateStr = today.toLocaleDateString("tr-TR");
-        doc.text(dateStr, pageWidth - margin - 25, yPos + 5);
+        doc.setFontSize(11);
+        doc.setTextColor(100, 100, 100);
+        doc.setFont("helvetica", "normal");
+        doc.text(dateStr, pageWidth - margin, yPos - 5, { align: "right" });
 
-        // Divider line
-        yPos += 20;
-        doc.setDrawColor(200, 200, 200);
+        // Header divider line
+        yPos += 12;
+        doc.setDrawColor(227, 30, 36);
+        doc.setLineWidth(0.5);
         doc.line(margin, yPos, pageWidth - margin, yPos);
-        yPos += 15;
 
-        // Greeting
-        doc.setFontSize(12);
+        yPos += 20;
+
+        // ========== GREETING ==========
+        doc.setFontSize(11);
         doc.setTextColor(0, 0, 0);
-        doc.text(`Sayın ${customerName || "Yetkili"},`, margin, yPos);
-        yPos += 10;
+        doc.setFont("helvetica", "normal");
+        const greeting = normalizeTurkish(`Sayin ${customerName || "Yetkili"},`);
+        doc.text(greeting, margin, yPos);
+        yPos += 15;
 
         // Project address if provided
         if (projectAddress) {
             doc.setFontSize(10);
-            doc.text(`Proje Adresi: ${projectAddress}`, margin, yPos);
-            yPos += 8;
+            doc.text(normalizeTurkish(`Proje Adresi: ${projectAddress}`), margin, yPos);
+            yPos += 10;
         }
-        yPos += 5;
 
-        // Intro text
+        // ========== INTRO TEXT ==========
         if (introText) {
             doc.setFontSize(10);
-            const introLines = doc.splitTextToSize(introText, pageWidth - margin * 2);
+            const introLines = doc.splitTextToSize(normalizeTurkish(introText), pageWidth - margin * 2);
             doc.text(introLines, margin, yPos);
-            yPos += introLines.length * 5 + 10;
+            yPos += introLines.length * 5 + 15;
         }
 
-        // Items header
+        // ========== ITEMS SECTION ==========
         doc.setFontSize(11);
         doc.setFont("helvetica", "bold");
-        doc.text("Teklif Kapsamında Yapılacak İşler:", margin, yPos);
-        yPos += 10;
+        doc.text(normalizeTurkish("Teklif Kapsaminda Yapilacak Isler:"), margin, yPos);
+        yPos += 12;
 
         // Items list
         doc.setFont("helvetica", "normal");
@@ -150,52 +175,57 @@ export default function TeklifPage() {
                     yPos = 30;
                 }
 
-                const itemText = `${index + 1}. ${item.description}`;
+                const itemText = normalizeTurkish(`${index + 1}. ${item.description}`);
                 const lines = doc.splitTextToSize(itemText, pageWidth - margin * 2 - 40);
                 doc.text(lines, margin + 5, yPos);
 
                 if (item.price) {
-                    const priceText = `${formatCurrency(parseFloat(item.price.replace(/[^0-9]/g, "")) || 0)} ₺`;
-                    doc.text(priceText, pageWidth - margin - 25, yPos, { align: "right" });
+                    const price = parseFloat(item.price.replace(/[^0-9]/g, "")) || 0;
+                    const priceText = `${formatCurrency(price)} TL`;
+                    doc.text(priceText, pageWidth - margin, yPos, { align: "right" });
                 }
 
-                yPos += lines.length * 5 + 3;
+                yPos += lines.length * 6 + 4;
             }
         });
 
         yPos += 10;
 
-        // Total
+        // ========== TOTAL SECTION ==========
         doc.setDrawColor(200, 200, 200);
+        doc.setLineWidth(0.3);
         doc.line(margin, yPos, pageWidth - margin, yPos);
-        yPos += 10;
+        yPos += 12;
 
         doc.setFontSize(12);
         doc.setFont("helvetica", "bold");
-        doc.text(`Toplam Teklif Bedeli: ${formatCurrency(total)} ₺ + KDV`, margin, yPos);
-        yPos += 15;
+        doc.setTextColor(227, 30, 36);
+        const totalText = normalizeTurkish(`Toplam Teklif Bedeli: ${formatCurrency(total)} TL + KDV`);
+        doc.text(totalText, margin, yPos);
+        yPos += 20;
 
-        // Notes
+        // ========== NOTES ==========
         if (notes) {
             doc.setFontSize(9);
             doc.setFont("helvetica", "italic");
             doc.setTextColor(100, 100, 100);
-            const notesLines = doc.splitTextToSize(notes, pageWidth - margin * 2);
+            const notesLines = doc.splitTextToSize(normalizeTurkish(notes), pageWidth - margin * 2);
             doc.text(notesLines, margin, yPos);
         }
 
-        // Footer
+        // ========== FOOTER ==========
         doc.setFontSize(8);
+        doc.setFont("helvetica", "normal");
         doc.setTextColor(100, 100, 100);
-        doc.text(`*Teklifin geçerlilik süresi ${validityDays} gündür.`, margin, pageHeight - 20);
-        doc.text("İletişim: 0531 400 29 59", pageWidth - margin - 35, pageHeight - 20);
+        doc.text(normalizeTurkish(`*Teklifin gecerlilik suresi ${validityDays} gundur.`), margin, pageHeight - 15);
+        doc.text("Iletisim: 0531 400 29 59", pageWidth - margin, pageHeight - 15, { align: "right" });
 
         // Save PDF blob for sharing
         const blob = doc.output("blob");
         setPdfBlob(blob);
 
-        // Also download
-        const fileName = `${customerName || "Musteri"}_Teklif_${dateStr.replace(/\./g, "-")}.pdf`;
+        // Download
+        const fileName = normalizeTurkish(`${customerName || "Musteri"}_Teklif_${dateStr.replace(/\./g, "-")}.pdf`);
         doc.save(fileName);
 
         return fileName;

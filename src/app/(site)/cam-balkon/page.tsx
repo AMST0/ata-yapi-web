@@ -82,10 +82,10 @@ const processSteps = [
 ];
 
 const gallery = [
-    { src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80", alt: "Modern Cam Balkon" },
-    { src: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80", alt: "Katlanır Cam Sistem" },
-    { src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80", alt: "Lüks Balkon Tasarımı" },
-    { src: "https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=600&q=80", alt: "Panoramik Cam Balkon" },
+    { src: "/cam-balkon-1.png", alt: "Modern Cam Balkon" },
+    { src: "/cam-balkon-2.png", alt: "Katlanır Cam Sistem" },
+    { src: "/cam-balkon-service.png", alt: "Lüks Balkon Tasarımı" },
+    { src: "/cam-balkon-1.png", alt: "Panoramik Cam Balkon" },
 ];
 
 export default function CamBalkonPage() {
@@ -95,7 +95,7 @@ export default function CamBalkonPage() {
             <section className="relative py-24 lg:py-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
                 <div className="absolute inset-0">
                     <Image
-                        src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80"
+                        src="/cam-balkon-service.png"
                         alt="Cam Balkon Sistemleri"
                         fill
                         className="object-cover opacity-30"

@@ -7,7 +7,7 @@ const services = [
         title: "Cam Balkon",
         description:
             "Katlanır ve sürme cam balkon sistemleri ile balkonlarınızı 4 mevsim kullanılabilir alanlara dönüştürün.",
-        image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
+        image: "/cam-balkon-service.png",
         features: ["Katlanır Sistem", "Sürme Sistem", "Isı Yalıtımı"],
         color: "var(--primary)",
         href: "/cam-balkon",
@@ -17,7 +17,7 @@ const services = [
         title: "Sineklik",
         description:
             "Plise, menteşeli ve sürme sineklik sistemleri. Haşerelerden korunarak temiz hava alın.",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+        image: "/sineklik-service.png",
         features: ["Plise Sineklik", "Menteşeli", "Sürme Sistem"],
         color: "var(--secondary)",
         href: "/sineklik",
@@ -27,7 +27,7 @@ const services = [
         title: "Tente",
         description:
             "Mafsallı, kasetli ve pergola tente sistemleri ile güneşten korunun, dış mekanlarınızı kullanın.",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+        image: "/tente-service.png",
         features: ["Mafsallı Tente", "Kasetli Tente", "Pergola"],
         color: "var(--accent)",
         href: "/tente",
