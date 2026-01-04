@@ -1,18 +1,20 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Hero() {
     return (
         <section className="relative min-h-[85vh] flex items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
-            {/* Background Image */}
+            {/* Background Video */}
             <div className="absolute inset-0">
-                <Image
-                    src="/hero-balcony.png"
-                    alt="Modern Cam Balkon Sistemi"
-                    fill
-                    className="object-cover opacity-40"
-                    priority
-                />
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover opacity-50"
+                    poster="/hero-balcony.png"
+                >
+                    <source src="/hero-video.mp4" type="video/mp4" />
+                </video>
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-gray-900/40" />
             </div>
 
