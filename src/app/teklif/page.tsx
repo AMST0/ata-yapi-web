@@ -10,7 +10,7 @@ interface QuoteItem {
     price: string;
 }
 
-const ACCESS_PIN = "1234"; // Simple PIN protection
+const ACCESS_PIN = process.env.NEXT_PUBLIC_QUOTE_PIN || "1234"; // Use env or fallback for local dev
 
 export default function TeklifPage() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);

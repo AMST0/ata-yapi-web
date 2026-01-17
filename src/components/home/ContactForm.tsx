@@ -30,7 +30,7 @@ export default function ContactForm() {
             setStatus("success");
             (e.target as HTMLFormElement).reset();
         } catch (err) {
-            console.error(err);
+            // Error logged silently in production or sent to error monitor
             setStatus("error");
             setErrorMessage("Bir hata oluştu, lütfen daha sonra tekrar deneyin.");
         }

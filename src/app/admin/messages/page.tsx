@@ -29,7 +29,6 @@ export default function MessagesPage() {
                 setMessages(data.messages || []);
                 setUnreadCount(data.unreadCount || 0);
             } catch (err) {
-                console.error('Error fetching messages:', err);
                 setError('Mesajlar yüklenirken hata oluştu');
             } finally {
                 setIsLoading(false);
@@ -51,7 +50,7 @@ export default function MessagesPage() {
             );
             setUnreadCount((prev) => Math.max(0, prev - 1));
         } catch (err) {
-            console.error('Error marking message as read:', err);
+            // Failed to mark as read
         }
     };
 

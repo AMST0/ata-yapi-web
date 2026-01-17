@@ -15,18 +15,75 @@ const balconyTypes = [
     { id: "U" as const, label: "U Tipi", icon: "⊔" },
 ];
 
+interface PremiumSliderProps {
+    label: string;
+    value: number;
+    onChange: (v: number) => void;
+    min: number;
+    max: number;
+    step: number;
+    gradient: string;
+    onStartDragging: () => void;
+}
+
+const PremiumSlider = ({
+    label,
+    value,
+    onChange,
+    min,
+    max,
+    step,
+    gradient,
+    onStartDragging
+}: PremiumSliderProps) => {
+    const percentage = ((value - min) / (max - min)) * 100;
+
+    return (
+        <div className="space-y-3">
+            <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-gray-600">{label}</span>
+                <div className="flex items-center gap-1 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full border border-gray-200/50 shadow-sm">
+                    <span className="text-lg font-bold text-gray-900">{value}</span>
+                    <span className="text-xs text-gray-500">cm</span>
+                </div>
+            </div>
+            <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                    className={`absolute inset-y-0 left-0 rounded-full ${gradient}`}
+                    style={{ width: `${percentage}%` }}
+                />
+                <input
+                    type="range"
+                    min={min}
+                    max={max}
+                    step={step}
+                    value={value}
+                    onChange={(e) => {
+                        onChange(Number(e.target.value));
+                        onStartDragging();
+                    }}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <div
+                    className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white rounded-full shadow-lg border-2 border-gray-300 cursor-grab active:cursor-grabbing transition-transform hover:scale-110"
+                    style={{ left: `calc(${percentage}% - 10px)` }}
+                />
+            </div>
+            <div className="flex justify-between text-xs text-gray-400">
+                <span>{min} cm</span>
+                <span>{max} cm</span>
+            </div>
+        </div>
+    );
+};
+
 export default function BalconyCalculator() {
     const shouldReduceMotion = useReducedMotion();
 
-    // Main (center) dimensions
     const [mainWidth, setMainWidth] = useState(300);
     const [mainHeight, setMainHeight] = useState(250);
-
-    // Left side dimensions (for L and U types)
     const [leftWidth, setLeftWidth] = useState(150);
     const [leftHeight, setLeftHeight] = useState(200);
-
-    // Right side dimensions (for U type)
     const [rightWidth, setRightWidth] = useState(150);
     const [rightHeight, setRightHeight] = useState(200);
 
@@ -34,7 +91,6 @@ export default function BalconyCalculator() {
     const [showToast, setShowToast] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
 
-    // Calculate panels (every 50-60 cm = 1 panel)
     const calculatePanels = useCallback(() => {
         const panelWidth = 55;
         const mainPanels = Math.ceil(mainWidth / panelWidth);
@@ -51,7 +107,6 @@ export default function BalconyCalculator() {
         return mainPanels;
     }, [mainWidth, leftWidth, rightWidth, balconyType]);
 
-    // Calculate area in m²
     const calculateArea = useCallback(() => {
         const mainArea = (mainWidth * mainHeight) / 10000;
 
@@ -70,7 +125,6 @@ export default function BalconyCalculator() {
     const panels = calculatePanels();
     const area = calculateArea();
 
-    // Show toast when slider stops
     useEffect(() => {
         if (!isDragging) return;
         const timeout = setTimeout(() => {
@@ -81,10 +135,8 @@ export default function BalconyCalculator() {
         return () => clearTimeout(timeout);
     }, [mainWidth, mainHeight, leftWidth, leftHeight, rightWidth, rightHeight, isDragging]);
 
-    // Generate WhatsApp message
     const generateWhatsAppMessage = () => {
         const typeLabels = { flat: "Düz", L: "L Tipi", U: "U Tipi" };
-
         let dimensionsText = `- Ana Genişlik: ${mainWidth} cm\n- Ana Yükseklik: ${mainHeight} cm`;
 
         if (balconyType === "L") {
@@ -94,82 +146,13 @@ export default function BalconyCalculator() {
             dimensionsText += `\n- Sağ Yan: ${rightWidth}x${rightHeight} cm`;
         }
 
-        const message = `Merhaba, cam balkon için fiyat almak istiyorum.
-
-📐 Ölçüler (${typeLabels[balconyType]}):
-${dimensionsText}
-
-📊 Tahmini:
-- Alan: ${area.toFixed(2)} m²
-- Panel Sayısı: ${panels} adet
-
-Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
-
+        const message = `Merhaba, cam balkon için fiyat almak istiyorum.\n\n📐 Ölçüler (${typeLabels[balconyType]}):\n${dimensionsText}\n\n📊 Tahmini:\n- Alan: ${area.toFixed(2)} m²\n- Panel Sayısı: ${panels} adet\n\nLütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
         return encodeURIComponent(message);
-    };
-
-    const PremiumSlider = ({
-        label,
-        value,
-        onChange,
-        min,
-        max,
-        step,
-        gradient
-    }: {
-        label: string;
-        value: number;
-        onChange: (v: number) => void;
-        min: number;
-        max: number;
-        step: number;
-        gradient: string;
-    }) => {
-        const percentage = ((value - min) / (max - min)) * 100;
-
-        return (
-            <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-600">{label}</span>
-                    <div className="flex items-center gap-1 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full border border-gray-200/50 shadow-sm">
-                        <span className="text-lg font-bold text-gray-900">{value}</span>
-                        <span className="text-xs text-gray-500">cm</span>
-                    </div>
-                </div>
-                <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                        className={`absolute inset-y-0 left-0 rounded-full ${gradient}`}
-                        style={{ width: `${percentage}%` }}
-                    />
-                    <input
-                        type="range"
-                        min={min}
-                        max={max}
-                        step={step}
-                        value={value}
-                        onChange={(e) => {
-                            onChange(Number(e.target.value));
-                            setIsDragging(true);
-                        }}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                    <div
-                        className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white rounded-full shadow-lg border-2 border-gray-300 cursor-grab active:cursor-grabbing transition-transform hover:scale-110"
-                        style={{ left: `calc(${percentage}% - 10px)` }}
-                    />
-                </div>
-                <div className="flex justify-between text-xs text-gray-400">
-                    <span>{min} cm</span>
-                    <span>{max} cm</span>
-                </div>
-            </div>
-        );
     };
 
     return (
         <section id="hesaplayici" className="py-20 lg:py-28 bg-gradient-to-b from-gray-50 to-white">
             <div className="container">
-                {/* Section Header */}
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <motion.div
                         initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
@@ -195,7 +178,6 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                     </motion.div>
                 </div>
 
-                {/* Calculator Container */}
                 <div className="max-w-6xl mx-auto">
                     <motion.div
                         initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
@@ -203,11 +185,9 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                         transition={{ duration: 0.5 }}
                         className="relative"
                     >
-                        {/* Decorative background */}
                         <div className="absolute -inset-4 bg-gradient-to-r from-[var(--primary)]/5 via-[var(--secondary)]/5 to-[var(--accent)]/5 rounded-[2rem] blur-xl" />
 
                         <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-gray-200/50 p-8 md:p-10 border border-gray-100">
-                            {/* Balcony Type Selection */}
                             <div className="flex justify-center mb-10">
                                 <div className="inline-flex bg-gray-100/80 backdrop-blur-sm rounded-2xl p-1.5 gap-1">
                                     {balconyTypes.map((type) => (
@@ -233,11 +213,8 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                 </div>
                             </div>
 
-                            {/* Main Layout */}
                             <div className="grid lg:grid-cols-[1fr_320px] gap-8">
-                                {/* Left: Preview + Sliders */}
                                 <div className="space-y-6">
-                                    {/* SVG Preview */}
                                     <div className="relative bg-gradient-to-br from-gray-50 via-white to-gray-50 rounded-2xl p-6 min-h-[280px] flex items-center justify-center border border-gray-100">
                                         <div className="absolute top-4 left-4 flex items-center gap-2 text-xs text-gray-400">
                                             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
@@ -258,9 +235,7 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                         </AnimatePresence>
                                     </div>
 
-                                    {/* Dimension Controls */}
                                     <div className="space-y-4">
-                                        {/* Main Section */}
                                         <div className="p-6 bg-gradient-to-br from-blue-50/80 to-indigo-50/50 rounded-2xl border border-blue-100/50">
                                             <div className="flex items-center gap-2 mb-5">
                                                 <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
@@ -273,12 +248,11 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                                 </span>
                                             </div>
                                             <div className="grid md:grid-cols-2 gap-6">
-                                                <PremiumSlider label="Genişlik" value={mainWidth} onChange={setMainWidth} min={100} max={600} step={10} gradient="bg-gradient-to-r from-blue-400 to-blue-600" />
-                                                <PremiumSlider label="Yükseklik" value={mainHeight} onChange={setMainHeight} min={150} max={350} step={5} gradient="bg-gradient-to-r from-indigo-400 to-indigo-600" />
+                                                <PremiumSlider label="Genişlik" value={mainWidth} onChange={setMainWidth} min={100} max={600} step={10} gradient="bg-gradient-to-r from-blue-400 to-blue-600" onStartDragging={() => setIsDragging(true)} />
+                                                <PremiumSlider label="Yükseklik" value={mainHeight} onChange={setMainHeight} min={150} max={350} step={5} gradient="bg-gradient-to-r from-indigo-400 to-indigo-600" onStartDragging={() => setIsDragging(true)} />
                                             </div>
                                         </div>
 
-                                        {/* Left Side Section */}
                                         <AnimatePresence>
                                             {(balconyType === "L" || balconyType === "U") && (
                                                 <motion.div
@@ -300,15 +274,14 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                                             </span>
                                                         </div>
                                                         <div className="grid md:grid-cols-2 gap-6">
-                                                            <PremiumSlider label="Genişlik" value={leftWidth} onChange={setLeftWidth} min={50} max={300} step={10} gradient="bg-gradient-to-r from-emerald-400 to-emerald-600" />
-                                                            <PremiumSlider label="Yükseklik" value={leftHeight} onChange={setLeftHeight} min={100} max={300} step={5} gradient="bg-gradient-to-r from-teal-400 to-teal-600" />
+                                                            <PremiumSlider label="Genişlik" value={leftWidth} onChange={setLeftWidth} min={50} max={300} step={10} gradient="bg-gradient-to-r from-emerald-400 to-emerald-600" onStartDragging={() => setIsDragging(true)} />
+                                                            <PremiumSlider label="Yükseklik" value={leftHeight} onChange={setLeftHeight} min={100} max={300} step={5} gradient="bg-gradient-to-r from-teal-400 to-teal-600" onStartDragging={() => setIsDragging(true)} />
                                                         </div>
                                                     </div>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
 
-                                        {/* Right Side Section */}
                                         <AnimatePresence>
                                             {balconyType === "U" && (
                                                 <motion.div
@@ -328,8 +301,8 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                                             <span className="font-bold text-gray-800">Sağ Yan Bölüm</span>
                                                         </div>
                                                         <div className="grid md:grid-cols-2 gap-6">
-                                                            <PremiumSlider label="Genişlik" value={rightWidth} onChange={setRightWidth} min={50} max={300} step={10} gradient="bg-gradient-to-r from-violet-400 to-violet-600" />
-                                                            <PremiumSlider label="Yükseklik" value={rightHeight} onChange={setRightHeight} min={100} max={300} step={5} gradient="bg-gradient-to-r from-purple-400 to-purple-600" />
+                                                            <PremiumSlider label="Genişlik" value={rightWidth} onChange={setRightWidth} min={50} max={300} step={10} gradient="bg-gradient-to-r from-violet-400 to-violet-600" onStartDragging={() => setIsDragging(true)} />
+                                                            <PremiumSlider label="Yükseklik" value={rightHeight} onChange={setRightHeight} min={100} max={300} step={5} gradient="bg-gradient-to-r from-purple-400 to-purple-600" onStartDragging={() => setIsDragging(true)} />
                                                         </div>
                                                     </div>
                                                 </motion.div>
@@ -338,9 +311,8 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                     </div>
                                 </div>
 
-                                {/* Right: Results Panel */}
                                 <div className="lg:sticky lg:top-8 h-fit">
-                                    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-6 text-white">
+                                    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-6 text-white" >
                                         <div className="text-center mb-6">
                                             <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-xs font-medium text-gray-300 mb-4">
                                                 <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
@@ -350,7 +322,6 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                         </div>
 
                                         <div className="space-y-6">
-                                            {/* Area */}
                                             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
                                                 <div className="flex items-center gap-3 mb-3">
                                                     <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
@@ -367,7 +338,6 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                                 </div>
                                             </div>
 
-                                            {/* Panels */}
                                             <div className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
                                                 <div className="flex items-center gap-3 mb-3">
                                                     <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-500 rounded-lg flex items-center justify-center">
@@ -386,7 +356,6 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                             </div>
                                         </div>
 
-                                        {/* CTA Button */}
                                         <motion.a
                                             href={`https://wa.me/905314002959?text=${generateWhatsAppMessage()}`}
                                             target="_blank"
@@ -407,7 +376,6 @@ Lütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
                                         </p>
                                     </div>
 
-                                    {/* Trust badges */}
                                     <div className="mt-4 grid grid-cols-3 gap-2">
                                         <div className="bg-gray-50 rounded-xl p-3 text-center">
                                             <div className="text-2xl mb-1">🛡️</div>

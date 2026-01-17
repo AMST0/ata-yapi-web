@@ -37,7 +37,7 @@ export default function Hero() {
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 animate-fade-in-delay-1" style={{ fontFamily: 'var(--font-heading)' }}>
                         Cam Balkon, Sineklik,{" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)]">
-                            Tente & Pimapen Tamir
+                            Tente & Pimapen
                         </span>
                     </h1>
 
