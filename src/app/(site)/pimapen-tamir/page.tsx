@@ -3,9 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-    title: "Pimapen Tamiri & Bakımı | Ata Yapı Maltepe",
+    title: "Pimapen Sistemleri | Ata Yapı Maltepe",
     description:
-        "Maltepe, Kartal ve Pendik bölgelerinde profesyonel pimapen tamiri, PVC pencere bakımı, menteşe ve kilit değişimi. 2 yıl garantili servis.",
+        "Maltepe, Kartal ve Pendik bölgelerinde profesyonel pimapen çözümleri, PVC pencere bakımı, menteşe ve kilit değişimi. 2 yıl garantili servis.",
 };
 
 const features = [

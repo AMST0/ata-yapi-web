@@ -19,10 +19,10 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.atayapi.site"),
   title: "Ata Yapı | Maltepe Cam Balkon, Sineklik & Tente Sistemleri",
   description:
-    "Ata Yapı Maltepe'de cam balkon, sineklik, tente, pimapen tamir, giyotin cam balkon ve silinebilir cam sistemlerinde ölçüye özel üretim ve ücretsiz keşif sunar. Maltepe, Kartal, Pendik, Kadıköy bölgelerinde hizmet.",
+    "Ata Yapı Maltepe'de cam balkon, sineklik, tente, pimapen, giyotin cam balkon ve silinebilir cam sistemlerinde ölçüye özel üretim ve ücretsiz keşif sunar. Maltepe, Kartal, Pendik, Kadıköy bölgelerinde hizmet.",
   keywords: [
     "cam balkon maltepe",
-    "cam balkon pimapen tamir",
+    "cam balkon pimapen",
     "cam balkon fiyatları",
     "cam balkon sistemleri",
     "katlanır cam balkon",
@@ -44,6 +44,8 @@ export const metadata: Metadata = {
     "motorlu tente",
     "pimapen tamir",
     "pimapen tamir maltepe",
+    "pimapen",
+    "pimapen maltepe",
     "pvc doğrama",
     "pvc pencere tamiri",
     "Maltepe",
