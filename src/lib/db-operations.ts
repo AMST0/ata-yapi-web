@@ -1,5 +1,5 @@
 import { getDb } from './db';
-import { visitors, messages, pageViews, NewVisitor, NewMessage } from './schema';
+import { visitors, messages, pageViews, quotes, NewVisitor, NewMessage, NewQuote } from './schema';
 import { eq, desc, sql, gte } from 'drizzle-orm';
 
 // ============ VISITORS ============
@@ -176,3 +176,72 @@ export async function trackVisitor(data: {
         return null;
     }
 }
+
+// ============ QUOTES ============
+
+export async function createQuote(data: NewQuote) {
+    const db = getDb();
+    // Generate unique quote number
+    const count = await getQuoteCount();
+    const quoteNumber = `Q${String(count + 1).padStart(4, '0')}`;
+
+    const result = await db.insert(quotes).values({
+        ...data,
+        quoteNumber,
+    }).returning();
+    return result[0];
+}
+
+export async function getAllQuotes(limit = 100) {
+    const db = getDb();
+    return db.select().from(quotes).orderBy(desc(quotes.createdAt)).limit(limit);
+}
+
+export async function getQuoteById(id: number) {
+    const db = getDb();
+    const result = await db.select().from(quotes).where(eq(quotes.id, id)).limit(1);
+    return result[0] || null;
+}
+
+export async function getQuoteByNumber(quoteNumber: string) {
+    const db = getDb();
+    const result = await db.select().from(quotes).where(eq(quotes.quoteNumber, quoteNumber)).limit(1);
+    return result[0] || null;
+}
+
+export async function updateQuote(id: number, data: Partial<NewQuote>) {
+    const db = getDb();
+    await db.update(quotes).set({ ...data, updatedAt: new Date() }).where(eq(quotes.id, id));
+}
+
+export async function updateQuoteStatus(id: number, status: 'draft' | 'sent' | 'accepted' | 'rejected') {
+    const db = getDb();
+    await db.update(quotes).set({ status, updatedAt: new Date() }).where(eq(quotes.id, id));
+}
+
+export async function deleteQuote(id: number) {
+    const db = getDb();
+    await db.delete(quotes).where(eq(quotes.id, id));
+}
+
+export async function getQuoteCount() {
+    const db = getDb();
+    const result = await db.select({ count: sql<number>`count(*)` }).from(quotes);
+    return result[0]?.count || 0;
+}
+
+export async function getQuoteStats() {
+    const allQuotes = await getAllQuotes(1000);
+
+    const stats = allQuotes.reduce((acc, q) => {
+        acc.total++;
+        acc[q.status || 'draft']++;
+        if (q.status === 'accepted') {
+            acc.totalValue += q.total || 0;
+        }
+        return acc;
+    }, { total: 0, draft: 0, sent: 0, accepted: 0, rejected: 0, totalValue: 0 });
+
+    return stats;
+}
+

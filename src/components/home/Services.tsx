@@ -32,6 +32,16 @@ const services = [
         color: "var(--accent)",
         href: "/tente",
     },
+    {
+        id: "pimapen-tamir",
+        title: "Pimapen",
+        description:
+            "PVC pencere ve kapı sistemleriniz için profesyonel montaj, tamir ve bakım hizmetleri.",
+        image: "/pimapen.png",
+        features: ["Kaliteli Montaj", "Bakım Onarım", "Yalıtım Çözümleri"],
+        color: "#9333ea", // Purple accent
+        href: "/pimapen-tamir",
+    },
 ];
 
 export default function Services() {
@@ -55,7 +65,7 @@ export default function Services() {
                 </div>
 
                 {/* Service Cards */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {services.map((service, index) => (
                         <Link
                             key={service.id}
@@ -113,6 +123,12 @@ export default function Services() {
                                                 <path d="M3 3h18v7c0 0-4 3-9 3s-9-3-9-3V3z" />
                                                 <line x1="3" y1="10" x2="3" y2="21" />
                                                 <line x1="21" y1="10" x2="21" y2="21" />
+                                            </svg>
+                                        )}
+                                        {service.id === "pimapen-tamir" && (
+                                            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                                <path d="M3 13h18M3 7h18M3 19h18" />
+                                                <path d="M14 3v18M10 3v18" />
                                             </svg>
                                         )}
                                     </div>

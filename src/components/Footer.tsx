@@ -8,6 +8,7 @@ const quickLinks = [
     { href: "/cam-balkon", label: "Cam Balkon" },
     { href: "/sineklik", label: "Sineklik" },
     { href: "/tente", label: "Tente" },
+    { href: "/pimapen-tamir", label: "Pimapen" },
     { href: "/fiyatlandirma", label: "Fiyatlandırma" },
     { href: "/iletisim", label: "İletişim" },
 ];

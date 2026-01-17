@@ -48,6 +48,28 @@ export const dailyStats = pgTable('daily_stats', {
     devices: jsonb('devices').$type<Record<string, number>>().default({}),
 });
 
+// Teklif kalemleri tipi
+export interface QuoteItem {
+    description: string;
+    price: number;
+}
+
+// Teklifler tablosu
+export const quotes = pgTable('quotes', {
+    id: serial('id').primaryKey(),
+    quoteNumber: text('quote_number').notNull().unique(),
+    customerName: text('customer_name').notNull(),
+    customerPhone: text('customer_phone').notNull(),
+    projectAddress: text('project_address'),
+    items: jsonb('items').$type<QuoteItem[]>().default([]),
+    total: integer('total').default(0),
+    validityDays: integer('validity_days').default(10),
+    notes: text('notes'),
+    status: text('status').$type<'draft' | 'sent' | 'accepted' | 'rejected'>().default('draft'),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow(),
+});
+
 // Tip exports
 export type Visitor = typeof visitors.$inferSelect;
 export type NewVisitor = typeof visitors.$inferInsert;
@@ -55,3 +77,6 @@ export type Message = typeof messages.$inferSelect;
 export type NewMessage = typeof messages.$inferInsert;
 export type PageView = typeof pageViews.$inferSelect;
 export type DailyStat = typeof dailyStats.$inferSelect;
+export type Quote = typeof quotes.$inferSelect;
+export type NewQuote = typeof quotes.$inferInsert;
+

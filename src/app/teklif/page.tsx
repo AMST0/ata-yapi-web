@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { jsPDF } from "jspdf";
 import Link from "next/link";
 
@@ -31,13 +31,16 @@ export default function TeklifPage() {
 
     // Initialize auth state from sessionStorage
     const [isAuthChecked, setIsAuthChecked] = useState(false);
-    if (!isAuthChecked && typeof window !== 'undefined') {
-        const saved = sessionStorage.getItem("quote_auth");
-        if (saved === "true") {
-            setIsAuthenticated(true);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const saved = sessionStorage.getItem("quote_auth");
+            if (saved === "true") {
+                setIsAuthenticated(true);
+            }
+            setIsAuthChecked(true);
         }
-        setIsAuthChecked(true);
-    }
+    }, []);
 
     // Handle PIN submit
     const handlePinSubmit = (e: React.FormEvent) => {
@@ -92,8 +95,40 @@ export default function TeklifPage() {
         return text.replace(/[ğĞüÜşŞıİöÖçÇ]/g, (char) => turkishMap[char] || char);
     };
 
+    // Save to database
+    const saveToDatabase = async () => {
+        try {
+            const res = await fetch('/api/quotes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    customerName,
+                    customerPhone,
+                    projectAddress,
+                    items: items.map(i => ({
+                        description: i.description,
+                        price: parseFloat(i.price.replace(/[^0-9]/g, "")) || 0
+                    })),
+                    total,
+                    validityDays,
+                    notes,
+                    status: 'draft'
+                }),
+            });
+
+            if (!res.ok) throw new Error('Failed to save quote');
+            return await res.json();
+        } catch (err) {
+            console.error('Error saving quote:', err);
+            return null;
+        }
+    };
+
     // Generate PDF
-    const generatePDF = () => {
+    const generatePDF = async () => {
+        // Save to DB first
+        await saveToDatabase();
+
         const doc = new jsPDF();
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();

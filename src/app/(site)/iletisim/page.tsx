@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContactForm from "@/components/home/ContactForm";
 
 export const metadata: Metadata = {
     title: "İletişim | Ata Yapı Maltepe",
@@ -28,33 +29,7 @@ export default function IletisimPage() {
                         {/* Contact Form */}
                         <div>
                             <h2 className="text-2xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>İletişim Formu</h2>
-                            <form className="space-y-5">
-                                <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Ad Soyad</label>
-                                    <input type="text" id="name" name="name" required className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition" placeholder="Adınız Soyadınız" />
-                                </div>
-                                <div>
-                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Telefon</label>
-                                    <input type="tel" id="phone" name="phone" required className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition" placeholder="0532 XXX XX XX" />
-                                </div>
-                                <div>
-                                    <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">Hizmet</label>
-                                    <select id="service" name="service" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition">
-                                        <option value="">Seçiniz</option>
-                                        <option value="cam-balkon">Cam Balkon</option>
-                                        <option value="sineklik">Sineklik</option>
-                                        <option value="tente">Tente</option>
-                                        <option value="diger">Diğer</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Mesaj</label>
-                                    <textarea id="message" name="message" rows={4} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition resize-none" placeholder="Mesajınız..." />
-                                </div>
-                                <button type="submit" className="btn-press w-full bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white py-4 rounded-xl font-semibold transition-colors">
-                                    Gönder
-                                </button>
-                            </form>
+                            <ContactForm />
                         </div>
 
                         {/* Contact Info */}

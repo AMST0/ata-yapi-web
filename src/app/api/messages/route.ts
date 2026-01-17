@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createMessage, getAllMessages, getUnreadMessages, markMessageAsRead, getUnreadMessageCount } from '@/lib/db-operations';
+import { sendAdminNotification } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
     try {
@@ -16,6 +17,9 @@ export async function POST(request: NextRequest) {
             service: data.service,
             message: data.message,
         });
+
+        // Send email notification
+        await sendAdminNotification('message', data);
 
         return NextResponse.json({ success: true, message });
     } catch (error) {

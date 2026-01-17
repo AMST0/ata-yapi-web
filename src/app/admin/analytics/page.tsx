@@ -1,41 +1,68 @@
 "use client";
 
-import { useMemo } from "react";
-import { generateMockVisitors, getStats } from "@/lib/visitor-store";
+import { useEffect, useState } from "react";
+
+interface Stats {
+    totalVisitors: number;
+    todayVisitors: number;
+    totalPageViews: number;
+    pageViews: Record<string, number>;
+    browsers: Record<string, number>;
+    devices: Record<string, number>;
+    cities?: Record<string, number>;
+}
 
 export default function AnalyticsPage() {
-    // Generate data once on mount
-    const visitors = useMemo(() => generateMockVisitors(), []);
-    const stats = useMemo(() => getStats(visitors), [visitors]);
+    const [stats, setStats] = useState<Stats | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    // Calculate daily visits for last 7 days
-    const getDailyVisits = () => {
-        const days: Record<string, number> = {};
-        const now = new Date();
-
-        for (let i = 6; i >= 0; i--) {
-            const date = new Date(now);
-            date.setDate(date.getDate() - i);
-            const key = date.toLocaleDateString("tr-TR", { weekday: "short" });
-            days[key] = 0;
+    useEffect(() => {
+        async function fetchStats() {
+            try {
+                const res = await fetch('/api/track');
+                if (!res.ok) throw new Error('Failed to fetch stats');
+                const data = await res.json();
+                setStats(data);
+            } catch (err) {
+                console.error('Error fetching stats:', err);
+                setError('İstatistikler yüklenirken hata oluştu');
+            } finally {
+                setIsLoading(false);
+            }
         }
 
-        visitors.forEach((v) => {
-            const visitDate = new Date(v.lastVisit);
-            const daysDiff = Math.floor((now.getTime() - visitDate.getTime()) / 86400000);
-            if (daysDiff < 7) {
-                const key = visitDate.toLocaleDateString("tr-TR", { weekday: "short" });
-                if (days[key] !== undefined) {
-                    days[key]++;
-                }
-            }
-        });
+        fetchStats();
+    }, []);
 
-        return days;
-    };
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[60vh]">
+                <div className="text-center">
+                    <div className="w-12 h-12 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-gray-400">Analytics yükleniyor...</p>
+                </div>
+            </div>
+        );
+    }
 
-    const dailyVisits = getDailyVisits();
-    const maxDaily = Math.max(...Object.values(dailyVisits), 1);
+    if (error) {
+        return (
+            <div className="flex items-center justify-center min-h-[60vh]">
+                <div className="text-center bg-red-500/10 border border-red-500/30 rounded-2xl p-8">
+                    <p className="text-red-400">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="mt-4 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
+                    >
+                        Tekrar Dene
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    const maxPageViews = stats?.pageViews ? Math.max(...Object.values(stats.pageViews), 1) : 1;
 
     return (
         <div>
@@ -43,29 +70,10 @@ export default function AnalyticsPage() {
 
             {/* Overview Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <MetricCard label="Toplam Ziyaretçi" value={stats.totalVisitors} />
-                <MetricCard label="Sayfa Görüntüleme" value={stats.totalPageViews} />
-                <MetricCard label="Ort. Oturum Süresi" value={`${stats.avgSessionDuration}s`} />
-                <MetricCard label="Bugün" value={stats.todayVisitors} />
-            </div>
-
-            {/* Daily Chart */}
-            <div className="bg-gray-800 rounded-xl border border-gray-700 p-6 mb-8">
-                <h2 className="text-xl font-semibold text-white mb-6">Son 7 Gün</h2>
-                <div className="flex items-end justify-between gap-4 h-48">
-                    {Object.entries(dailyVisits).map(([day, count]) => (
-                        <div key={day} className="flex-1 flex flex-col items-center gap-2">
-                            <div className="w-full flex flex-col items-center justify-end h-40">
-                                <div
-                                    className="w-full max-w-12 bg-[var(--primary)] rounded-t"
-                                    style={{ height: `${(count / maxDaily) * 100}%`, minHeight: count > 0 ? "8px" : "0" }}
-                                />
-                            </div>
-                            <span className="text-xs text-gray-400">{day}</span>
-                            <span className="text-sm text-white font-medium">{count}</span>
-                        </div>
-                    ))}
-                </div>
+                <MetricCard label="Toplam Ziyaretçi" value={stats?.totalVisitors || 0} />
+                <MetricCard label="Sayfa Görüntüleme" value={stats?.totalPageViews || 0} />
+                <MetricCard label="Bugün" value={stats?.todayVisitors || 0} />
+                <MetricCard label="Tarayıcı Çeşidi" value={stats?.browsers ? Object.keys(stats.browsers).length : 0} />
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
@@ -73,52 +81,112 @@ export default function AnalyticsPage() {
                 <div className="bg-gray-800 rounded-xl border border-gray-700 p-6">
                     <h2 className="text-xl font-semibold text-white mb-4">Sayfa Görüntülemeleri</h2>
                     <div className="space-y-3">
-                        {Object.entries(stats.pageViews)
-                            .sort(([, a], [, b]) => b - a)
-                            .map(([page, count]) => {
-                                const percentage = (count / stats.totalPageViews) * 100;
-                                return (
-                                    <div key={page}>
-                                        <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-white">{page}</span>
-                                            <span className="text-gray-400">{count} ({percentage.toFixed(1)}%)</span>
+                        {stats?.pageViews && Object.keys(stats.pageViews).length > 0 ? (
+                            Object.entries(stats.pageViews)
+                                .sort(([, a], [, b]) => b - a)
+                                .map(([page, count]) => {
+                                    const percentage = (count / (stats?.totalPageViews || 1)) * 100;
+                                    return (
+                                        <div key={page}>
+                                            <div className="flex justify-between text-sm mb-1">
+                                                <span className="text-white">{page}</span>
+                                                <span className="text-gray-400">{count} ({percentage.toFixed(1)}%)</span>
+                                            </div>
+                                            <div className="w-full bg-gray-700 rounded-full h-2">
+                                                <div
+                                                    className="bg-[var(--secondary)] h-2 rounded-full"
+                                                    style={{ width: `${(count / maxPageViews) * 100}%` }}
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="w-full bg-gray-700 rounded-full h-2">
+                                    );
+                                })
+                        ) : (
+                            <div className="text-center py-8 text-gray-500">
+                                Henüz sayfa görüntüleme yok
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Browser Distribution */}
+                <div className="bg-gray-800 rounded-xl border border-gray-700 p-6">
+                    <h2 className="text-xl font-semibold text-white mb-4">Tarayıcı Dağılımı</h2>
+                    <div className="space-y-4">
+                        {stats?.browsers && Object.keys(stats.browsers).length > 0 ? (
+                            Object.entries(stats.browsers).map(([browser, count]) => {
+                                const percentage = Math.round((count / (stats?.totalVisitors || 1)) * 100);
+                                return (
+                                    <div key={browser} className="space-y-2">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-white font-medium">{browser}</span>
+                                            <span className="text-sm text-gray-400">{percentage}% ({count})</span>
+                                        </div>
+                                        <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
                                             <div
-                                                className="bg-[var(--secondary)] h-2 rounded-full"
+                                                className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
                                                 style={{ width: `${percentage}%` }}
                                             />
                                         </div>
                                     </div>
                                 );
-                            })}
+                            })
+                        ) : (
+                            <div className="text-center py-8 text-gray-500">
+                                Henüz veri yok
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Traffic Sources */}
+                {/* Device Distribution */}
                 <div className="bg-gray-800 rounded-xl border border-gray-700 p-6">
-                    <h2 className="text-xl font-semibold text-white mb-4">Trafik Kaynakları</h2>
-                    <div className="space-y-4">
-                        {(() => {
-                            const sources: Record<string, number> = {};
-                            visitors.forEach((v) => {
-                                sources[v.referrer] = (sources[v.referrer] || 0) + 1;
-                            });
-                            return Object.entries(sources).map(([source, count]) => (
-                                <div key={source} className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white">
-                                        {source === "direct" ? "🔗" : "🔍"}
+                    <h2 className="text-xl font-semibold text-white mb-4">Cihaz Dağılımı</h2>
+                    <div className="grid grid-cols-3 gap-4">
+                        {stats?.devices && Object.keys(stats.devices).length > 0 ? (
+                            Object.entries(stats.devices).map(([device, count]) => {
+                                const percentage = Math.round((count / (stats?.totalVisitors || 1)) * 100);
+                                return (
+                                    <div
+                                        key={device}
+                                        className="p-4 bg-gray-700/50 rounded-xl border border-gray-600/30 text-center"
+                                    >
+                                        <div className="text-2xl font-bold text-white">{percentage}%</div>
+                                        <div className="text-sm text-gray-400">{device}</div>
+                                        <div className="text-xs text-gray-500 mt-1">{count} kullanıcı</div>
                                     </div>
-                                    <div className="flex-1">
-                                        <div className="text-white">{source === "direct" ? "Doğrudan" : source}</div>
-                                        <div className="text-sm text-gray-400">{count} ziyaretçi</div>
-                                    </div>
-                                    <div className="text-xl font-bold text-white">
-                                        {((count / visitors.length) * 100).toFixed(0)}%
-                                    </div>
-                                </div>
-                            ));
-                        })()}
+                                );
+                            })
+                        ) : (
+                            <div className="col-span-3 text-center py-8 text-gray-500">
+                                Henüz veri yok
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Cities Distribution */}
+                <div className="bg-gray-800 rounded-xl border border-gray-700 p-6">
+                    <h2 className="text-xl font-semibold text-white mb-4">Şehir Dağılımı</h2>
+                    <div className="space-y-3">
+                        {stats?.cities && Object.keys(stats.cities).length > 0 ? (
+                            Object.entries(stats.cities)
+                                .sort(([, a], [, b]) => b - a)
+                                .slice(0, 5)
+                                .map(([city, count]) => {
+                                    const percentage = Math.round((count / (stats?.totalVisitors || 1)) * 100);
+                                    return (
+                                        <div key={city} className="flex items-center justify-between">
+                                            <span className="text-white">{city || 'Bilinmiyor'}</span>
+                                            <span className="text-gray-400">{count} ({percentage}%)</span>
+                                        </div>
+                                    );
+                                })
+                        ) : (
+                            <div className="text-center py-8 text-gray-500">
+                                Henüz konum verisi yok
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

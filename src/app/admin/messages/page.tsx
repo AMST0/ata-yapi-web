@@ -1,20 +1,86 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { generateMockMessages, Message } from "@/lib/visitor-store";
+import { useState, useEffect } from "react";
+
+interface Message {
+    id: number;
+    name: string;
+    phone: string;
+    email: string | null;
+    service: string | null;
+    message: string | null;
+    read: boolean;
+    createdAt: string;
+}
 
 export default function MessagesPage() {
-    const initialMessages = useMemo(() => generateMockMessages(), []);
-    const [messages, setMessages] = useState<Message[]>(initialMessages);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [unreadCount, setUnreadCount] = useState(0);
 
-    const markAsRead = (id: string) => {
-        setMessages((prev) =>
-            prev.map((m) => (m.id === id ? { ...m, read: true } : m))
-        );
+    useEffect(() => {
+        async function fetchMessages() {
+            try {
+                const res = await fetch('/api/messages');
+                if (!res.ok) throw new Error('Failed to fetch messages');
+                const data = await res.json();
+                setMessages(data.messages || []);
+                setUnreadCount(data.unreadCount || 0);
+            } catch (err) {
+                console.error('Error fetching messages:', err);
+                setError('Mesajlar yüklenirken hata oluştu');
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchMessages();
+    }, []);
+
+    const markAsRead = async (id: number) => {
+        try {
+            await fetch('/api/messages', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id }),
+            });
+            setMessages((prev) =>
+                prev.map((m) => (m.id === id ? { ...m, read: true } : m))
+            );
+            setUnreadCount((prev) => Math.max(0, prev - 1));
+        } catch (err) {
+            console.error('Error marking message as read:', err);
+        }
     };
 
-    const unreadCount = messages.filter((m) => !m.read).length;
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[60vh]">
+                <div className="text-center">
+                    <div className="w-12 h-12 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-gray-400">Mesajlar yükleniyor...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex items-center justify-center min-h-[60vh]">
+                <div className="text-center bg-red-500/10 border border-red-500/30 rounded-2xl p-8">
+                    <p className="text-red-400">{error}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="mt-4 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
+                    >
+                        Tekrar Dene
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -62,8 +128,8 @@ export default function MessagesPage() {
                                             {new Date(message.createdAt).toLocaleDateString("tr-TR")}
                                         </span>
                                     </div>
-                                    <div className="text-sm text-gray-400 mb-2">{message.service}</div>
-                                    <p className="text-gray-300 text-sm line-clamp-2">{message.message}</p>
+                                    <div className="text-sm text-gray-400 mb-2">{message.service || 'Genel'}</div>
+                                    <p className="text-gray-300 text-sm line-clamp-2">{message.message || '-'}</p>
                                 </div>
                             ))
                     )}
@@ -88,9 +154,17 @@ export default function MessagesPage() {
                                         {selectedMessage.phone}
                                     </a>
                                 </div>
+                                {selectedMessage.email && (
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400 text-sm">E-posta</span>
+                                        <a href={`mailto:${selectedMessage.email}`} className="text-[var(--primary)] text-sm">
+                                            {selectedMessage.email}
+                                        </a>
+                                    </div>
+                                )}
                                 <div className="flex justify-between">
                                     <span className="text-gray-400 text-sm">Hizmet</span>
-                                    <span className="text-white text-sm">{selectedMessage.service}</span>
+                                    <span className="text-white text-sm">{selectedMessage.service || 'Genel'}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-400 text-sm">Tarih</span>
@@ -102,7 +176,7 @@ export default function MessagesPage() {
 
                             <div className="bg-gray-700/50 rounded-lg p-4 mb-6">
                                 <div className="text-sm text-gray-400 mb-2">Mesaj</div>
-                                <p className="text-white">{selectedMessage.message}</p>
+                                <p className="text-white">{selectedMessage.message || '-'}</p>
                             </div>
 
                             <div className="flex gap-3">

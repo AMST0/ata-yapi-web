@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileSticky from "@/components/MobileSticky";
 import FloatingCTA from "@/components/FloatingCTA";
+import JsonLd from "@/components/JsonLd";
 
 export default function SiteLayout({
     children,
@@ -10,6 +11,7 @@ export default function SiteLayout({
 }) {
     return (
         <>
+            <JsonLd />
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
