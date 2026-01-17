@@ -44,7 +44,10 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Customer name and phone are required' }, { status: 400 });
         }
 
+        const quoteNumber = `TEK-${Date.now().toString().slice(-6)}${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+
         const quote = await createQuote({
+            quoteNumber,
             customerName: data.customerName,
             customerPhone: data.customerPhone,
             projectAddress: data.projectAddress,
