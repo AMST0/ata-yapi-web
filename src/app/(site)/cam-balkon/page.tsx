@@ -3,9 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-    title: "Cam Balkon Sistemleri | Ata Yapı Maltepe",
+    title: "Cam Balkon Sistemleri | Ata Yapı Maltepe - Katlanır & Sürme",
     description:
-        "Maltepe'de katlanır ve sürme cam balkon sistemleri. Ata Yapı ile ölçüye özel, kaliteli cam balkon uygulamaları.",
+        "Maltepe'de katlanır cam balkon, sürme cam balkon, ısı camlı ve giyotin cam balkon sistemleri. Ata Yapı ile ölçüye özel üretim, 2 yıl garanti, ücretsiz keşif. Maltepe, Kartal, Pendik bölgelerinde hizmet.",
+    keywords: ["cam balkon", "cam balkon maltepe", "katlanır cam balkon", "sürme cam balkon", "cam balkon fiyatları", "cam balkon sistemleri", "ısı camlı cam balkon", "giyotin cam balkon"],
+    alternates: {
+        canonical: 'https://www.xn--atayap-u9a.site/cam-balkon',
+    },
 };
 
 const features = [
@@ -91,6 +95,25 @@ const gallery = [
 export default function CamBalkonPage() {
     return (
         <>
+            {/* Service JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Service",
+                        "name": "Cam Balkon Sistemleri",
+                        "description": "Katlanır cam balkon, sürme cam balkon, ısı camlı cam balkon ve giyotin cam balkon sistemleri montajı.",
+                        "provider": {
+                            "@type": "LocalBusiness",
+                            "name": "Ata Yapı Maltepe",
+                            "url": "https://www.xn--atayap-u9a.site"
+                        },
+                        "areaServed": ["Maltepe", "Kartal", "Pendik", "Kadıköy"],
+                        "url": "https://www.xn--atayap-u9a.site/cam-balkon"
+                    })
+                }}
+            />
             {/* Hero */}
             <section className="relative py-24 lg:py-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
                 <div className="absolute inset-0">

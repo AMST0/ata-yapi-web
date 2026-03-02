@@ -3,9 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-    title: "Pimapen Sistemleri | Ata Yapı Maltepe",
+    title: "Pimapen Tamir & Montaj | Ata Yapı Maltepe - PVC Pencere Tamiri",
     description:
-        "Maltepe, Kartal ve Pendik bölgelerinde profesyonel pimapen çözümleri, PVC pencere bakımı, menteşe ve kilit değişimi. 2 yıl garantili servis.",
+        "Maltepe, Kartal ve Pendik'te pimapen tamiri, PVC pencere bakımı, cam değişimi, fitil ve conta yenileme, menteşe ve kilit değişimi. Aynı gün servis, 2 yıl garanti. Ücretsiz keşif için arayın.",
+    keywords: ["pimapen tamir", "pimapen tamir maltepe", "pvc pencere tamiri", "pimapen montajı", "pimapen", "pimapen maltepe", "pencere tamiri"],
+    alternates: {
+        canonical: 'https://www.xn--atayap-u9a.site/pimapen-tamir',
+    },
 };
 
 const features = [
@@ -80,6 +84,25 @@ const processSteps = [
 export default function PimapenTamirPage() {
     return (
         <>
+            {/* Service JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Service",
+                        "name": "Pimapen Tamir & Montaj",
+                        "description": "PVC pencere tamiri, fitil değişimi, cam değişimi, menteşe ve kilit tamiri, silikon çekimi hizmetleri.",
+                        "provider": {
+                            "@type": "LocalBusiness",
+                            "name": "Ata Yapı Maltepe",
+                            "url": "https://www.xn--atayap-u9a.site"
+                        },
+                        "areaServed": ["Maltepe", "Kartal", "Pendik", "Kadıköy"],
+                        "url": "https://www.xn--atayap-u9a.site/pimapen-tamir"
+                    })
+                }}
+            />
             {/* Hero */}
             <section className="relative py-24 lg:py-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
                 <div className="absolute inset-0">

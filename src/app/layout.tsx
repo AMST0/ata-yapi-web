@@ -82,6 +82,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ata Yapı | Maltepe Cam Balkon, Sineklik & Tente Sistemleri",
+    description:
+      "Ata Yapı Maltepe'de cam balkon, sineklik ve tente sistemlerinde ölçüye özel üretim ve ücretsiz keşif sunar.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({

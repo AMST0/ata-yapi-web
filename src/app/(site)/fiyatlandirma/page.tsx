@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Fiyatlandırma | Ata Yapı Maltepe",
-    description: "Cam balkon, sineklik ve tente fiyatları. Ölçüye özel üretim ile projenize uygun fiyat teklifi alın.",
+    title: "Fiyatlandırma | Ata Yapı Maltepe - Cam Balkon & Sineklik & Tente Fiyatları",
+    description:
+        "Cam balkon fiyatları, sineklik fiyatları ve tente fiyatları hakkında bilgi alın. Ölçüye özel üretim ile projenize uygun fiyat teklifi. Maltepe, Kartal, Pendik'te ücretsiz keşif hizmeti.",
+    keywords: ["cam balkon fiyatları", "sineklik fiyatları", "tente fiyatları", "cam balkon fiyat", "cam balkon m2 fiyat"],
+    alternates: {
+        canonical: 'https://www.xn--atayap-u9a.site/fiyatlandirma',
+    },
 };
 
 const factors = [

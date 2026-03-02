@@ -624,6 +624,202 @@ const pendikTente: DistrictPage = {
     ],
 };
 
+// Kadıköy District Pages
+const kadıkoyCamBalkon: DistrictPage = {
+    slug: 'kadikoy-cam-balkon',
+    district: 'Kadıköy',
+    districtSlug: 'kadikoy',
+    service: 'cam-balkon',
+    serviceTitle: 'Cam Balkon',
+    serviceHref: '/cam-balkon',
+    title: 'Kadıköy Cam Balkon',
+    metaTitle: 'Kadıköy Cam Balkon Sistemleri | Ata Yapı - Ücretsiz Keşif',
+    metaDescription: 'Kadıköy\'de cam balkon sistemleri. Katlanır, sürme ve ısı camlı cam balkon montajı. Moda, Fenerbahçe, Bostancı bölgelerinde profesyonel hizmet.',
+    h1: 'Kadıköy Cam Balkon Sistemleri',
+    intro: 'Kadıköy, İstanbul\'un en gözde ilçelerinden biri olarak modern yaşam alanlarına ev sahipliği yapıyor. Ata Yapı olarak Kadıköy\'deki konutlara cam balkon sistemleri kurulumu gerçekleştiriyoruz. Moda\'dan Fenerbahçe\'ye, Bostancı\'dan Caddebostan\'a kadar tüm Kadıköy\'e kaliteli cam balkon çözümleri sunuyoruz.',
+    valueProposition: [
+        'Kadıköy genelinde ücretsiz keşif',
+        'Aynı hafta içinde montaj',
+        '2 yıl tam garanti',
+        'Uygun fiyat garantisi',
+        'Profesyonel montaj ekibi',
+    ],
+    systemSelection: {
+        title: 'Kadıköy\'de Hangi Cam Balkon Sistemi Tercih Etmelisiniz?',
+        description: 'Kadıköy\'ün farklı bölgelerindeki konutlara uygun cam balkon çözümleri sunuyoruz.',
+        options: [
+            {
+                name: 'Katlanır Cam Balkon',
+                description: 'Panellerin tamamen katlanarak açılabildiği sistem. Deniz manzaralı balkonlar için mükemmel.',
+                pros: ['Tam açılım', 'Manzara keyfi', 'Kolay kullanım', 'Modern tasarım'],
+            },
+            {
+                name: 'Sürme Cam Balkon',
+                description: 'Ekonomik ve pratik çözüm. Kadıköy\'ün modern sitelerine uygun.',
+                pros: ['Ekonomik', 'Pratik kullanım', 'Hızlı montaj', 'Düşük bakım'],
+            },
+            {
+                name: 'Isı Camlı Sistem',
+                description: 'Kadıköy\'ün deniz kenarı rüzgarlı bölgeleri için ideal. Üstün ısı ve ses yalıtımı.',
+                pros: ['Isı yalıtımı', 'Ses yalıtımı', 'Enerji tasarrufu', 'Konfor'],
+            },
+        ],
+    },
+    pricingNote: 'Cam balkon fiyatları projeye özeldir. Kadıköy\'de ücretsiz keşif hizmeti ile birebir ölçüm yaparak size en uygun teklifi sunuyoruz.',
+    faqs: [
+        {
+            question: 'Kadıköy\'de cam balkon montajı kaç günde tamamlanır?',
+            answer: 'Standart bir balkon için montaj 1 gün içinde tamamlanır. Ölçüm sonrası üretim 3-5 iş günü sürer.',
+        },
+        {
+            question: 'Kadıköy Moda\'da cam balkon yaptırabilir miyim?',
+            answer: 'Evet, Moda dahil Kadıköy\'ün tüm semtlerinde cam balkon montajı yapıyoruz.',
+        },
+        {
+            question: 'Kadıköy\'de cam balkon fiyatları ne kadar?',
+            answer: 'Fiyatlar balkon ölçülerine ve tercih edilen sisteme göre değişir. Ücretsiz keşif sonrası size özel teklif hazırlıyoruz.',
+        },
+        {
+            question: 'Cam balkon deniz kenarında rüzgara dayanıklı mı?',
+            answer: 'Evet, Kadıköy\'ün sahil kesimindeki balkonlar için ekstra güçlendirilmiş profil ve temperli cam kullanıyoruz.',
+        },
+        {
+            question: 'Kadıköy\'de hangi bölgelere hizmet veriyorsunuz?',
+            answer: 'Moda, Fenerbahçe, Caddebostan, Bostancı, Suadiye, Erenköy, Göztepe, Kozyatağı ve tüm Kadıköy semtlerine hizmet veriyoruz.',
+        },
+    ],
+};
+
+const kadıkoySineklik: DistrictPage = {
+    slug: 'kadikoy-sineklik',
+    district: 'Kadıköy',
+    districtSlug: 'kadikoy',
+    service: 'sineklik',
+    serviceTitle: 'Sineklik',
+    serviceHref: '/sineklik',
+    title: 'Kadıköy Sineklik',
+    metaTitle: 'Kadıköy Sineklik Sistemleri | Ata Yapı - Pileli & Menteşeli',
+    metaDescription: 'Kadıköy\'de sineklik çözümleri: pileli, menteşeli ve sürme sineklik. Moda, Fenerbahçe, Bostancı bölgelerinde aynı gün montaj.',
+    h1: 'Kadıköy Sineklik Sistemleri',
+    intro: 'Kadıköy\'ün denize yakın konumu ve yeşil alanları, özellikle yaz aylarında sivrisinek sorununu beraberinde getirebilir. Ata Yapı olarak Kadıköy\'deki evleriniz için ölçüye özel sineklik sistemleri üretip monte ediyoruz.',
+    valueProposition: [
+        'Kadıköy\'e ücretsiz ölçüm hizmeti',
+        'Her pencere tipine uygun çözümler',
+        'Aynı gün montaj imkanı',
+        'Kedi dostu sistemler',
+        '2 yıl garanti',
+    ],
+    systemSelection: {
+        title: 'Kadıköy\'de Hangi Sineklik Sistemi Size Uygun?',
+        description: 'Pencere ve kapı tiplerinize göre en uygun sineklik sistemini belirliyoruz.',
+        options: [
+            {
+                name: 'Pileli Sineklik',
+                description: 'Modern ve şık tasarım. Kullanmadığınızda görünmez.',
+                pros: ['Estetik', 'Pratik', 'Dayanıklı', 'Sessiz'],
+            },
+            {
+                name: 'Menteşeli Sineklik',
+                description: 'Kapı tipi açılım. Balkon ve teras kapıları için ideal.',
+                pros: ['Geniş geçiş', 'Kolay kullanım', 'Sağlam yapı', 'Ekonomik'],
+            },
+            {
+                name: 'Sürme Sineklik',
+                description: 'Ray üzerinde kayan sineklik. Geniş açıklıklar için.',
+                pros: ['Geniş alan', 'Kolay kayış', 'Ekonomik', 'Hızlı montaj'],
+            },
+        ],
+    },
+    pricingNote: 'Sineklik fiyatları ölçü ve sisteme göre değişir. Kadıköy\'de ücretsiz keşif ile kesin fiyat teklifi alabilirsiniz.',
+    faqs: [
+        {
+            question: 'Kadıköy\'de sineklik montajı aynı gün yapılır mı?',
+            answer: 'Evet, stok ölçülerde aynı gün montaj yapılabilir. Özel ölçüler 2-3 gün içinde hazırlanır.',
+        },
+        {
+            question: 'Kadıköy\'de kedi sinekliği takılır mı?',
+            answer: 'Evet, kedi sinekliği olarak bilinen güçlendirilmiş file sistemimiz mevcuttur.',
+        },
+        {
+            question: 'Sineklik pencere doğramasına zarar verir mi?',
+            answer: 'Hayır, sineklik montajı pencere kasasına yapılır ve hiçbir şekilde zarar vermez.',
+        },
+        {
+            question: 'Kadıköy\'de sineklik fiyatları ne kadar?',
+            answer: 'Fiyatlar pencere boyutuna ve sisteme göre değişir. Ücretsiz keşif sonrası net fiyat bildiriyoruz.',
+        },
+        {
+            question: 'Kadıköy\'de hangi semtlere hizmet veriyorsunuz?',
+            answer: 'Moda, Fenerbahçe, Caddebostan, Bostancı, Suadiye, Erenköy, Göztepe, Kozyatağı ve tüm Kadıköy semtlerine.',
+        },
+    ],
+};
+
+const kadıkoyTente: DistrictPage = {
+    slug: 'kadikoy-tente',
+    district: 'Kadıköy',
+    districtSlug: 'kadikoy',
+    service: 'tente',
+    serviceTitle: 'Tente',
+    serviceHref: '/tente',
+    title: 'Kadıköy Tente',
+    metaTitle: 'Kadıköy Tente Sistemleri | Ata Yapı - Mafsallı & Motorlu',
+    metaDescription: 'Kadıköy\'de tente sistemleri: mafsallı, kasetli ve motorlu tente. Moda, Fenerbahçe, Bostancı bölgelerinde ücretsiz keşif.',
+    h1: 'Kadıköy Tente Sistemleri',
+    intro: 'Kadıköy\'ün canlı yaşamında balkon ve teraslarınızı rahatça kullanabilmek için tente sistemleri ideal çözümdür. Ata Yapı olarak Kadıköy\'deki konut ve işyerlerine profesyonel tente montajı yapıyoruz.',
+    valueProposition: [
+        'Kadıköy\'e ücretsiz keşif',
+        'İtalyan ve Alman kumaşlar',
+        'Manuel ve motorlu seçenekler',
+        'Rüzgar sensörlü akıllı sistemler',
+        '5 yıl kumaş garantisi',
+    ],
+    systemSelection: {
+        title: 'Kadıköy\'de Hangi Tente Sistemi Size Uygun?',
+        description: 'Kullanım alanınıza ve bütçenize uygun tente sistemini birlikte belirleyelim.',
+        options: [
+            {
+                name: 'Mafsallı Tente',
+                description: 'Klasik ve güvenilir sistem. Balkonlar için en çok tercih edilen model.',
+                pros: ['Ekonomik', 'Güvenilir', 'Kolay bakım', 'Hızlı montaj'],
+            },
+            {
+                name: 'Kasetli Tente',
+                description: 'Kumaşı kapalıyken koruyan premium sistem.',
+                pros: ['Uzun ömür', 'Kumaş koruması', 'Modern tasarım', 'Az bakım'],
+            },
+            {
+                name: 'Motorlu Tente',
+                description: 'Uzaktan kumanda ile kontrol. Akıllı ev sistemlerine entegre edilebilir.',
+                pros: ['Kolay kullanım', 'Akıllı sensörler', 'Konfor', 'Prestij'],
+            },
+        ],
+    },
+    pricingNote: 'Tente fiyatları ölçü, kumaş ve sistem tipine göre değişir. Kadıköy\'de yerinde keşif ile size özel fiyat belirliyoruz.',
+    faqs: [
+        {
+            question: 'Kadıköy\'de tente montajı yapıyor musunuz?',
+            answer: 'Evet, Kadıköy\'ün tüm semtlerine tente montaj hizmeti veriyoruz.',
+        },
+        {
+            question: 'Kadıköy\'de tente fiyatları ne kadar?',
+            answer: 'Fiyatlar ölçü ve sisteme göre değişir. Ücretsiz keşif sonrası detaylı fiyat bilgisi verilir.',
+        },
+        {
+            question: 'Tente kumaşı yağmurda ıslanır mı?',
+            answer: 'Kullandığımız kumaşlar su itici özelliktedir. Hafif yağmurda sorun olmaz.',
+        },
+        {
+            question: 'Motorlu tente uzaktan kumanda ile mi çalışıyor?',
+            answer: 'Evet, motorlu tentelerimiz uzaktan kumanda ile kontrol edilir.',
+        },
+        {
+            question: 'Kadıköy\'de hangi bölgelere hizmet veriyorsunuz?',
+            answer: 'Moda, Fenerbahçe, Caddebostan, Bostancı, Suadiye, Erenköy, Göztepe, Kozyatağı ve tüm Kadıköy semtlerine.',
+        },
+    ],
+};
+
 // Export all district pages
 export const districtPages: DistrictPage[] = [
     // Maltepe
@@ -638,6 +834,10 @@ export const districtPages: DistrictPage[] = [
     pendikCamBalkon,
     pendikSineklik,
     pendikTente,
+    // Kadıköy
+    kadıkoyCamBalkon,
+    kadıkoySineklik,
+    kadıkoyTente,
 ];
 
 // Helper function to get a district page by slug

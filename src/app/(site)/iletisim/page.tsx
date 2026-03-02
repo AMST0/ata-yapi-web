@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import ContactForm from "@/components/home/ContactForm";
 
 export const metadata: Metadata = {
-    title: "İletişim | Ata Yapı Maltepe",
-    description: "Ata Yapı ile iletişime geçin. Ücretsiz keşif randevusu alın.",
+    title: "İletişim | Ata Yapı Maltepe - Ücretsiz Keşif Randevusu",
+    description:
+        "Ata Yapı Maltepe ile iletişime geçin. Cam balkon, sineklik, tente ve pimapen için ücretsiz keşif randevusu alın. Maltepe, Kartal, Pendik, Kadıköy bölgelerinde hizmet. ☎ 0531 400 29 59",
+    alternates: {
+        canonical: 'https://www.xn--atayap-u9a.site/iletisim',
+    },
 };
 
 export default function IletisimPage() {

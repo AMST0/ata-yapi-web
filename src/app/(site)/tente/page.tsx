@@ -3,9 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-    title: "Tente Sistemleri | Ata Yapı Maltepe",
+    title: "Tente Sistemleri | Ata Yapı Maltepe - Mafsallı & Kasetli & Motorlu",
     description:
-        "Maltepe'de mafsallı, kasetli ve pergola tente sistemleri. Güneşten korunun, dış mekanlarınızı konforlu hale getirin.",
+        "Maltepe'de mafsallı tente, kasetli tente, motorlu tente ve pergola tente sistemleri. UV korumalı kumaşlar, 5 yıl garanti, ücretsiz keşif. Maltepe, Kartal, Pendik bölgelerinde hizmet.",
+    keywords: ["tente", "tente maltepe", "mafsallı tente", "kasetli tente", "motorlu tente", "tente fiyatları", "pergola tente"],
+    alternates: {
+        canonical: 'https://www.xn--atayap-u9a.site/tente',
+    },
 };
 
 const tenteTypes = [
@@ -61,6 +65,25 @@ const benefits = [
 export default function TentePage() {
     return (
         <>
+            {/* Service JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Service",
+                        "name": "Tente Sistemleri",
+                        "description": "Mafsallı tente, kasetli tente, motorlu tente ve pergola tente sistemleri montajı.",
+                        "provider": {
+                            "@type": "LocalBusiness",
+                            "name": "Ata Yapı Maltepe",
+                            "url": "https://www.xn--atayap-u9a.site"
+                        },
+                        "areaServed": ["Maltepe", "Kartal", "Pendik", "Kadıköy"],
+                        "url": "https://www.xn--atayap-u9a.site/tente"
+                    })
+                }}
+            />
             {/* Hero */}
             <section className="relative py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
                 {/* Background Image */}

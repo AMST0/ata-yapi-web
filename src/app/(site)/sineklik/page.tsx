@@ -2,9 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "Sineklik Sistemleri | Ata Yapı Maltepe",
+    title: "Sineklik Sistemleri | Ata Yapı Maltepe - Pileli & Menteşeli",
     description:
-        "Maltepe'de plise, menteşeli ve sürme sineklik sistemleri. Haşerelerden korunarak temiz hava alın.",
+        "Maltepe'de pileli sineklik, menteşeli sineklik, kedi sinekliği ve sürme sineklik sistemleri. Ölçüye özel üretim, aynı gün montaj, 2 yıl garanti. Maltepe, Kartal, Pendik bölgelerinde ücretsiz keşif.",
+    keywords: ["sineklik", "sineklik maltepe", "pileli sineklik", "menteşeli sineklik", "kedi sineklik", "sineklik fiyatları", "sineklik montajı"],
+    alternates: {
+        canonical: 'https://www.xn--atayap-u9a.site/sineklik',
+    },
 };
 
 const sineklikTypes = [
@@ -63,6 +67,25 @@ const benefits = [
 export default function SineklikPage() {
     return (
         <>
+            {/* Service JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Service",
+                        "name": "Sineklik Sistemleri",
+                        "description": "Pileli sineklik, menteşeli sineklik, kedi sinekliği ve sürme sineklik sistemleri montajı.",
+                        "provider": {
+                            "@type": "LocalBusiness",
+                            "name": "Ata Yapı Maltepe",
+                            "url": "https://www.xn--atayap-u9a.site"
+                        },
+                        "areaServed": ["Maltepe", "Kartal", "Pendik", "Kadıköy"],
+                        "url": "https://www.xn--atayap-u9a.site/sineklik"
+                    })
+                }}
+            />
             {/* Hero */}
             <section className="relative py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
                 <div className="container relative z-10">
