@@ -45,7 +45,7 @@ export async function generateMetadata({
             type: 'website',
         },
         alternates: {
-            canonical: `https://www.atayapi.site/bolge/${page.slug}`,
+            canonical: `https://www.xn--atayap-u9a.site/bolge/${page.slug}`,
         },
     };
 }

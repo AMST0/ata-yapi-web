@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description:
         'Mafsallı tente sistemleri ile ekonomik gölgelik çözümü. Kolay kullanım, geniş renk seçeneği. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
-        canonical: 'https://www.atayapi.site/tente/mafsalli',
+        canonical: 'https://www.xn--atayap-u9a.site/tente/mafsalli',
     },
 };
 

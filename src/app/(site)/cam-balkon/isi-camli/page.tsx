@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description:
         'Isı camlı cam balkon sistemleri ile 4 mevsim konfor. Çift cam yalıtımı, enerji tasarrufu ve sessiz ortam. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
-        canonical: 'https://www.atayapi.site/cam-balkon/isi-camli',
+        canonical: 'https://www.xn--atayap-u9a.site/cam-balkon/isi-camli',
     },
 };
 

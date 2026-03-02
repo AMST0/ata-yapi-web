@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description:
         'Sürme cam balkon sistemleri ile ekonomik ve pratik çözüm. Ray üzerinde kayan paneller, kolay kullanım. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
-        canonical: 'https://www.atayapi.site/cam-balkon/surme',
+        canonical: 'https://www.xn--atayap-u9a.site/cam-balkon/surme',
     },
 };
 

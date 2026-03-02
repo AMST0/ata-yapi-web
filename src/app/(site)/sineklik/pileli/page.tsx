@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description:
         'Pileli sineklik sistemleri ile modern ve şık çözüm. Akordiyon tarzı katlanan sineklik. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
-        canonical: 'https://www.atayapi.site/sineklik/pileli',
+        canonical: 'https://www.xn--atayap-u9a.site/sineklik/pileli',
     },
 };
 

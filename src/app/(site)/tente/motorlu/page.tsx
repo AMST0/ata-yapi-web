@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description:
         'Motorlu tente sistemleri ile uzaktan kumanda kontrolü. Akıllı sensörler, otomatik kapanma. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
-        canonical: 'https://www.atayapi.site/tente/motorlu',
+        canonical: 'https://www.xn--atayap-u9a.site/tente/motorlu',
     },
 };
 

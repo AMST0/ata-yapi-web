@@ -16,7 +16,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.atayapi.site"),
+  metadataBase: new URL("https://www.xn--atayap-u9a.site"),
   title: "Ata Yapı | Maltepe Cam Balkon, Sineklik & Tente Sistemleri",
   description:
     "Ata Yapı Maltepe'de cam balkon, sineklik, tente, pimapen, giyotin cam balkon ve silinebilir cam sistemlerinde ölçüye özel üretim ve ücretsiz keşif sunar. Maltepe, Kartal, Pendik, Kadıköy bölgelerinde hizmet.",
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
       "Ata Yapı Maltepe'de cam balkon, sineklik ve tente sistemlerinde ölçüye özel üretim ve ücretsiz keşif sunar.",
     locale: "tr_TR",
     type: "website",
-    url: "https://www.atayapi.site",
+    url: "https://www.xn--atayap-u9a.site",
     siteName: "Ata Yapı",
     images: [
       {

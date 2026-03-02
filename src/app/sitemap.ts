@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { districtPages } from '@/data/districts';
 
-const baseUrl = 'https://www.atayapi.site';
+const baseUrl = 'https://www.xn--atayap-u9a.site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const currentDate = new Date();

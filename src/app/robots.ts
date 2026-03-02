@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ['/admin/', '/api/', '/teklif/'],
             },
         ],
-        sitemap: 'https://www.atayapi.site/sitemap.xml',
+        sitemap: 'https://www.xn--atayap-u9a.site/sitemap.xml',
     };
 }

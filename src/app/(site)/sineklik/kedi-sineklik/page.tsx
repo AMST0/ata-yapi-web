@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description:
         'Kedi sinekliği ile evcil hayvanlarınızı koruyun. Güçlendirilmiş file, yırtılmaz yapı. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
-        canonical: 'https://www.atayapi.site/sineklik/kedi-sineklik',
+        canonical: 'https://www.xn--atayap-u9a.site/sineklik/kedi-sineklik',
     },
 };
 

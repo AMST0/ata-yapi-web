@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description:
         'Menteşeli sineklik sistemleri ile kapı tipi açılım. Balkon kapıları için ideal çözüm. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
-        canonical: 'https://www.atayapi.site/sineklik/menteseli',
+        canonical: 'https://www.xn--atayap-u9a.site/sineklik/menteseli',
     },
 };
 

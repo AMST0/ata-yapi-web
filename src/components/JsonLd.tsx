@@ -6,9 +6,9 @@ export default function JsonLd() {
         "@type": "LocalBusiness",
         "name": "Ata Yapı Maltepe",
         "description": "Maltepe'de cam balkon, sineklik, tente, pimapen montajı ve tamiri, giyotin cam balkon ve silinebilir cam sistemlerinde ölçüye özel üretim ve ücretsiz keşif sunar.",
-        "image": "https://www.atayapi.site/logo.png",
-        "@id": "https://www.atayapi.site",
-        "url": "https://www.atayapi.site",
+        "image": "https://www.xn--atayap-u9a.site/logo.png",
+        "@id": "https://www.xn--atayap-u9a.site",
+        "url": "https://www.xn--atayap-u9a.site",
         "telephone": "+905314002959",
         "priceRange": "₺₺",
         "address": {
@@ -97,8 +97,8 @@ export default function JsonLd() {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Ata Yapı",
-        "url": "https://www.atayapi.site",
-        "logo": "https://www.atayapi.site/logo.png",
+        "url": "https://www.xn--atayap-u9a.site",
+        "logo": "https://www.xn--atayap-u9a.site/logo.png",
         "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+90-531-400-2959",
@@ -112,10 +112,10 @@ export default function JsonLd() {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Ata Yapı",
-        "url": "https://www.atayapi.site",
+        "url": "https://www.xn--atayap-u9a.site",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://www.atayapi.site/?q={search_term_string}",
+            "target": "https://www.xn--atayap-u9a.site/?q={search_term_string}",
             "query-input": "required name=search_term_string"
         }
     };

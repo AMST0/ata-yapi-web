@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description:
         'Katlanır cam balkon sistemleri ile %100 açılım imkanı. Esnek kullanım, şık tasarım. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
-        canonical: 'https://www.atayapi.site/cam-balkon/katlanir',
+        canonical: 'https://www.xn--atayap-u9a.site/cam-balkon/katlanir',
     },
 };
 

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description:
         'Kasetli tente sistemleri ile kumaş koruması ve uzun ömür. Premium kalite, modern tasarım. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
-        canonical: 'https://www.atayapi.site/tente/kasetli',
+        canonical: 'https://www.xn--atayap-u9a.site/tente/kasetli',
     },
 };
 
