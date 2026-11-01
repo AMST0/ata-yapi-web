@@ -13,6 +13,7 @@ const services = [
         href: "/giyotin-cam",
         featured: true,
     },
+    /*
     {
         id: "teleskopik-garaj",
         title: "Teleskopik Garaj",
@@ -24,6 +25,7 @@ const services = [
         href: "/teleskopik-garaj",
         featured: true,
     },
+    */
     {
         id: "cam-balkon",
         title: "Cam Balkon",

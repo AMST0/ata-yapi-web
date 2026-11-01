@@ -6,7 +6,7 @@ import { trackWhatsAppClick, trackPhoneClick } from "@/lib/analytics";
 
 const productLinks = [
     { href: "/giyotin-cam", label: "Giyotin Cam Sistemleri" },
-    { href: "/teleskopik-garaj", label: "Teleskopik Garaj" },
+    // { href: "/teleskopik-garaj", label: "Teleskopik Garaj" },
     { href: "/cam-balkon", label: "Cam Balkon" },
     { href: "/sineklik", label: "Sineklik" },
     { href: "/tente", label: "Tente" },

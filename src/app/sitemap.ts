@@ -20,12 +20,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'weekly',
             priority: 0.95,
         },
+        /*
         {
             url: `${baseUrl}/teleskopik-garaj`,
             lastModified: currentDate,
             changeFrequency: 'weekly',
             priority: 0.9,
         },
+        */
         {
             url: `${baseUrl}/cam-balkon`,
             lastModified: currentDate,

@@ -15,7 +15,7 @@ const navLinks = [
             { href: "/giyotin-cam/imalat", label: "İmalat & Montaj" },
         ],
     },
-    { href: "/teleskopik-garaj", label: "Teleskopik Garaj" },
+    // { href: "/teleskopik-garaj", label: "Teleskopik Garaj" },
     { href: "/cam-balkon", label: "Cam Balkon" },
     {
         href: "#",

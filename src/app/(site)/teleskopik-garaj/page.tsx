@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import GarageAnimation from "@/components/garage/GarageAnimation";
@@ -218,6 +219,9 @@ const faqs = [
 ];
 
 export default function TeleskopikGarajPage() {
+    // Sayfa geçici olarak pasife alındı; doğrudan anasayfaya yönlendirilir.
+    redirect("/");
+
     return (
         <>
             {/* Service JSON-LD */}

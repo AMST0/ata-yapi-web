@@ -300,8 +300,6 @@ export default function BayiKurumsalPage() {
                     <div className="flex flex-wrap justify-center gap-4 text-sm">
                         <Link href="/giyotin-cam" className="text-gray-600 hover:text-[var(--primary)] transition-colors">Giyotin Cam Sistemleri</Link>
                         <span className="text-gray-300">·</span>
-                        <Link href="/teleskopik-garaj" className="text-gray-600 hover:text-[var(--primary)] transition-colors">Teleskopik Garaj</Link>
-                        <span className="text-gray-300">·</span>
                         <Link href="/cam-balkon" className="text-gray-600 hover:text-[var(--primary)] transition-colors">Cam Balkon</Link>
                         <span className="text-gray-300">·</span>
                         <Link href="/bolge/balikesir-giyotin-cam" className="text-gray-600 hover:text-[var(--primary)] transition-colors">Balıkesir</Link>
