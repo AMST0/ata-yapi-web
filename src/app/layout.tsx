@@ -90,6 +90,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { LanguageProvider } from "@/lib/i18n";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -99,7 +101,9 @@ export default function RootLayout({
     <html lang="tr" className={`${inter.variable} ${outfit.variable}`}>
       <body className="min-h-screen flex flex-col">
         <GoogleAnalytics />
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

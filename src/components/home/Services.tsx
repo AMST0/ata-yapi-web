@@ -1,72 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-
-const services = [
-    {
-        id: "giyotin-cam",
-        title: "Giyotin Cam Sistemleri",
-        description:
-            "Dikey sürgülü giyotin cam paneller ile mekanlarınızı modernleştirin. Motorlu ve manuel seçenekler, %100 açıklık, ticari ve konut uygulamaları.",
-        image: "/giyotin-cam-service.png",
-        features: ["Motorlu Sistem", "Tam Açıklık", "Ticari & Konut"],
-        color: "var(--primary)",
-        href: "/giyotin-cam",
-        featured: true,
-    },
-    /*
-    {
-        id: "teleskopik-garaj",
-        title: "Teleskopik Garaj",
-        description:
-            "Teleskopik açılır kapanır garaj sistemleri ile aracınızı dış etkenlerden koruyun. Projeye özel malzeme ve sistem seçenekleri.",
-        image: "/giyotin-cam-hero.png",
-        features: ["Açılır Kapanır", "Araç Koruma", "Özel Tasarım"],
-        color: "var(--secondary)",
-        href: "/teleskopik-garaj",
-        featured: true,
-    },
-    */
-    {
-        id: "cam-balkon",
-        title: "Cam Balkon",
-        description:
-            "Katlanır ve sürme cam balkon sistemleri ile balkonlarınızı 4 mevsim kullanılabilir alanlara dönüştürün.",
-        image: "/cam-balkon-service.png",
-        features: ["Katlanır Sistem", "Sürme Sistem", "Isı Yalıtımı"],
-        color: "var(--accent)",
-        href: "/cam-balkon",
-    },
-    {
-        id: "sineklik",
-        title: "Sineklik",
-        description:
-            "Plise, menteşeli ve sürme sineklik sistemleri. Haşerelerden korunarak temiz hava alın.",
-        image: "/sineklik-service.png",
-        features: ["Plise Sineklik", "Menteşeli", "Sürme Sistem"],
-        color: "var(--brand-blue)",
-        href: "/sineklik",
-    },
-    {
-        id: "tente",
-        title: "Tente",
-        description:
-            "Mafsallı, kasetli ve pergola tente sistemleri ile güneşten korunun, dış mekanlarınızı kullanın.",
-        image: "/tente-service.png",
-        features: ["Mafsallı Tente", "Kasetli Tente", "Pergola"],
-        color: "#9333ea",
-        href: "/tente",
-    },
-    {
-        id: "pimapen-tamir",
-        title: "Pimapen",
-        description:
-            "PVC pencere ve kapı sistemleriniz için profesyonel montaj, tamir ve bakım hizmetleri.",
-        image: "/pimapen.png",
-        features: ["Kaliteli Montaj", "Bakım Onarım", "Yalıtım Çözümleri"],
-        color: "#059669",
-        href: "/pimapen-tamir",
-    },
-];
+import { useLanguage } from "@/lib/i18n";
 
 const serviceIcons: Record<string, React.ReactNode> = {
     "giyotin-cam": (
@@ -76,15 +12,6 @@ const serviceIcons: Record<string, React.ReactNode> = {
             <polyline points="12 16 12 8" />
             <polyline points="9 11 12 8 15 11" />
             <polyline points="9 13 12 16 15 13" />
-        </svg>
-    ),
-    "teleskopik-garaj": (
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M3 21V8l9-5 9 5v13" />
-            <rect x="6" y="13" width="12" height="8" rx="1" />
-            <line x1="6" y1="15" x2="18" y2="15" />
-            <line x1="6" y1="17" x2="18" y2="17" />
-            <line x1="6" y1="19" x2="18" y2="19" />
         </svg>
     ),
     "cam-balkon": (
@@ -118,6 +45,61 @@ const serviceIcons: Record<string, React.ReactNode> = {
 };
 
 export default function Services() {
+    const { t } = useLanguage();
+
+    const services = [
+        {
+            id: "giyotin-cam",
+            title: t.services.giyotin_title,
+            description: t.services.giyotin_desc,
+            image: "/giyotin-cam-service.png",
+            features: [t.services.giyotin_f1, t.services.giyotin_f2, t.services.giyotin_f3],
+            color: "var(--primary)",
+            href: "/giyotin-cam",
+            featured: true,
+        },
+        {
+            id: "cam-balkon",
+            title: t.services.cam_balkon_title,
+            description: t.services.cam_balkon_desc,
+            image: "/cam-balkon-service.png",
+            features: [t.services.cam_balkon_f1, t.services.cam_balkon_f2, t.services.cam_balkon_f3],
+            color: "var(--accent)",
+            href: "/cam-balkon",
+            featured: true,
+        },
+        {
+            id: "sineklik",
+            title: t.services.sineklik_title,
+            description: t.services.sineklik_desc,
+            image: "/sineklik-service.png",
+            features: [t.services.sineklik_f1, t.services.sineklik_f2, t.services.sineklik_f3],
+            color: "var(--brand-blue)",
+            href: "/sineklik",
+            featured: false,
+        },
+        {
+            id: "tente",
+            title: t.services.tente_title,
+            description: t.services.tente_desc,
+            image: "/tente-service.png",
+            features: [t.services.tente_f1, t.services.tente_f2, t.services.tente_f3],
+            color: "#9333ea",
+            href: "/tente",
+            featured: false,
+        },
+        {
+            id: "pimapen-tamir",
+            title: t.services.pimapen_title,
+            description: t.services.pimapen_desc,
+            image: "/pimapen.png",
+            features: [t.services.pimapen_f1, t.services.pimapen_f2, t.services.pimapen_f3],
+            color: "#059669",
+            href: "/pimapen-tamir",
+            featured: false,
+        },
+    ];
+
     return (
         <section className="py-20 lg:py-28 bg-gradient-to-b from-white to-gray-50">
             <div className="container">
@@ -127,13 +109,13 @@ export default function Services() {
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                         </svg>
-                        Ürün & Hizmetlerimiz
+                        {t.services.title}
                     </span>
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
-                        Profesyonel <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">Çözümler</span>
+                        {t.trust.title}
                     </h2>
                     <p className="text-gray-600 text-lg">
-                        Giyotin cam sistemleri, teleskopik garaj ve cam balkon çözümleriyle yaşam alanlarınızı dönüştürüyoruz.
+                        {t.services.subtitle}
                     </p>
                 </div>
 
@@ -159,7 +141,7 @@ export default function Services() {
                                 <div className="absolute top-4 left-4">
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--primary)] text-white text-xs font-bold rounded-full badge-shimmer">
                                         <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                                        Öne Çıkan
+                                        ★ {t.common.factory_direct}
                                     </span>
                                 </div>
 
@@ -196,7 +178,7 @@ export default function Services() {
                                     {service.description}
                                 </p>
                                 <div className="flex items-center gap-2 text-[var(--primary)] font-semibold">
-                                    <span>Detaylı Bilgi</span>
+                                    <span>{t.services.explore_button}</span>
                                     <svg
                                         className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2"
                                         viewBox="0 0 24 24"
@@ -213,8 +195,8 @@ export default function Services() {
                     ))}
                 </div>
 
-                {/* Other Services - 4 column grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Other Services - 3 column grid */}
+                <div className="grid md:grid-cols-3 gap-6">
                     {services.filter(s => !s.featured).map((service) => (
                         <Link
                             key={service.id}
@@ -264,7 +246,7 @@ export default function Services() {
                                     {service.description}
                                 </p>
                                 <div className="flex items-center gap-2 text-[var(--primary)] font-semibold text-sm">
-                                    <span>Detaylı Bilgi</span>
+                                    <span>{t.services.explore_button}</span>
                                     <svg
                                         className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-2"
                                         viewBox="0 0 24 24"

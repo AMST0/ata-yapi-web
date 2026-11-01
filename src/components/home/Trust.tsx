@@ -1,57 +1,62 @@
+"use client";
+
 import Image from "next/image";
-
-const stats = [
-    { value: "10+", label: "Yıllık Tecrübe", icon: "📅" },
-    { value: "500+", label: "Tamamlanan Proje", icon: "🏠" },
-    { value: "3+", label: "İlde Hizmet", icon: "📍" },
-    { value: "2 Yıl", label: "Garanti", icon: "🛡️" },
-];
-
-const features = [
-    {
-        title: "Ölçüye Özel Üretim",
-        description: "Her proje için özel ölçülendirme ve üretim yapıyoruz.",
-        icon: (
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-            </svg>
-        ),
-    },
-    {
-        title: "Profesyonel Montaj",
-        description: "Uzman ekibimiz ile hızlı ve temiz montaj hizmeti.",
-        icon: (
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-            </svg>
-        ),
-    },
-    {
-        title: "Kaliteli Malzeme",
-        description: "Avrupa standartlarında, dayanıklı ve estetik malzemeler.",
-        icon: (
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <polyline points="9 12 11 14 15 10" />
-            </svg>
-        ),
-    },
-    {
-        title: "Garanti & Destek",
-        description: "2 yıl garanti ve satış sonrası teknik destek hizmeti.",
-        icon: (
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
-        ),
-    },
-];
+import { useLanguage } from "@/lib/i18n";
 
 export default function Trust() {
+    const { t } = useLanguage();
+
+    const stats = [
+        { value: "20+", label: t.hero.stat_years, icon: "📅" },
+        { value: "10.000+", label: t.hero.stat_projects, icon: "🏠" },
+        { value: "%100", label: t.hero.stat_satisfaction, icon: "⭐" },
+        { value: "2 Yıl", label: t.hero.stat_warranty, icon: "🛡️" },
+    ];
+
+    const features = [
+        {
+            title: t.trust.item1_title,
+            description: t.trust.item1_desc,
+            icon: (
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+            ),
+        },
+        {
+            title: t.trust.item2_title,
+            description: t.trust.item2_desc,
+            icon: (
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <polyline points="9 12 11 14 15 10" />
+                </svg>
+            ),
+        },
+        {
+            title: t.trust.item3_title,
+            description: t.trust.item3_desc,
+            icon: (
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                </svg>
+            ),
+        },
+        {
+            title: t.trust.item4_title,
+            description: t.trust.item4_desc,
+            icon: (
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+            ),
+        },
+    ];
+
     return (
         <section className="py-20 lg:py-28 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
             <div className="container">
@@ -66,12 +71,12 @@ export default function Trust() {
                                 {stat.icon}
                             </div>
                             <div
-                                className="text-4xl md:text-5xl font-bold mb-2 mt-4 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-transparent bg-clip-text"
+                                className="text-3xl md:text-4xl lg:text-5xl font-bold mb-2 mt-4 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-transparent bg-clip-text"
                                 style={{ fontFamily: 'var(--font-heading)' }}
                             >
                                 {stat.value}
                             </div>
-                            <div className="text-gray-600 font-medium">
+                            <div className="text-gray-600 font-medium text-xs md:text-sm">
                                 {stat.label}
                             </div>
                         </div>
@@ -85,7 +90,7 @@ export default function Trust() {
                         <div className="relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                             <Image
                                 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"
-                                alt="Profesyonel Cam Balkon Montajı"
+                                alt="Ata Yapı Üretim ve Montaj"
                                 fill
                                 className="object-cover"
                             />
@@ -94,15 +99,15 @@ export default function Trust() {
                             {/* Floating badge */}
                             <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-xl flex items-center justify-center">
+                                    <div className="w-14 h-14 bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-xl flex items-center justify-center shrink-0">
                                         <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                                             <polyline points="9 12 11 14 15 10" />
                                         </svg>
                                     </div>
                                     <div>
-                                        <div className="font-bold text-gray-900">Güvenilir Hizmet</div>
-                                        <div className="text-sm text-gray-600">10+ yıllık deneyim ile yanınızdayız</div>
+                                        <div className="font-bold text-gray-900">{t.trust.item2_title}</div>
+                                        <div className="text-sm text-gray-600">{t.common.factory_direct}</div>
                                     </div>
                                 </div>
                             </div>
@@ -119,15 +124,13 @@ export default function Trust() {
                             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                             </svg>
-                            Neden Biz?
+                            {t.trust.badge}
                         </span>
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
-                            Güvenilir & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">Profesyonel</span> Hizmet
+                            {t.trust.title}
                         </h2>
                         <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                            Balıkesir, İzmir, Çanakkale ve İstanbul genelinde giyotin cam sistemleri,
-                            teleskopik garaj, cam balkon ve daha fazlasında 10 yılı aşkın tecrübeyle
-                            yanınızdayız. Kaliteden ödün vermeden uygun fiyatlar sunuyoruz.
+                            {t.trust.subtitle}
                         </p>
 
                         {/* Features Grid */}

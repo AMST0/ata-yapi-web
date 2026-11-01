@@ -3,38 +3,40 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
-const navLinks = [
-    {
-        href: "/giyotin-cam",
-        label: "Giyotin Sistemler",
-        children: [
-            { href: "/giyotin-cam", label: "Giyotin Cam Sistemleri" },
-            { href: "/giyotin-cam/motorlu", label: "Motorlu Giyotin" },
-            { href: "/giyotin-cam/uygulamalar", label: "Uygulamalar" },
-            { href: "/giyotin-cam/imalat", label: "İmalat & Montaj" },
-        ],
-    },
-    // { href: "/teleskopik-garaj", label: "Teleskopik Garaj" },
-    { href: "/cam-balkon", label: "Cam Balkon" },
-    {
-        href: "#",
-        label: "Diğer Hizmetler",
-        children: [
-            { href: "/sineklik", label: "Sineklik" },
-            { href: "/tente", label: "Tente" },
-            { href: "/pimapen-tamir", label: "Pimapen" },
-        ],
-    },
-    { href: "/bayi-kurumsal", label: "Bayi & Kurumsal" },
-    { href: "/fiyatlandirma", label: "Fiyatlandırma" },
-    { href: "/iletisim", label: "İletişim" },
-];
+import { useLanguage } from "@/lib/i18n";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export default function Header() {
+    const { t } = useLanguage();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
+
+    const navLinks = [
+        {
+            href: "/giyotin-cam",
+            label: t.nav.giyotin_systems,
+            children: [
+                { href: "/giyotin-cam", label: t.nav.giyotin_cam },
+                { href: "/giyotin-cam/motorlu", label: t.nav.motorlu_giyotin },
+                { href: "/giyotin-cam/uygulamalar", label: t.nav.uygulamalar },
+                { href: "/giyotin-cam/imalat", label: t.nav.imalat_montaj },
+            ],
+        },
+        { href: "/cam-balkon", label: t.nav.cam_balkon },
+        {
+            href: "#",
+            label: t.nav.diger_hizmetler,
+            children: [
+                { href: "/sineklik", label: t.nav.sineklik },
+                { href: "/tente", label: t.nav.tente },
+                { href: "/pimapen-tamir", label: t.nav.pimapen_tamir },
+            ],
+        },
+        { href: "/bayi-kurumsal", label: t.nav.bayi_kurumsal },
+        { href: "/fiyatlandirma", label: t.nav.fiyatlandirma },
+        { href: "/iletisim", label: t.nav.iletisim },
+    ];
 
     return (
         <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
@@ -45,18 +47,18 @@ export default function Header() {
                         <Image
                             src="/logo.png"
                             alt="Ata Yapı Logo"
-                            width={120}
-                            height={48}
+                            width={160}
+                            height={50}
                             className="h-10 md:h-12 w-auto"
                             priority
                         />
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <ul className="hidden lg:flex items-center gap-6">
+                    <ul className="hidden lg:flex items-center gap-7">
                         {navLinks.map((link) => (
                             <li
-                                key={link.label}
+                                key={link.href + link.label}
                                 className="relative"
                                 onMouseEnter={() => link.children && setOpenDropdown(link.label)}
                                 onMouseLeave={() => setOpenDropdown(null)}
@@ -111,55 +113,61 @@ export default function Header() {
                         ))}
                     </ul>
 
-                    {/* Desktop CTA */}
-                    <Link
-                        href="/iletisim"
-                        className="hidden lg:inline-flex btn-press items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-5 py-2.5 rounded-lg font-medium text-sm transition-colors"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-4 h-4"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                    {/* Desktop CTA & Language Selector */}
+                    <div className="hidden lg:flex items-center gap-3">
+                        <LanguageSelector variant="desktop" />
+                        <Link
+                            href="/iletisim"
+                            className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-5 py-2.5 rounded-lg font-medium text-sm transition-colors"
                         >
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                        </svg>
-                        Ücretsiz Keşif
-                    </Link>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                            </svg>
+                            {t.nav.free_discovery}
+                        </Link>
+                    </div>
 
                     {/* Mobile Menu Button */}
-                    <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="lg:hidden p-2 text-gray-700"
-                        aria-label="Menüyü aç/kapat"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-6 h-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
+                    <div className="lg:hidden flex items-center gap-2">
+                        <LanguageSelector variant="desktop" />
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="p-2 text-gray-700"
+                            aria-label="Menüyü aç/kapat"
                         >
-                            {isMenuOpen ? (
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            ) : (
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            )}
-                        </svg>
-                    </button>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-6 h-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                            >
+                                {isMenuOpen ? (
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                ) : (
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M4 6h16M4 12h16M4 18h16"
+                                    />
+                                )}
+                            </svg>
+                        </button>
+                    </div>
                 </nav>
 
                 {/* Mobile Navigation */}
@@ -167,9 +175,13 @@ export default function Header() {
                     className={`lg:hidden overflow-hidden transition-all duration-300 ${isMenuOpen ? "max-h-[600px] pb-4" : "max-h-0"
                         }`}
                 >
+                    <div className="pb-3 border-b border-gray-100 mb-2">
+                        <LanguageSelector variant="mobile" />
+                    </div>
+
                     <ul className="flex flex-col gap-1">
                         {navLinks.map((link) => (
-                            <li key={link.label}>
+                            <li key={link.href + link.label}>
                                 {link.children ? (
                                     <>
                                         <button
@@ -229,7 +241,7 @@ export default function Header() {
                                 onClick={() => setIsMenuOpen(false)}
                                 className="block py-2.5 px-4 bg-[var(--primary)] text-white text-center rounded-lg font-medium mt-2"
                             >
-                                Ücretsiz Keşif
+                                {t.nav.free_discovery}
                             </Link>
                         </li>
                     </ul>

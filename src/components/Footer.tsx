@@ -3,32 +3,36 @@
 import Link from "next/link";
 import Image from "next/image";
 import { trackWhatsAppClick, trackPhoneClick } from "@/lib/analytics";
-
-const productLinks = [
-    { href: "/giyotin-cam", label: "Giyotin Cam Sistemleri" },
-    // { href: "/teleskopik-garaj", label: "Teleskopik Garaj" },
-    { href: "/cam-balkon", label: "Cam Balkon" },
-    { href: "/sineklik", label: "Sineklik" },
-    { href: "/tente", label: "Tente" },
-    { href: "/pimapen-tamir", label: "Pimapen" },
-];
-
-const quickLinks = [
-    { href: "/fiyatlandirma", label: "Fiyatlandırma" },
-    { href: "/bayi-kurumsal", label: "Bayi & Kurumsal Satış" },
-    { href: "/iletisim", label: "İletişim" },
-];
-
-const regionLinks = [
-    { href: "/bolge/balikesir-giyotin-cam", label: "Balıkesir" },
-    { href: "/bolge/edremit-giyotin-cam", label: "Edremit" },
-    { href: "/bolge/altinoluk-giyotin-cam", label: "Altınoluk" },
-    { href: "/bolge/izmir-giyotin-cam", label: "İzmir" },
-    { href: "/bolge/canakkale-giyotin-cam", label: "Çanakkale" },
-    { href: "/bolge/maltepe-cam-balkon", label: "İstanbul / Maltepe" },
-];
+import { useLanguage } from "@/lib/i18n";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export default function Footer() {
+    const { t } = useLanguage();
+
+    const productLinks = [
+        { href: "/giyotin-cam", label: t.nav.giyotin_cam },
+        // { href: "/teleskopik-garaj", label: "Teleskopik Garaj" },
+        { href: "/cam-balkon", label: t.nav.cam_balkon },
+        { href: "/sineklik", label: t.nav.sineklik },
+        { href: "/tente", label: t.nav.tente },
+        { href: "/pimapen-tamir", label: t.nav.pimapen_tamir },
+    ];
+
+    const quickLinks = [
+        { href: "/fiyatlandirma", label: t.nav.fiyatlandirma },
+        { href: "/bayi-kurumsal", label: t.nav.bayi_kurumsal },
+        { href: "/iletisim", label: t.nav.iletisim },
+    ];
+
+    const regionLinks = [
+        { href: "/bolge/balikesir-giyotin-cam", label: "Balıkesir" },
+        { href: "/bolge/edremit-giyotin-cam", label: "Edremit" },
+        { href: "/bolge/altinoluk-giyotin-cam", label: "Altınoluk" },
+        { href: "/bolge/izmir-giyotin-cam", label: "İzmir" },
+        { href: "/bolge/canakkale-giyotin-cam", label: "Çanakkale" },
+        { href: "/bolge/maltepe-cam-balkon", label: "İstanbul / Maltepe" },
+    ];
+
     return (
         <footer className="bg-gray-900 text-gray-300 pt-16 pb-8">
             <div className="container">
@@ -43,17 +47,15 @@ export default function Footer() {
                             className="h-12 w-auto mb-4 brightness-0 invert"
                         />
                         <p className="text-gray-400 mb-4 max-w-md">
-                            Giyotin cam sistemleri, teleskopik garaj, cam balkon, sineklik ve tente
-                            çözümlerinde ölçüye özel üretim ve profesyonel montaj hizmeti sunuyoruz.
-                            Balıkesir, İzmir, Çanakkale ve İstanbul genelinde ücretsiz keşif.
+                            {t.footer.about_desc}
                         </p>
-                        <div className="flex gap-4">
+                        <div className="flex items-center gap-4">
                             <a
                                 href="https://wa.me/905314002959"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={trackWhatsAppClick}
-                                className="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-[var(--accent)] rounded-full transition-colors"
+                                className="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-[#25D366] rounded-full transition-colors"
                                 aria-label="WhatsApp"
                             >
                                 <svg
@@ -89,7 +91,7 @@ export default function Footer() {
 
                     {/* Products & Services */}
                     <div>
-                        <h3 className="text-white font-semibold mb-4">Ürün & Hizmetler</h3>
+                        <h3 className="text-white font-semibold mb-4">{t.footer.products}</h3>
                         <ul className="space-y-2">
                             {productLinks.map((link) => (
                                 <li key={link.href}>
@@ -106,7 +108,7 @@ export default function Footer() {
 
                     {/* Quick Links + Regions */}
                     <div>
-                        <h3 className="text-white font-semibold mb-4">Hızlı Bağlantılar</h3>
+                        <h3 className="text-white font-semibold mb-4">{t.footer.quick_links}</h3>
                         <ul className="space-y-2 mb-6">
                             {quickLinks.map((link) => (
                                 <li key={link.href}>
@@ -119,7 +121,7 @@ export default function Footer() {
                                 </li>
                             ))}
                         </ul>
-                        <h3 className="text-white font-semibold mb-3">Hizmet Bölgeleri</h3>
+                        <h3 className="text-white font-semibold mb-3">{t.footer.regions}</h3>
                         <ul className="space-y-2">
                             {regionLinks.map((link) => (
                                 <li key={link.href}>
@@ -136,7 +138,7 @@ export default function Footer() {
 
                     {/* Contact Info */}
                     <div>
-                        <h3 className="text-white font-semibold mb-4">İletişim</h3>
+                        <h3 className="text-white font-semibold mb-4">{t.footer.contact_info}</h3>
                         <ul className="space-y-3 text-gray-400">
                             <li className="flex items-start gap-3">
                                 <svg
@@ -149,15 +151,15 @@ export default function Footer() {
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                 >
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                                     <circle cx="12" cy="10" r="3" />
                                 </svg>
-                                <span>Girne, Meriç Sk. No:13, 34852 Maltepe/İstanbul</span>
+                                <span>Bağlarbaşı Mah. Sakarya Sok. No:35 Maltepe / İstanbul</span>
                             </li>
-                            <li className="flex items-start gap-3">
+                            <li className="flex items-center gap-3">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="w-5 h-5 mt-0.5 shrink-0 text-[var(--primary)]"
+                                    className="w-5 h-5 shrink-0 text-[var(--primary)]"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
@@ -191,11 +193,15 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Copyright */}
-                <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+                {/* Copyright & Language Selector */}
+                <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-gray-500 text-sm">
                     <p>
-                        © {new Date().getFullYear()} Ata Yapı. Tüm hakları saklıdır.
+                        © {new Date().getFullYear()} Ata Yapı. {t.footer.rights_reserved}
                     </p>
+                    <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-400">{t.common.language}:</span>
+                        <LanguageSelector variant="desktop" />
+                    </div>
                 </div>
             </div>
         </footer>
