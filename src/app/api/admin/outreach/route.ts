@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { OUTREACH_CONFIG, getEmailSubject, TemplateContact } from '@/lib/outreach-templates';
 
 export interface OutreachContact {
     id: number;
@@ -13,10 +14,13 @@ export interface OutreachContact {
     sentDate: string;
     status: 'sent' | 'delivered';
     subject: string;
+    subjectTr: string;
+    subjectEn: string;
     whatsappUrl: string;
+    lastSentAt?: string;
 }
 
-const contacts: OutreachContact[] = [
+const BASE_CONTACTS: OutreachContact[] = [
     {
         id: 1,
         name: "FenSon GmbH",
@@ -30,6 +34,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20FenSon%20team%2C%20following%20up%20on%20our%20wholesale%20supply%20proposal."
     },
     {
@@ -45,6 +51,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Arno%20Endress%2C%20following%20up%20from%20Ata%20Yapi%20regarding%20wholesale%20supply."
     },
     {
@@ -60,6 +68,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20SaMa%20Flyscreen%20team%2C%20contacting%20you%20from%20Ata%20Yapi%20Turkiye."
     },
     {
@@ -75,6 +85,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Gormar%20und%20Sohn%20team%2C%20contacting%20you%20regarding%20Ata%20Yapi%20export."
     },
     {
@@ -90,6 +102,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20De%20Raamfabriek%20team%2C%20following%20up%20from%20Ata%20Yapi%20Turkiye."
     },
     {
@@ -105,6 +119,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Ramen%20Willems%2C%20contacting%20you%20from%20Ata%20Yapi%20regarding%20wholesale%20glass%20balcony."
     },
     {
@@ -120,6 +136,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Kozijnenfabriek%20team%2C%20contacting%20you%20regarding%20wholesale%20flyscreen%20supplies."
     },
     {
@@ -135,6 +153,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Vliegenraam%20team%2C%20following%20up%20from%20Ata%20Yapi%20plisse%20screen%20factory."
     },
     {
@@ -150,6 +170,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20GZ%20Montage%20team%2C%20contacting%20you%20from%20Ata%20Yapi%20Turkiye."
     },
     {
@@ -165,6 +187,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Immosan%20team%2C%20following%20up%20on%20our%20wholesale%20supply%20proposal."
     },
     {
@@ -180,6 +204,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Seiler%20Storen%20team%2C%20contacting%20you%20from%20Ata%20Yapi%20Turkiye."
     },
     {
@@ -195,6 +221,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Fischer%20Storen%20team%2C%20contacting%20you%20from%20Ata%20Yapi%20Turkiye."
     },
     {
@@ -210,6 +238,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Filtoldos%20team%2C%20contacting%20you%20from%20Ata%20Yapi%20Turkiye."
     },
     {
@@ -225,6 +255,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
+        subjectTr: "Türkiye'den Toptan Tedarik ve İhracat İş Ortaklığı | Ata Yapı",
+        subjectEn: "Wholesale Supply Partnership from Türkiye | Ata Yapı",
         whatsappUrl: "https://wa.me/905314002959?text=Hello%20Glavas%20Systems%2C%20following%20up%20on%20our%20export%20proposal."
     },
     {
@@ -240,6 +272,8 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Ata Yapı | Avrupa'daki Alevi esnafıyla ticari dayanışma ve tanışma",
+        subjectTr: "Ata Yapı | Avrupa'daki Alevi esnafıyla ticari dayanışma ve tanışma",
+        subjectEn: "Ata Yapı | Business Cooperation & Community Solidarity from Türkiye",
         whatsappUrl: "https://wa.me/905314002959?text=Merhaba%2C%20AABF%20yetkilileri%20i%C3%A7in%20Ata%20Yap%C4%B1%20hakk%C4%B1nda%20ileti%C5%9Fime%20ge%C3%A7iyorum."
     },
     {
@@ -255,21 +289,38 @@ const contacts: OutreachContact[] = [
         sentDate: "2026-11-01",
         status: "delivered",
         subject: "Ata Yapı | Avrupa'daki Alevi esnafıyla ticari dayanışma ve tanışma",
+        subjectTr: "Ata Yapı | Avrupa'daki Alevi esnafıyla ticari dayanışma ve tanışma",
+        subjectEn: "Ata Yapı | Business Cooperation & Community Solidarity from Türkiye",
         whatsappUrl: "https://wa.me/905314002959?text=Merhaba%2C%20Alevilerin%20Sesi%20reklam%20ve%20tan%C4%B1t%C4%B1m%20i%C3%A7in%20Ata%20Yap%C4%B1'dan%20yaz%C4%B1yorum."
     }
 ];
 
 export async function GET() {
+    const sentLog = (global as any).__ataYapiOutreachSentLog || {};
+
+    const contactsWithLiveStatus = BASE_CONTACTS.map((c) => {
+        const log = sentLog[c.id];
+        if (log) {
+            return {
+                ...c,
+                lastSentAt: log.lastSentAt,
+                language: log.language === 'tr' ? 'Turkish' as const : 'English' as const,
+                sentDate: log.lastSentAt.slice(0, 10),
+            };
+        }
+        return c;
+    });
+
     return NextResponse.json({
-        totalSent: contacts.length,
+        totalSent: contactsWithLiveStatus.length,
         countriesCount: 7,
         sender: {
-            email: "atayapicambalkon@gmail.com",
-            name: "Ata Yapı Cam Balkon & Sineklik",
-            whatsapp: "+90 531 400 29 59",
-            website: "https://www.atayapı.site",
+            email: OUTREACH_CONFIG.senderEmail,
+            name: OUTREACH_CONFIG.senderName,
+            whatsapp: OUTREACH_CONFIG.whatsappPhone,
+            website: OUTREACH_CONFIG.website,
             smtpServer: "smtp.gmail.com:587",
         },
-        contacts,
+        contacts: contactsWithLiveStatus,
     });
 }

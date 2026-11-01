@@ -3,6 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { OutreachContact } from "@/app/api/admin/outreach/route";
+import {
+    getEmailSubject,
+    getEmailHtml,
+    getEmailPlainText,
+    OUTREACH_CONFIG
+} from "@/lib/outreach-templates";
 
 interface SenderInfo {
     email: string;
@@ -18,24 +24,44 @@ export default function AdminOutreachPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCountryFilter, setSelectedCountryFilter] = useState<string>("ALL");
+
+    // Modal & Sending state
     const [previewContact, setPreviewContact] = useState<OutreachContact | null>(null);
+    const [previewLang, setPreviewLang] = useState<"tr" | "en">("tr");
+    const [isSending, setIsSending] = useState(false);
+    const [sendSuccessMessage, setSendSuccessMessage] = useState<string | null>(null);
+    const [sendErrorMessage, setSendErrorMessage] = useState<string | null>(null);
+    const [isTestMode, setIsTestMode] = useState(false);
+
+    // Multi-selection & Bulk Send state
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [isBulkModalOpen, setIsBulkModalOpen] = useState(false);
+    const [bulkLang, setBulkLang] = useState<"tr" | "en">("tr");
+    const [bulkIsTest, setBulkIsTest] = useState(false);
+    const [bulkSending, setBulkSending] = useState(false);
+    const [bulkProgress, setBulkProgress] = useState<{ total: number; sent: number; current: string } | null>(null);
+    const [bulkResult, setBulkResult] = useState<{ successful: number; failed: number } | null>(null);
+
+    // Copy notification
     const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
+    const [copiedAll, setCopiedAll] = useState(false);
+
+    async function fetchOutreach() {
+        try {
+            const res = await fetch("/api/admin/outreach");
+            if (res.ok) {
+                const data = await res.json();
+                setContacts(data.contacts || []);
+                setSender(data.sender || null);
+            }
+        } catch (err) {
+            console.error("Error fetching outreach:", err);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     useEffect(() => {
-        async function fetchOutreach() {
-            try {
-                const res = await fetch("/api/admin/outreach");
-                if (res.ok) {
-                    const data = await res.json();
-                    setContacts(data.contacts || []);
-                    setSender(data.sender || null);
-                }
-            } catch (err) {
-                console.error("Error fetching outreach:", err);
-            } finally {
-                setIsLoading(false);
-            }
-        }
         fetchOutreach();
     }, []);
 
@@ -56,7 +82,6 @@ export default function AdminOutreachPage() {
     ];
 
     const filteredContacts = contacts.filter((c) => {
-        // Country / Group filter
         if (selectedCountryFilter === "DE" && c.countryCode !== "DE") return false;
         if (selectedCountryFilter === "BE" && c.countryCode !== "BE") return false;
         if (selectedCountryFilter === "DACH" && c.countryCode !== "AT" && c.countryCode !== "CH") return false;
@@ -64,7 +89,6 @@ export default function AdminOutreachPage() {
         if (selectedCountryFilter === "MED" && c.countryCode !== "PT" && c.countryCode !== "GR") return false;
         if (selectedCountryFilter === "ALEVI" && c.group !== "alevi") return false;
 
-        // Search term filter
         if (searchTerm.trim() !== "") {
             const query = searchTerm.toLowerCase();
             const matchName = c.name.toLowerCase().includes(query);
@@ -77,7 +101,20 @@ export default function AdminOutreachPage() {
         return true;
     });
 
-    const [copiedAll, setCopiedAll] = useState(false);
+    // Selection handlers
+    const toggleSelectAll = () => {
+        if (selectedIds.length === filteredContacts.length) {
+            setSelectedIds([]);
+        } else {
+            setSelectedIds(filteredContacts.map(c => c.id));
+        }
+    };
+
+    const toggleSelect = (id: number) => {
+        setSelectedIds(prev =>
+            prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+        );
+    };
 
     const copyAllEmails = () => {
         const emails = filteredContacts.map((c) => c.email).join(", ");
@@ -96,6 +133,102 @@ export default function AdminOutreachPage() {
         a.download = `ata_yapi_avrupa_mailler_${new Date().toISOString().slice(0, 10)}.csv`;
         a.click();
         URL.revokeObjectURL(url);
+    };
+
+    // Single send email handler
+    const handleSendSingleEmail = async () => {
+        if (!previewContact) return;
+
+        setIsSending(true);
+        setSendSuccessMessage(null);
+        setSendErrorMessage(null);
+
+        try {
+            const res = await fetch("/api/admin/outreach/send", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contactId: previewContact.id,
+                    lang: previewLang,
+                    isTest: isTestMode,
+                    testEmail: sender?.email || "atayapicambalkon@gmail.com",
+                }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                setSendSuccessMessage(
+                    isTestMode
+                        ? `✓ Test maili başarıyla ${sender?.email} adresinize gönderildi!`
+                        : `✓ E-posta başarıyla ${previewContact.name} (${previewContact.email}) adresine iletildi!`
+                );
+                // Refresh list to update status
+                fetchOutreach();
+            } else {
+                setSendErrorMessage(data.error || "E-posta gönderilirken bir hata oluştu.");
+            }
+        } catch (err: any) {
+            console.error("Mail send error:", err);
+            setSendErrorMessage(err?.message || "Sunucuya bağlanılamadı.");
+        } finally {
+            setIsSending(false);
+        }
+    };
+
+    // Bulk send handler
+    const handleStartBulkSend = async () => {
+        const targetIds = selectedIds.length > 0 ? selectedIds : contacts.map(c => c.id);
+        if (targetIds.length === 0) return;
+
+        setBulkSending(true);
+        setBulkResult(null);
+        setBulkProgress({ total: targetIds.length, sent: 0, current: "Başlatılıyor..." });
+
+        let successCount = 0;
+        let failCount = 0;
+
+        for (let i = 0; i < targetIds.length; i++) {
+            const currentId = targetIds[i];
+            const currentContact = contacts.find(c => c.id === currentId);
+            setBulkProgress({
+                total: targetIds.length,
+                sent: i,
+                current: `${currentContact?.name || 'Firma'} (${i + 1}/${targetIds.length})`
+            });
+
+            try {
+                const res = await fetch("/api/admin/outreach/send", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contactId: currentId,
+                        lang: bulkLang,
+                        isTest: bulkIsTest,
+                        testEmail: sender?.email || "atayapicambalkon@gmail.com",
+                    }),
+                });
+
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    successCount++;
+                } else {
+                    failCount++;
+                }
+            } catch {
+                failCount++;
+            }
+        }
+
+        setBulkProgress({
+            total: targetIds.length,
+            sent: targetIds.length,
+            current: "Tamamlandı"
+        });
+
+        setBulkResult({ successful: successCount, failed: failCount });
+        setBulkSending(false);
+        fetchOutreach();
     };
 
     if (isLoading) {
@@ -119,15 +252,25 @@ export default function AdminOutreachPage() {
                             Avrupa E-Posta &amp; İhracat Takibi
                         </h1>
                         <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
-                            16 Hedef İletildi
+                            16 Hedef Şirket
                         </span>
                     </div>
                     <p className="text-sm text-gray-400 mt-1">
-                        Avrupa&apos;daki toptan alıcı pencere/kapı, cam balkon ve sineklik firmalarına atılan kurumsal maillerin dökümü
+                        Avrupa&apos;daki toptan alıcı pencere/kapı, cam balkon ve sineklik firmalarına otomatik Türkçe &amp; İngilizce ihracat mailleri gönderin
                     </p>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2.5">
+                    <button
+                        onClick={() => {
+                            setSelectedIds(contacts.map(c => c.id));
+                            setIsBulkModalOpen(true);
+                        }}
+                        className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-95 text-white text-xs font-semibold shadow-lg shadow-blue-600/30 transition-all flex items-center gap-1.5 cursor-pointer"
+                    >
+                        <span>🚀 Tümüne Otomatik Mail Gönder (16)</span>
+                    </button>
+
                     <button
                         onClick={copyAllEmails}
                         className="px-3.5 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold transition-colors flex items-center gap-1.5 border border-gray-700"
@@ -135,9 +278,7 @@ export default function AdminOutreachPage() {
                         {copiedAll ? (
                             <span className="text-emerald-400">✓ 16 E-Posta Kopyalandı!</span>
                         ) : (
-                            <>
-                                <span>📋 Tüm Mailleri Kopyala</span>
-                            </>
+                            <span>📋 Tüm Mailleri Kopyala</span>
                         )}
                     </button>
 
@@ -154,7 +295,7 @@ export default function AdminOutreachPage() {
                         rel="noopener noreferrer"
                         className="px-4 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-300 text-xs font-semibold transition-colors flex items-center gap-1.5"
                     >
-                        <span>💬 WhatsApp (+90 531 400 29 59)</span>
+                        <span>💬 WhatsApp</span>
                     </a>
                 </div>
             </div>
@@ -163,10 +304,10 @@ export default function AdminOutreachPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-gray-900/40 border border-gray-800/80 rounded-2xl p-5 backdrop-blur-sm">
                     <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                        Gönderilen Şirketler
+                        Hedef Şirketler
                     </div>
                     <div className="text-3xl font-bold text-white">
-                        {contacts.length} <span className="text-sm font-normal text-gray-500">Hedef Firma</span>
+                        {contacts.length} <span className="text-sm font-normal text-gray-500">Firma</span>
                     </div>
                     <p className="text-xs text-gray-400 mt-2">14 B2B İthalatçı + 2 Topluluk</p>
                 </div>
@@ -183,24 +324,60 @@ export default function AdminOutreachPage() {
 
                 <div className="bg-gray-900/40 border border-gray-800/80 rounded-2xl p-5 backdrop-blur-sm">
                     <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                        Gönderici E-Posta
+                        Gönderici Hesabı
                     </div>
                     <div className="text-base font-bold text-white truncate font-mono">
                         {sender?.email || "atayapicambalkon@gmail.com"}
                     </div>
-                    <p className="text-xs text-emerald-400 mt-2">✓ Gmail SMTP Aktif</p>
+                    <p className="text-xs text-emerald-400 mt-2">✓ Gmail SMTP Canlı Bağlı</p>
                 </div>
 
                 <div className="bg-gray-900/40 border border-gray-800/80 rounded-2xl p-5 backdrop-blur-sm">
                     <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                        Teslimat Durumu
+                        Dil Desteği
                     </div>
-                    <div className="text-3xl font-bold text-blue-400">
-                        %100 <span className="text-sm font-normal text-gray-500">Başarılı</span>
+                    <div className="text-xl font-bold text-blue-400 flex items-center gap-2 mt-1">
+                        <span>🇹🇷 Türkçe</span>
+                        <span className="text-gray-500">|</span>
+                        <span>🇬🇧 English</span>
                     </div>
-                    <p className="text-xs text-gray-400 mt-2">Tüm mailler alıcılara iletildi</p>
+                    <p className="text-xs text-gray-400 mt-2">Tüm firmalara çift dilde gönderim</p>
                 </div>
             </div>
+
+            {/* Selection Bar (Appears when items are checked) */}
+            {selectedIds.length > 0 && (
+                <div className="bg-gradient-to-r from-blue-900/50 to-indigo-900/50 border border-blue-500/40 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xl">
+                    <div className="flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-blue-500/30 border border-blue-500/40 flex items-center justify-center text-sm font-bold text-blue-300">
+                            {selectedIds.length}
+                        </span>
+                        <div>
+                            <div className="text-sm font-bold text-white">
+                                {selectedIds.length} firma seçildi
+                            </div>
+                            <div className="text-xs text-gray-300">
+                                Seçilen firmalara toplu e-posta gönderimi yapabilirsiniz
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => setIsBulkModalOpen(true)}
+                            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-colors shadow-md flex items-center gap-1.5"
+                        >
+                            <span>🚀 Seçilenlere Mail Gönder ({selectedIds.length})</span>
+                        </button>
+                        <button
+                            onClick={() => setSelectedIds([])}
+                            className="px-3 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs transition-colors"
+                        >
+                            Seçimi Temizle
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Filter Tabs & Search */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -243,10 +420,18 @@ export default function AdminOutreachPage() {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="border-b border-gray-800/80 bg-gray-950/40 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                                <th className="py-4 px-6">Hedef Firma &amp; Sektör</th>
+                                <th className="py-4 px-4 w-10 text-center">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedIds.length === filteredContacts.length && filteredContacts.length > 0}
+                                        onChange={toggleSelectAll}
+                                        className="rounded border-gray-700 text-blue-600 focus:ring-0 cursor-pointer w-4 h-4"
+                                    />
+                                </th>
+                                <th className="py-4 px-4">Hedef Firma &amp; Sektör</th>
                                 <th className="py-4 px-4">Ülke</th>
                                 <th className="py-4 px-4">E-posta Adresi</th>
-                                <th className="py-4 px-4">Dil / Grup</th>
+                                <th className="py-4 px-4">Diller</th>
                                 <th className="py-4 px-4">Durum</th>
                                 <th className="py-4 px-6 text-right">Aksiyonlar</th>
                             </tr>
@@ -254,15 +439,25 @@ export default function AdminOutreachPage() {
                         <tbody className="divide-y divide-gray-800/40 text-sm text-gray-300">
                             {filteredContacts.length === 0 ? (
                                 <tr>
-                                    <td colSpan={6} className="py-12 text-center text-gray-500">
+                                    <td colSpan={7} className="py-12 text-center text-gray-500">
                                         Aramanıza uygun firma bulunamadı.
                                     </td>
                                 </tr>
                             ) : (
                                 filteredContacts.map((contact) => (
                                     <tr key={contact.id} className="hover:bg-gray-800/30 transition-colors">
+                                        {/* Checkbox */}
+                                        <td className="py-4 px-4 text-center">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedIds.includes(contact.id)}
+                                                onChange={() => toggleSelect(contact.id)}
+                                                className="rounded border-gray-700 text-blue-600 focus:ring-0 cursor-pointer w-4 h-4"
+                                            />
+                                        </td>
+
                                         {/* Company */}
-                                        <td className="py-4 px-6">
+                                        <td className="py-4 px-4">
                                             <div className="font-semibold text-white">
                                                 {contact.name}
                                             </div>
@@ -305,39 +500,44 @@ export default function AdminOutreachPage() {
                                             </div>
                                         </td>
 
-                                        {/* Language & Group */}
+                                        {/* Languages available */}
                                         <td className="py-4 px-4 whitespace-nowrap">
-                                            {contact.group === "alevi" ? (
-                                                <span className="px-2.5 py-1 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium">
-                                                    🕊️ Türkçe (Dayanışma)
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-semibold">
+                                                    🇹🇷 TR
                                                 </span>
-                                            ) : (
-                                                <span className="px-2.5 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-medium">
-                                                    🌐 İngilizce (B2B Toptan)
+                                                <span className="px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold">
+                                                    🇬🇧 EN
                                                 </span>
-                                            )}
+                                            </div>
                                         </td>
 
                                         {/* Status */}
                                         <td className="py-4 px-4 whitespace-nowrap">
                                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
                                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                                                Gönderildi
+                                                {contact.lastSentAt ? "Yeni İletildi" : "Kayıtlı / Hazır"}
                                             </span>
                                         </td>
 
                                         {/* Actions */}
                                         <td className="py-4 px-6 text-right whitespace-nowrap">
                                             <div className="flex items-center justify-end gap-2">
+                                                {/* Single Send / Preview Button */}
                                                 <button
-                                                    onClick={() => setPreviewContact(contact)}
-                                                    className="px-3 py-1.5 rounded-lg bg-gray-800/70 hover:bg-gray-700 text-gray-200 hover:text-white text-xs font-medium transition-colors flex items-center gap-1.5"
+                                                    onClick={() => {
+                                                        setPreviewContact(contact);
+                                                        setPreviewLang("tr"); // Default to Turkish per user request
+                                                        setSendSuccessMessage(null);
+                                                        setSendErrorMessage(null);
+                                                    }}
+                                                    className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
                                                 >
                                                     <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                                        <circle cx="12" cy="12" r="3" />
+                                                        <line x1="22" y1="2" x2="11" y2="13" />
+                                                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
                                                     </svg>
-                                                    <span>Önizle</span>
+                                                    <span>Mail Gönder / Önizle</span>
                                                 </button>
 
                                                 <a
@@ -347,7 +547,7 @@ export default function AdminOutreachPage() {
                                                     className="px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-medium transition-colors flex items-center gap-1.5"
                                                     title="WhatsApp ile Mesaj Gönder"
                                                 >
-                                                    <span>💬 WhatsApp</span>
+                                                    <span>💬 WA</span>
                                                 </a>
                                             </div>
                                         </td>
@@ -359,15 +559,15 @@ export default function AdminOutreachPage() {
                 </div>
             </div>
 
-            {/* Email Preview Modal */}
+            {/* Single Email Preview & Send Modal */}
             {previewContact && (
                 <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-                    <div className="bg-gray-900 border border-gray-800 rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+                    <div className="bg-gray-900 border border-gray-800 rounded-3xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
                         {/* Modal Header */}
                         <div className="p-6 border-b border-gray-800 flex items-center justify-between">
                             <div>
-                                <div className="text-xs font-medium text-emerald-400">
-                                    {previewContact.group === "alevi" ? "Alevi Dayanışma & Tanışma E-Postası" : "B2B İhracat & Toptan Tedarik E-Postası"}
+                                <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+                                    Otomatik E-Posta Gönderim Paneli
                                 </div>
                                 <h3 className="text-lg font-bold text-white mt-0.5">
                                     {previewContact.name} ({previewContact.country} {previewContact.flag})
@@ -384,114 +584,254 @@ export default function AdminOutreachPage() {
                             </button>
                         </div>
 
-                        {/* Modal Meta info */}
-                        <div className="px-6 py-3 bg-gray-950/60 border-b border-gray-800/80 text-xs text-gray-400 space-y-1 font-mono">
-                            <div><strong className="text-gray-300 font-sans">Kimden:</strong> Ata Yapı Cam Balkon &amp; Sineklik &lt;atayapicambalkon@gmail.com&gt;</div>
-                            <div><strong className="text-gray-300 font-sans">Kime:</strong> {previewContact.email}</div>
-                            <div><strong className="text-gray-300 font-sans">Konu:</strong> <span className="text-white font-sans">{previewContact.subject}</span></div>
+                        {/* Language Selector Tabs */}
+                        <div className="px-6 py-3 bg-gray-950/80 border-b border-gray-800/80 flex items-center justify-between gap-4">
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs font-medium text-gray-400">Şablon Dili:</span>
+                                <div className="flex items-center rounded-xl bg-gray-900 p-1 border border-gray-800">
+                                    <button
+                                        onClick={() => setPreviewLang("tr")}
+                                        className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                                            previewLang === "tr"
+                                                ? "bg-emerald-600 text-white shadow-sm"
+                                                : "text-gray-400 hover:text-white"
+                                        }`}
+                                    >
+                                        🇹🇷 Türkçe
+                                    </button>
+                                    <button
+                                        onClick={() => setPreviewLang("en")}
+                                        className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                                            previewLang === "en"
+                                                ? "bg-blue-600 text-white shadow-sm"
+                                                : "text-gray-400 hover:text-white"
+                                        }`}
+                                    >
+                                        🇬🇧 English
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Test Mode toggle */}
+                            <label className="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    checked={isTestMode}
+                                    onChange={(e) => setIsTestMode(e.target.checked)}
+                                    className="rounded border-gray-700 text-purple-600 focus:ring-0 cursor-pointer w-4 h-4"
+                                />
+                                <span className="text-purple-300 font-medium">🧪 Test (Kendime Gönder)</span>
+                            </label>
                         </div>
+
+                        {/* Modal Meta info */}
+                        <div className="px-6 py-3 bg-gray-950/40 border-b border-gray-800/80 text-xs text-gray-400 space-y-1 font-mono">
+                            <div><strong className="text-gray-300 font-sans">Gönderici:</strong> Ata Yapı Cam Balkon &amp; Sineklik &lt;atayapicambalkon@gmail.com&gt;</div>
+                            <div>
+                                <strong className="text-gray-300 font-sans">Alıcı:</strong>{" "}
+                                <span className={isTestMode ? "text-purple-300 font-bold" : "text-blue-400"}>
+                                    {isTestMode ? `${sender?.email} (Test Modu Aktif)` : previewContact.email}
+                                </span>
+                            </div>
+                            <div>
+                                <strong className="text-gray-300 font-sans">Konu:</strong>{" "}
+                                <span className="text-white font-sans font-medium">
+                                    {getEmailSubject(previewContact, previewLang)}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Status Alert Banner */}
+                        {sendSuccessMessage && (
+                            <div className="mx-6 mt-4 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-2">
+                                <span>{sendSuccessMessage}</span>
+                            </div>
+                        )}
+
+                        {sendErrorMessage && (
+                            <div className="mx-6 mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-semibold flex items-center gap-2">
+                                <span>❌ {sendErrorMessage}</span>
+                            </div>
+                        )}
 
                         {/* Modal Body: Rendered Preview */}
-                        <div className="p-6 overflow-y-auto space-y-4 bg-gray-950/30">
-                            <div className="bg-white text-gray-900 rounded-xl p-8 border-2 border-black max-w-xl mx-auto font-sans shadow-lg">
-                                {/* Letterhead */}
-                                <div className="border-b-2 border-black pb-3 mb-4">
-                                    <h1 className="text-2xl font-extrabold tracking-wide text-black m-0">ATA YAPI</h1>
-                                    <div className="text-[10px] font-bold text-gray-700 tracking-wider uppercase mt-1">
-                                        ALUMINUM &amp; GLASS SYSTEMS &bull; INSECT SCREENS &bull; WHOLESALE SUPPLY FROM TÜRKİYE
-                                    </div>
-                                </div>
-
-                                {previewContact.group === "alevi" ? (
-                                    <div className="text-xs text-gray-800 leading-relaxed space-y-3">
-                                        <p>Sayın <strong>{previewContact.name}</strong> Yetkilileri,</p>
-                                        <p>
-                                            Ben Ata Yapı adına iletişime geçiyorum. Alevi kimliğine mensup bir iş insanı olarak, Avrupa&apos;daki Alevi toplumuyla bağlarımızı güçlendirmeyi ve topluluğumuz içindeki esnaf ve girişimcilerle tanışmayı önemsiyorum.
-                                        </p>
-                                        <p>
-                                            Ata Yapı olarak Türkiye&apos;den Avrupa&apos;ya toptan ürün tedariki için iş ortaklıkları geliştirmek istiyoruz. Ürün gruplarımız arasında plise, menteşeli, sabit, stor ve sürme sineklikler ile pileli kapı sineklikleri, motorlu giyotin cam, cam balkon sistemleri, pergola ve tente sistemleri bulunmaktadır.
-                                        </p>
-                                        <p>
-                                            Federasyonunuza veya bağlı derneklerinize mensup camcı, PVC doğramacı, sineklikçi, pergola/tente montajcısı ya da yapı ürünleri toptancısı işletme sahipleri bulunuyorsa, uygun göreceğiniz kişilerle tanışmamıza aracılık edebilir misiniz?
-                                        </p>
-                                        <p>
-                                            Amacımız, karşılıklı güvene dayalı, uzun vadeli ve gerçek bir ticari dayanışma ağı oluşturmaktır.
-                                        </p>
-                                    </div>
-                                ) : (
-                                    <div className="text-xs text-gray-800 leading-relaxed space-y-3">
-                                        <p>Dear <strong>{previewContact.name}</strong> Team,</p>
-                                        <p>
-                                            My name is Ata Yapı Representative, and I am contacting you on behalf of <strong>Ata Yapı</strong>, a Türkiye-based manufacturer seeking to develop long-term wholesale supply partnerships across Europe.
-                                        </p>
-                                        <div>
-                                            <p className="font-bold text-black mb-1">Our specialized wholesale product lines include:</p>
-                                            <ul className="list-disc pl-5 space-y-1">
-                                                <li><strong>Insect Screen Systems:</strong> Pleated screens (plisse), hinged, fixed, roller, sliding screens and pleated screen doors.</li>
-                                                <li><strong>Glass Systems:</strong> Motorized guillotine glass, folding and sliding glass balconies.</li>
-                                                <li><strong>Outdoor Living:</strong> Pergola and motorized awning systems, pleated blinds.</li>
-                                            </ul>
-                                        </div>
-                                        <p>
-                                            We work closely with window and door specialists, PVC joinery manufacturers, glazing businesses, insect-screen installers, wholesalers, and distributors. Products are manufactured to custom dimensions in Türkiye with rigorous quality standards and supplied under competitive wholesale terms.
-                                        </p>
-                                        <p>
-                                            Would you be the right contact for purchasing or supplier partnerships? If relevant, please reply with the product categories you are interested in.
-                                        </p>
-                                    </div>
-                                )}
-
-                                {/* Call to action buttons preview */}
-                                <div className="flex flex-wrap items-center justify-center gap-3 my-6 pt-2">
-                                    <a
-                                        href="https://www.atayapı.site"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-block bg-black text-white text-[11px] font-bold uppercase tracking-wider px-5 py-2.5 rounded"
-                                    >
-                                        WEB SİTEMİZİ ZİYARET ET
-                                    </a>
-                                    <a
-                                        href={previewContact.whatsappUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-block bg-[#25D366] text-white text-[11px] font-bold uppercase tracking-wider px-5 py-2.5 rounded"
-                                    >
-                                        💬 WHATSAPP İLE YAZIŞIN
-                                    </a>
-                                </div>
-
-                                {/* Footer preview */}
-                                <div className="border-t border-gray-200 pt-3 text-[10px] text-gray-500 font-medium space-y-0.5">
-                                    <div><strong>TELEFON / WHATSAPP:</strong> +90 531 400 29 59</div>
-                                    <div><strong>E-POSTA:</strong> atayapicambalkon@gmail.com</div>
-                                    <div><strong>MERKEZ:</strong> İstanbul &amp; Balıkesir / Türkiye</div>
-                                    <div><strong>WEB:</strong> https://atayapı.site</div>
-                                </div>
-                            </div>
+                        <div className="p-6 overflow-y-auto space-y-4 bg-gray-950/30 flex-1">
+                            <div
+                                className="bg-white text-gray-900 rounded-xl p-6 border-2 border-black max-w-xl mx-auto font-sans shadow-lg"
+                                dangerouslySetInnerHTML={{
+                                    __html: getEmailHtml(previewContact, previewLang),
+                                }}
+                            />
                         </div>
 
-                        {/* Modal Footer */}
-                        <div className="p-4 border-t border-gray-800 bg-gray-900 flex items-center justify-between">
-                            <span className="text-xs text-gray-400">
-                                Gönderim Durumu: <span className="text-emerald-400 font-semibold">Başarıyla İletildi</span>
-                            </span>
-                            <div className="flex items-center gap-2">
-                                <a
-                                    href={previewContact.whatsappUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors flex items-center gap-1.5"
-                                >
-                                    <span>💬 WhatsApp Takibi Başlat</span>
-                                </a>
+                        {/* Modal Footer with Send Actions */}
+                        <div className="p-4 border-t border-gray-800 bg-gray-900 flex flex-col sm:flex-row items-center justify-between gap-3">
+                            <div className="text-xs text-gray-400">
+                                {isTestMode ? (
+                                    <span className="text-purple-400 font-medium">
+                                        Test modu: E-posta gerçek alıcıya gitmez, {sender?.email} adresinize iletilir.
+                                    </span>
+                                ) : (
+                                    <span>
+                                        Dil: <strong className="text-white">{previewLang === "tr" ? "Türkçe" : "İngilizce"}</strong> &bull; Alıcı: <strong className="text-white">{previewContact.email}</strong>
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className="flex items-center gap-2.5 w-full sm:w-auto">
                                 <button
                                     onClick={() => setPreviewContact(null)}
-                                    className="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-semibold transition-colors"
+                                    className="px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-semibold transition-colors"
                                 >
-                                    Kapat
+                                    Vazgeç
+                                </button>
+
+                                <button
+                                    onClick={handleSendSingleEmail}
+                                    disabled={isSending}
+                                    className={`px-5 py-2.5 rounded-xl text-white text-xs font-bold transition-all shadow-lg flex items-center justify-center gap-2 flex-1 sm:flex-initial cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
+                                        isTestMode
+                                            ? "bg-purple-600 hover:bg-purple-500 shadow-purple-600/30"
+                                            : "bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/30"
+                                    }`}
+                                >
+                                    {isSending ? (
+                                        <>
+                                            <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                            <span>Gmail ile Gönderiliyor...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span>{isTestMode ? "🧪 Test Maili Gönder" : `🚀 ${previewLang === "tr" ? "Türkçe" : "İngilizce"} Mail Gönder`}</span>
+                                        </>
+                                    )}
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Bulk Send Modal */}
+            {isBulkModalOpen && (
+                <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+                    <div className="bg-gray-900 border border-gray-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-5">
+                        <div className="flex items-center justify-between border-b border-gray-800 pb-4">
+                            <div>
+                                <h3 className="text-lg font-bold text-white">Toplu Otomatik E-Posta Gönderimi</h3>
+                                <p className="text-xs text-gray-400 mt-0.5">
+                                    Seçili {selectedIds.length} firmaya Gmail SMTP üzerinden otomatik gönderim
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => {
+                                    if (!bulkSending) setIsBulkModalOpen(false);
+                                }}
+                                disabled={bulkSending}
+                                className="w-8 h-8 rounded-lg bg-gray-800 text-gray-400 hover:text-white flex items-center justify-center"
+                            >
+                                ✕
+                            </button>
+                        </div>
+
+                        {/* Options */}
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-300 mb-2">
+                                    Gönderim Dili
+                                </label>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setBulkLang("tr")}
+                                        className={`p-3 rounded-xl border text-xs font-bold transition-all text-center ${
+                                            bulkLang === "tr"
+                                                ? "bg-emerald-600/20 border-emerald-500 text-emerald-300"
+                                                : "bg-gray-800/40 border-gray-700 text-gray-400 hover:text-white"
+                                        }`}
+                                    >
+                                        🇹🇷 Türkçe İhracat Şablonu
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setBulkLang("en")}
+                                        className={`p-3 rounded-xl border text-xs font-bold transition-all text-center ${
+                                            bulkLang === "en"
+                                                ? "bg-blue-600/20 border-blue-500 text-blue-300"
+                                                : "bg-gray-800/40 border-gray-700 text-gray-400 hover:text-white"
+                                        }`}
+                                    >
+                                        🇬🇧 English Wholesale Template
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Test mode checkbox */}
+                            <label className="flex items-center gap-2 p-3 rounded-xl bg-purple-950/20 border border-purple-800/40 text-xs text-purple-200 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    checked={bulkIsTest}
+                                    onChange={(e) => setBulkIsTest(e.target.checked)}
+                                    className="rounded border-gray-700 text-purple-600 focus:ring-0 cursor-pointer w-4 h-4"
+                                />
+                                <div>
+                                    <div className="font-semibold">🧪 Güvenli Test Modu</div>
+                                    <div className="text-[11px] text-purple-300/70">
+                                        Mailler alıcılara değil, kendi adresinize ({sender?.email}) gönderilir
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        {/* Progress */}
+                        {bulkProgress && (
+                            <div className="space-y-2 p-4 rounded-xl bg-gray-950 border border-gray-800">
+                                <div className="flex items-center justify-between text-xs">
+                                    <span className="text-gray-400">İlerleme: {bulkProgress.current}</span>
+                                    <span className="text-white font-bold">{bulkProgress.sent} / {bulkProgress.total}</span>
+                                </div>
+                                <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                                    <div
+                                        className="h-full bg-gradient-to-r from-blue-500 to-emerald-500 transition-all duration-300"
+                                        style={{ width: `${(bulkProgress.sent / bulkProgress.total) * 100}%` }}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Results */}
+                        {bulkResult && (
+                            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+                                ✓ Toplu gönderim tamamlandı! {bulkResult.successful} başarılı, {bulkResult.failed} başarısız.
+                            </div>
+                        )}
+
+                        {/* Footer buttons */}
+                        <div className="flex items-center justify-end gap-3 pt-2">
+                            <button
+                                onClick={() => setIsBulkModalOpen(false)}
+                                disabled={bulkSending}
+                                className="px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-semibold transition-colors"
+                            >
+                                {bulkResult ? "Kapat" : "İptal"}
+                            </button>
+
+                            {!bulkResult && (
+                                <button
+                                    onClick={handleStartBulkSend}
+                                    disabled={bulkSending || selectedIds.length === 0}
+                                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-95 text-white text-xs font-bold transition-all shadow-lg shadow-blue-600/30 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                                >
+                                    {bulkSending ? (
+                                        <>
+                                            <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                            <span>Gönderiliyor...</span>
+                                        </>
+                                    ) : (
+                                        <span>🚀 Gönderimi Başlat ({selectedIds.length} Firma)</span>
+                                    )}
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
