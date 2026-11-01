@@ -5,6 +5,10 @@ import { drizzle, NeonHttpDatabase } from 'drizzle-orm/neon-http';
 let db: NeonHttpDatabase | null = null;
 let sql: NeonQueryFunction<false, false> | null = null;
 
+export function isDbConfigured(): boolean {
+    return Boolean(process.env.DATABASE_URL && process.env.DATABASE_URL.trim() !== '');
+}
+
 export function getDb() {
     if (!db) {
         if (!process.env.DATABASE_URL) {

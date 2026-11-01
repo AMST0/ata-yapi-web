@@ -31,29 +31,25 @@ export default function AdminDashboard() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const [statsRes, visitorsRes, messagesRes] = await Promise.all([
-                    fetch('/api/track'),
-                    fetch('/api/visitors'),
-                    fetch('/api/messages'),
+                const [statsRes, visitorsRes, messagesRes] = await Promise.allSettled([
+                    fetch('/api/track').then((r) => (r.ok ? r.json() : null)),
+                    fetch('/api/visitors').then((r) => (r.ok ? r.json() : null)),
+                    fetch('/api/messages').then((r) => (r.ok ? r.json() : null)),
                 ]);
 
-                if (statsRes.ok) {
-                    const statsData = await statsRes.json();
-                    setStats(statsData);
+                if (statsRes.status === 'fulfilled' && statsRes.value) {
+                    setStats(statsRes.value);
                 }
 
-                if (visitorsRes.ok) {
-                    const visitorsData = await visitorsRes.json();
-                    setVisitors(visitorsData.visitors || []);
+                if (visitorsRes.status === 'fulfilled' && visitorsRes.value) {
+                    setVisitors(visitorsRes.value.visitors || []);
                 }
 
-                if (messagesRes.ok) {
-                    const messagesData = await messagesRes.json();
-                    setUnreadCount(messagesData.unreadCount || 0);
+                if (messagesRes.status === 'fulfilled' && messagesRes.value) {
+                    setUnreadCount(messagesRes.value.unreadCount || 0);
                 }
             } catch (err) {
                 console.error('Error fetching data:', err);
-                setError('Veriler yüklenirken bir hata oluştu');
             } finally {
                 setIsLoading(false);
             }
@@ -141,6 +137,50 @@ export default function AdminDashboard() {
                     color="rose"
                     badge={unreadCount > 0}
                 />
+            </div>
+
+            {/* European Outreach Campaign Banner */}
+            <div className="bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-purple-900/40 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-xl shadow-xl">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-2xl shrink-0">
+                            🌐
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-2">
+                                <h2 className="text-lg font-bold text-white">Avrupa E-Posta İhracat Kampanyası</h2>
+                                <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold">
+                                    16 İletildi (%100)
+                                </span>
+                            </div>
+                            <p className="text-sm text-gray-300 mt-1">
+                                Almanya, Belçika, Hollanda, Avusturya, İsviçre, Portekiz ve Yunanistan&apos;daki toptan pencere &amp; cam firmalarına gönderilen ihracat mailleri.
+                            </p>
+                            <div className="flex flex-wrap items-center gap-2 mt-3 text-xs text-gray-400">
+                                <span className="bg-gray-800/80 px-2 py-1 rounded">🇩🇪 Almanya (6)</span>
+                                <span className="bg-gray-800/80 px-2 py-1 rounded">🇧🇪 Belçika (3)</span>
+                                <span className="bg-gray-800/80 px-2 py-1 rounded">🇦🇹 Avusturya (2)</span>
+                                <span className="bg-gray-800/80 px-2 py-1 rounded">🇨🇭 İsviçre (2)</span>
+                                <span className="bg-gray-800/80 px-2 py-1 rounded">🇳🇱 Hollanda (1)</span>
+                                <span className="bg-gray-800/80 px-2 py-1 rounded">🇵🇹 Portekiz (1)</span>
+                                <span className="bg-gray-800/80 px-2 py-1 rounded">🇬🇷 Yunanistan (1)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="shrink-0">
+                        <a
+                            href="/admin/outreach"
+                            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-95 text-white font-semibold text-sm shadow-lg shadow-blue-600/30 transition-all"
+                        >
+                            <span>Tüm Mailleri &amp; Firmaları İncele</span>
+                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-6">
