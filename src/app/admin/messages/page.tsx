@@ -185,14 +185,26 @@ export default function MessagesPage() {
                                 >
                                     Ara
                                 </a>
-                                <a
-                                    href={`https://wa.me/90${selectedMessage.phone.replace(/\D/g, "").slice(-10)}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex-1 bg-[var(--accent)] text-white py-2 rounded-lg text-center font-medium hover:bg-[var(--accent-dark)] transition-colors"
-                                >
-                                    WhatsApp
-                                </a>
+                                {(() => {
+                                    const raw = selectedMessage.phone.replace(/\D/g, "");
+                                    const waNumber = raw.startsWith("00")
+                                        ? raw.slice(2)
+                                        : raw.startsWith("0")
+                                        ? "90" + raw.slice(1)
+                                        : raw.length === 10
+                                        ? "90" + raw
+                                        : raw;
+                                    return (
+                                        <a
+                                            href={`https://wa.me/${waNumber}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-lg text-center font-medium transition-colors"
+                                        >
+                                            WhatsApp
+                                        </a>
+                                    );
+                                })()}
                             </div>
                         </>
                     ) : (

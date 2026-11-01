@@ -77,6 +77,27 @@ export default function AdminOutreachPage() {
         return true;
     });
 
+    const [copiedAll, setCopiedAll] = useState(false);
+
+    const copyAllEmails = () => {
+        const emails = filteredContacts.map((c) => c.email).join(", ");
+        navigator.clipboard.writeText(emails);
+        setCopiedAll(true);
+        setTimeout(() => setCopiedAll(false), 2500);
+    };
+
+    const downloadCsv = () => {
+        const header = "Firma,E-posta,Grup,Ulke,Kategori,Dil,Durum\n";
+        const rows = filteredContacts.map((c) => `"${c.name}","${c.email}","${c.group}","${c.country}","${c.category}","${c.language}","${c.status}"`).join("\n");
+        const blob = new Blob(["\uFEFF" + header + rows], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `ata_yapi_avrupa_mailler_${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
@@ -106,14 +127,34 @@ export default function AdminOutreachPage() {
                     </p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2.5">
+                    <button
+                        onClick={copyAllEmails}
+                        className="px-3.5 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold transition-colors flex items-center gap-1.5 border border-gray-700"
+                    >
+                        {copiedAll ? (
+                            <span className="text-emerald-400">✓ 16 E-Posta Kopyalandı!</span>
+                        ) : (
+                            <>
+                                <span>📋 Tüm Mailleri Kopyala</span>
+                            </>
+                        )}
+                    </button>
+
+                    <button
+                        onClick={downloadCsv}
+                        className="px-3.5 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-semibold transition-colors flex items-center gap-1.5 border border-gray-700"
+                    >
+                        <span>📥 CSV İndir</span>
+                    </button>
+
                     <a
                         href="https://wa.me/905314002959"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-300 text-sm font-medium transition-colors flex items-center gap-2"
+                        className="px-4 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-300 text-xs font-semibold transition-colors flex items-center gap-1.5"
                     >
-                        <span>💬 WhatsApp Hattı (+90 531 400 29 59)</span>
+                        <span>💬 WhatsApp (+90 531 400 29 59)</span>
                     </a>
                 </div>
             </div>

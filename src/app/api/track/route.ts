@@ -4,14 +4,17 @@ import { trackVisitor, getVisitorStats } from '@/lib/db-operations';
 export async function POST(request: NextRequest) {
     try {
         const data = await request.json();
-        const ip = request.headers.get('x-forwarded-for') ||
-            request.headers.get('x-real-ip') ||
-            'unknown';
+        const clientIp = (request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown').split(',')[0].trim();
+
+        // Detect city & country automatically from hosting headers (Vercel, Cloudflare, etc.)
+        const rawCity = request.headers.get('x-vercel-ip-city') || request.headers.get('cf-ipcity');
+        const detectedCity = data.city || (rawCity ? decodeURIComponent(rawCity) : undefined);
+        const detectedCountry = data.country || request.headers.get('x-vercel-ip-country') || request.headers.get('cf-ipcountry') || undefined;
 
         const visitor = await trackVisitor({
-            ip: ip.split(',')[0].trim(),
-            city: data.city,
-            country: data.country,
+            ip: clientIp,
+            city: detectedCity,
+            country: detectedCountry,
             browser: data.browser,
             device: data.device,
             os: data.os,

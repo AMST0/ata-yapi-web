@@ -91,6 +91,7 @@ export const metadata: Metadata = {
 };
 
 import { LanguageProvider } from "@/lib/i18n";
+import VisitorTracker from "@/components/VisitorTracker";
 
 export default function RootLayout({
   children,
@@ -101,6 +102,7 @@ export default function RootLayout({
     <html lang="tr" className={`${inter.variable} ${outfit.variable}`}>
       <body className="min-h-screen flex flex-col">
         <GoogleAnalytics />
+        <VisitorTracker />
         <LanguageProvider>
           {children}
         </LanguageProvider>
