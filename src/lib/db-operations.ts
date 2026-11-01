@@ -244,16 +244,6 @@ export async function getPageViewStats() {
     localStore.pageViews.forEach((pv) => {
         counts[pv.path] = (counts[pv.path] || 0) + 1;
     });
-    // Add default counts if empty
-    if (Object.keys(counts).length === 0) {
-        counts['/'] = 450;
-        counts['/giyotin-cam'] = 310;
-        counts['/cam-balkon'] = 280;
-        counts['/bayi-kurumsal'] = 195;
-        counts['/sineklik'] = 140;
-        counts['/fiyatlandirma'] = 110;
-        counts['/iletisim'] = 85;
-    }
     return counts;
 }
 
@@ -268,7 +258,7 @@ export async function getTotalPageViews() {
         }
     }
 
-    return Math.max(localStore.pageViews.length, 1570);
+    return localStore.pageViews.length;
 }
 
 // ============ ANALYTICS ============
