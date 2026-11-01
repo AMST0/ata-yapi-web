@@ -5,17 +5,36 @@ import Link from "next/link";
 import Image from "next/image";
 
 const navLinks = [
-    { href: "/", label: "Ana Sayfa" },
+    {
+        href: "/giyotin-cam",
+        label: "Giyotin Sistemler",
+        children: [
+            { href: "/giyotin-cam", label: "Giyotin Cam Sistemleri" },
+            { href: "/giyotin-cam/motorlu", label: "Motorlu Giyotin" },
+            { href: "/giyotin-cam/uygulamalar", label: "Uygulamalar" },
+            { href: "/giyotin-cam/imalat", label: "İmalat & Montaj" },
+        ],
+    },
+    { href: "/teleskopik-garaj", label: "Teleskopik Garaj" },
     { href: "/cam-balkon", label: "Cam Balkon" },
-    { href: "/sineklik", label: "Sineklik" },
-    { href: "/tente", label: "Tente" },
-    { href: "/pimapen-tamir", label: "Pimapen" },
+    {
+        href: "#",
+        label: "Diğer Hizmetler",
+        children: [
+            { href: "/sineklik", label: "Sineklik" },
+            { href: "/tente", label: "Tente" },
+            { href: "/pimapen-tamir", label: "Pimapen" },
+        ],
+    },
+    { href: "/bayi-kurumsal", label: "Bayi & Kurumsal" },
     { href: "/fiyatlandirma", label: "Fiyatlandırma" },
     { href: "/iletisim", label: "İletişim" },
 ];
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+    const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
 
     return (
         <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
@@ -34,15 +53,60 @@ export default function Header() {
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <ul className="hidden lg:flex items-center gap-8">
+                    <ul className="hidden lg:flex items-center gap-6">
                         {navLinks.map((link) => (
-                            <li key={link.href}>
-                                <Link
-                                    href={link.href}
-                                    className="link-hover text-gray-700 hover:text-[var(--primary)] font-medium text-sm"
-                                >
-                                    {link.label}
-                                </Link>
+                            <li
+                                key={link.label}
+                                className="relative"
+                                onMouseEnter={() => link.children && setOpenDropdown(link.label)}
+                                onMouseLeave={() => setOpenDropdown(null)}
+                            >
+                                {link.children ? (
+                                    <>
+                                        <button
+                                            className="link-hover flex items-center gap-1 text-gray-700 hover:text-[var(--primary)] font-medium text-sm transition-colors"
+                                            aria-expanded={openDropdown === link.label}
+                                            aria-haspopup="true"
+                                        >
+                                            {link.label}
+                                            <svg
+                                                className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === link.label ? "rotate-180" : ""}`}
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            >
+                                                <polyline points="6 9 12 15 18 9" />
+                                            </svg>
+                                        </button>
+                                        {/* Dropdown */}
+                                        <div
+                                            className={`absolute top-full left-0 pt-2 transition-all duration-200 ${openDropdown === link.label
+                                                ? "opacity-100 visible translate-y-0"
+                                                : "opacity-0 invisible -translate-y-2"
+                                                }`}
+                                        >
+                                            <div className="bg-white rounded-xl shadow-xl border border-gray-100 py-2 min-w-[200px]">
+                                                {link.children.map((child) => (
+                                                    <Link
+                                                        key={child.href}
+                                                        href={child.href}
+                                                        className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[var(--primary)] transition-colors"
+                                                    >
+                                                        {child.label}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <Link
+                                        href={link.href}
+                                        className="link-hover text-gray-700 hover:text-[var(--primary)] font-medium text-sm"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                )}
                             </li>
                         ))}
                     </ul>
@@ -100,19 +164,63 @@ export default function Header() {
 
                 {/* Mobile Navigation */}
                 <div
-                    className={`lg:hidden overflow-hidden transition-all duration-300 ${isMenuOpen ? "max-h-96 pb-4" : "max-h-0"
+                    className={`lg:hidden overflow-hidden transition-all duration-300 ${isMenuOpen ? "max-h-[600px] pb-4" : "max-h-0"
                         }`}
                 >
-                    <ul className="flex flex-col gap-2">
+                    <ul className="flex flex-col gap-1">
                         {navLinks.map((link) => (
-                            <li key={link.href}>
-                                <Link
-                                    href={link.href}
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className="block py-2 px-4 text-gray-700 hover:bg-gray-50 hover:text-[var(--primary)] rounded-lg transition-colors"
-                                >
-                                    {link.label}
-                                </Link>
+                            <li key={link.label}>
+                                {link.children ? (
+                                    <>
+                                        <button
+                                            onClick={() =>
+                                                setOpenMobileAccordion(
+                                                    openMobileAccordion === link.label ? null : link.label
+                                                )
+                                            }
+                                            className="w-full flex items-center justify-between py-2 px-4 text-gray-700 hover:bg-gray-50 hover:text-[var(--primary)] rounded-lg transition-colors"
+                                        >
+                                            <span>{link.label}</span>
+                                            <svg
+                                                className={`w-4 h-4 transition-transform duration-200 ${openMobileAccordion === link.label ? "rotate-180" : ""
+                                                    }`}
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            >
+                                                <polyline points="6 9 12 15 18 9" />
+                                            </svg>
+                                        </button>
+                                        <div
+                                            className={`overflow-hidden transition-all duration-300 ${openMobileAccordion === link.label
+                                                ? "max-h-60"
+                                                : "max-h-0"
+                                                }`}
+                                        >
+                                            <div className="pl-6 space-y-1 pb-2">
+                                                {link.children.map((child) => (
+                                                    <Link
+                                                        key={child.href}
+                                                        href={child.href}
+                                                        onClick={() => setIsMenuOpen(false)}
+                                                        className="block py-1.5 px-4 text-sm text-gray-600 hover:text-[var(--primary)] rounded-lg transition-colors"
+                                                    >
+                                                        {child.label}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <Link
+                                        href={link.href}
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="block py-2 px-4 text-gray-700 hover:bg-gray-50 hover:text-[var(--primary)] rounded-lg transition-colors"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                )}
                             </li>
                         ))}
                         <li>

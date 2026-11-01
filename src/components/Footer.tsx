@@ -4,20 +4,35 @@ import Link from "next/link";
 import Image from "next/image";
 import { trackWhatsAppClick, trackPhoneClick } from "@/lib/analytics";
 
-const quickLinks = [
+const productLinks = [
+    { href: "/giyotin-cam", label: "Giyotin Cam Sistemleri" },
+    { href: "/teleskopik-garaj", label: "Teleskopik Garaj" },
     { href: "/cam-balkon", label: "Cam Balkon" },
     { href: "/sineklik", label: "Sineklik" },
     { href: "/tente", label: "Tente" },
     { href: "/pimapen-tamir", label: "Pimapen" },
+];
+
+const quickLinks = [
     { href: "/fiyatlandirma", label: "Fiyatlandırma" },
+    { href: "/bayi-kurumsal", label: "Bayi & Kurumsal Satış" },
     { href: "/iletisim", label: "İletişim" },
+];
+
+const regionLinks = [
+    { href: "/bolge/balikesir-giyotin-cam", label: "Balıkesir" },
+    { href: "/bolge/edremit-giyotin-cam", label: "Edremit" },
+    { href: "/bolge/altinoluk-giyotin-cam", label: "Altınoluk" },
+    { href: "/bolge/izmir-giyotin-cam", label: "İzmir" },
+    { href: "/bolge/canakkale-giyotin-cam", label: "Çanakkale" },
+    { href: "/bolge/maltepe-cam-balkon", label: "İstanbul / Maltepe" },
 ];
 
 export default function Footer() {
     return (
         <footer className="bg-gray-900 text-gray-300 pt-16 pb-8">
             <div className="container">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10">
                     {/* Company Info */}
                     <div className="lg:col-span-2">
                         <Image
@@ -28,9 +43,9 @@ export default function Footer() {
                             className="h-12 w-auto mb-4 brightness-0 invert"
                         />
                         <p className="text-gray-400 mb-4 max-w-md">
-                            Maltepe&apos;de cam balkon, sineklik ve tente sistemlerinde
-                            ölçüye özel üretim ve profesyonel montaj hizmeti sunuyoruz.
-                            Ücretsiz keşif için bize ulaşın.
+                            Giyotin cam sistemleri, teleskopik garaj, cam balkon, sineklik ve tente
+                            çözümlerinde ölçüye özel üretim ve profesyonel montaj hizmeti sunuyoruz.
+                            Balıkesir, İzmir, Çanakkale ve İstanbul genelinde ücretsiz keşif.
                         </p>
                         <div className="flex gap-4">
                             <a
@@ -72,15 +87,45 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Quick Links */}
+                    {/* Products & Services */}
+                    <div>
+                        <h3 className="text-white font-semibold mb-4">Ürün & Hizmetler</h3>
+                        <ul className="space-y-2">
+                            {productLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-gray-400 hover:text-white transition-colors"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Quick Links + Regions */}
                     <div>
                         <h3 className="text-white font-semibold mb-4">Hızlı Bağlantılar</h3>
-                        <ul className="space-y-2">
+                        <ul className="space-y-2 mb-6">
                             {quickLinks.map((link) => (
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
                                         className="text-gray-400 hover:text-white transition-colors"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                        <h3 className="text-white font-semibold mb-3">Hizmet Bölgeleri</h3>
+                        <ul className="space-y-2">
+                            {regionLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-gray-400 hover:text-white transition-colors text-sm"
                                     >
                                         {link.label}
                                     </Link>
@@ -156,4 +201,3 @@ export default function Footer() {
         </footer>
     );
 }
-

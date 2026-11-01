@@ -15,6 +15,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 1,
         },
         {
+            url: `${baseUrl}/giyotin-cam`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
+            priority: 0.95,
+        },
+        {
+            url: `${baseUrl}/teleskopik-garaj`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
             url: `${baseUrl}/cam-balkon`,
             lastModified: currentDate,
             changeFrequency: 'weekly',
@@ -24,13 +36,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
             url: `${baseUrl}/sineklik`,
             lastModified: currentDate,
             changeFrequency: 'weekly',
-            priority: 0.9,
+            priority: 0.85,
         },
         {
             url: `${baseUrl}/tente`,
             lastModified: currentDate,
             changeFrequency: 'weekly',
-            priority: 0.9,
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/pimapen-tamir`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/bayi-kurumsal`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.8,
         },
         {
             url: `${baseUrl}/fiyatlandirma`,
@@ -44,11 +68,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.8,
         },
+    ];
+
+    // Giyotin cam sub-pages
+    const giyotinSubPages: MetadataRoute.Sitemap = [
         {
-            url: `${baseUrl}/pimapen-tamir`,
+            url: `${baseUrl}/giyotin-cam/motorlu`,
             lastModified: currentDate,
-            changeFrequency: 'weekly',
-            priority: 0.9,
+            changeFrequency: 'monthly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/giyotin-cam/uygulamalar`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/giyotin-cam/imalat`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.85,
         },
     ];
 
@@ -128,6 +168,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     return [
         ...staticPages,
+        ...giyotinSubPages,
         ...camBalkonSubPages,
         ...sineklikSubPages,
         ...tenteSubPages,

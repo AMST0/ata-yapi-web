@@ -4,8 +4,8 @@ export default function JsonLd() {
     const localBusinessSchema = {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "name": "Ata Yapı Maltepe",
-        "description": "Maltepe'de cam balkon, sineklik, tente, pimapen montajı ve tamiri, giyotin cam balkon ve silinebilir cam sistemlerinde ölçüye özel üretim ve ücretsiz keşif sunar.",
+        "name": "Ata Yapı",
+        "description": "Giyotin cam sistemleri, teleskopik garaj, cam balkon, sineklik, tente ve pimapen çözümlerinde ölçüye özel üretim, profesyonel montaj ve ücretsiz keşif. Balıkesir, İzmir, Çanakkale ve İstanbul genelinde hizmet. Bayi ve kurumsal satış.",
         "image": "https://www.xn--atayap-u9a.site/logo.png",
         "@id": "https://www.xn--atayap-u9a.site",
         "url": "https://www.xn--atayap-u9a.site",
@@ -38,6 +38,30 @@ export default function JsonLd() {
         "areaServed": [
             {
                 "@type": "City",
+                "name": "Balıkesir"
+            },
+            {
+                "@type": "City",
+                "name": "Edremit, Balıkesir"
+            },
+            {
+                "@type": "City",
+                "name": "Altınoluk, Balıkesir"
+            },
+            {
+                "@type": "City",
+                "name": "Akçay, Balıkesir"
+            },
+            {
+                "@type": "City",
+                "name": "İzmir"
+            },
+            {
+                "@type": "City",
+                "name": "Çanakkale"
+            },
+            {
+                "@type": "City",
                 "name": "Maltepe, İstanbul"
             },
             {
@@ -61,8 +85,24 @@ export default function JsonLd() {
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "Service",
+                        "name": "Giyotin Cam Sistemleri",
+                        "description": "Giyotin cam balkon, motorlu giyotin sistem, dikey sürgülü cam, giyotin cam teras ve kış bahçesi çözümleri. Ticari ve konut tipi uygulamalar."
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Teleskopik Garaj Sistemleri",
+                        "description": "Teleskopik açılır kapanır garaj, katlanır garaj sistemi, araç koruma çözümleri. Projeye özel malzeme ve sistem seçenekleri."
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
                         "name": "Cam Balkon Sistemleri",
-                        "description": "Katlanır cam balkon, sürme cam balkon, giyotin cam balkon, silinebilir cam balkon ve ısı camlı cam balkon sistemleri"
+                        "description": "Katlanır cam balkon, sürme cam balkon, ısı camlı cam balkon sistemleri"
                     }
                 },
                 {

@@ -1,6 +1,10 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const getResendClient = () => {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) return null;
+    return new Resend(apiKey);
+};
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://atayapi.com';
 const LOGO_URL = `${APP_URL}/logo.png`;
@@ -137,6 +141,12 @@ export async function sendAdminNotification(type: 'message' | 'quote', data: Not
                 </div>
             </div>
         `;
+    }
+
+    const resend = getResendClient();
+    if (!resend) {
+        console.warn('RESEND_API_KEY is not set. Email notification skipped.');
+        return { success: false, error: 'API Key missing' };
     }
 
     try {

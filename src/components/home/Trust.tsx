@@ -3,8 +3,8 @@ import Image from "next/image";
 const stats = [
     { value: "10+", label: "Yıllık Tecrübe", icon: "📅" },
     { value: "500+", label: "Tamamlanan Proje", icon: "🏠" },
+    { value: "3+", label: "İlde Hizmet", icon: "📍" },
     { value: "2 Yıl", label: "Garanti", icon: "🛡️" },
-    { value: "%100", label: "Müşteri Memnuniyeti", icon: "⭐" },
 ];
 
 const features = [
@@ -125,9 +125,9 @@ export default function Trust() {
                             Güvenilir & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">Profesyonel</span> Hizmet
                         </h2>
                         <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                            Maltepe ve çevresinde 10 yılı aşkın süredir cam balkon, sineklik ve tente
-                            sistemlerinde uzmanlaşmış ekibimizle yanınızdayız. Kaliteden ödün vermeden
-                            uygun fiyatlar sunuyoruz.
+                            Balıkesir, İzmir, Çanakkale ve İstanbul genelinde giyotin cam sistemleri,
+                            teleskopik garaj, cam balkon ve daha fazlasında 10 yılı aşkın tecrübeyle
+                            yanınızdayız. Kaliteden ödün vermeden uygun fiyatlar sunuyoruz.
                         </p>
 
                         {/* Features Grid */}

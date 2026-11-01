@@ -4,29 +4,39 @@ import { useState } from "react";
 
 const faqItems = [
     {
+        question: "Giyotin cam sistemi nedir ve nasıl çalışır?",
+        answer:
+            "Giyotin cam sistemi, cam panellerin dikey olarak yukarı-aşağı kayarak açılıp kapandığı modern bir cam balkon sistemidir. Motorlu veya manuel olarak kullanılabilir. Paneller tamamen yukarı kaldırılarak %100 açık alan elde edilir.",
+    },
+    {
+        question: "Teleskopik garaj nedir?",
+        answer:
+            "Teleskopik garaj, teleskopik mekanizma ile açılıp kapanabilen, aracınızı yağmur, güneş, kar ve diğer dış etkenlerden koruyan modern bir garaj çözümüdür. Projeye ve müşteri talebine göre farklı malzeme ve sistem seçenekleri sunulmaktadır.",
+    },
+    {
         question: "Cam balkon fiyatları nasıl belirleniyor?",
         answer:
             "Cam balkon fiyatları; balkon ölçüleri, tercih edilen sistem (katlanır veya sürme), cam tipi, aksesuar seçenekleri ve montaj koşullarına göre belirlenir. Yerinde ücretsiz keşif sonrası size özel fiyat teklifi sunuyoruz.",
     },
     {
-        question: "Cam balkon montajı ne kadar sürer?",
+        question: "Hangi bölgelere hizmet veriyorsunuz?",
         answer:
-            "Standart bir cam balkon montajı genellikle 1 iş günü içinde tamamlanır. Ancak balkon boyutu ve sistem karmaşıklığına göre bu süre değişebilir.",
+            "Balıkesir (Edremit, Altınoluk, Akçay, Güre, Zeytinli), İzmir, Çanakkale ve İstanbul (Maltepe, Kartal, Pendik, Kadıköy) bölgelerinde giyotin cam, teleskopik garaj, cam balkon, sineklik ve tente hizmeti veriyoruz.",
     },
     {
-        question: "Cam balkon garantisi ne kadar?",
+        question: "Bayi veya kurumsal satış yapıyor musunuz?",
         answer:
-            "Tüm cam balkon sistemlerimiz 2 yıl üretici garantisi kapsamındadır. Ayrıca montaj sonrası teknik destek hizmetimiz devam eder.",
+            "Evet, bölgesel bayilik, toplu alım, proje bazlı satış ve işletmelere özel çözümler sunuyoruz. Bayi başvurusu veya kurumsal teklif için Bayi & Kurumsal sayfamızdan iletişime geçebilirsiniz.",
     },
     {
-        question: "Sineklik sistemlerinde hangi modeller var?",
+        question: "Montaj süresi ne kadar?",
         answer:
-            "Plise (akordiyon) sineklik, menteşeli kapı sineliği, sürme sineklik ve stor sineklik modellerimiz mevcuttur. Her pencere ve kapı tipine uygun çözümler sunuyoruz.",
+            "Standart bir cam balkon veya giyotin cam montajı genellikle 1 iş günü içinde tamamlanır. Büyük veya özel tasarım gerektiren projeler 2-3 güne uzayabilir. Keşif sonrasında size net süre bilgisi veririz.",
     },
     {
-        question: "Tente sistemleri motorlu mu?",
+        question: "Garanti süresi ne kadardır?",
         answer:
-            "Hem manuel hem de motorlu tente sistemleri sunuyoruz. Motorlu sistemler uzaktan kumanda ile kontrol edilebilir ve opsiyonel olarak güneş/rüzgar sensörü eklenebilir.",
+            "Tüm sistemlerimiz 2 yıl üretici garantisi kapsamındadır. Montaj sonrası teknik destek hizmetimiz devam eder. Garanti kapsamında oluşabilecek üretim ve montaj kaynaklı sorunlar ücretsiz olarak giderilir.",
     },
     {
         question: "Ücretsiz keşif nasıl talep edebilirim?",

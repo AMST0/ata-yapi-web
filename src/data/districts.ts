@@ -14,7 +14,7 @@ export interface DistrictPage {
     slug: string;
     district: string;
     districtSlug: string;
-    service: 'cam-balkon' | 'sineklik' | 'tente';
+    service: 'cam-balkon' | 'sineklik' | 'tente' | 'giyotin-cam' | 'teleskopik-garaj';
     serviceTitle: string;
     serviceHref: string;
     title: string;
@@ -840,6 +840,281 @@ export const districtPages: DistrictPage[] = [
     kadıkoyTente,
 ];
 
+// ========================
+// Balıkesir Bölge Sayfaları
+// ========================
+
+const balikesirGiyotinCam: DistrictPage = {
+    slug: 'balikesir-giyotin-cam',
+    district: 'Balıkesir',
+    districtSlug: 'balikesir',
+    service: 'giyotin-cam',
+    serviceTitle: 'Giyotin Cam',
+    serviceHref: '/giyotin-cam',
+    title: 'Balıkesir Giyotin Cam',
+    metaTitle: 'Balıkesir Giyotin Cam Sistemleri | Ata Yapı - Ücretsiz Keşif',
+    metaDescription: 'Balıkesir\'de giyotin cam sistemleri montajı. Motorlu ve manuel giyotin cam balkon, teras ve kış bahçesi çözümleri. Edremit, Altınoluk, Akçay bölgelerinde hizmet. Ücretsiz keşif.',
+    h1: 'Balıkesir Giyotin Cam Sistemleri',
+    intro: 'Balıkesir\'in doğal güzellikleri ve ılıman iklimiyle yaşam alanlarınızı giyotin cam sistemleri ile dönüştürün. Ata Yapı olarak Balıkesir genelinde — Edremit, Altınoluk, Akçay, Güre ve Zeytinli başta olmak üzere — dikey sürgülü giyotin cam montajı gerçekleştiriyoruz. Ege kıyısındaki yazlık evler, villalar ve ticari mekanlar için ideal çözümler sunuyoruz.',
+    valueProposition: [
+        'Balıkesir ve tüm ilçelerinde ücretsiz keşif ve ölçüm',
+        'Deniz kenarı projelere uygun korozyona dayanıklı malzemeler',
+        'Motorlu ve manuel giyotin cam seçenekleri',
+        'Ege iklimi için optimize edilmiş yalıtım çözümleri',
+        '2 yıl montaj ve malzeme garantisi',
+    ],
+    systemSelection: {
+        title: 'Balıkesir\'de Hangi Giyotin Cam Sistemi Uygun?',
+        description: 'Mekanınızın konumuna, büyüklüğüne ve kullanım amacınıza göre en uygun giyotin cam sistemini belirliyoruz.',
+        options: [
+            {
+                name: 'Manuel Giyotin Cam',
+                description: 'Elle yukarı-aşağı açılıp kapanan ekonomik giyotin cam sistemi.',
+                pros: ['Ekonomik fiyat', 'Basit mekanizma', 'Kolay bakım', '%100 açıklık'],
+            },
+            {
+                name: 'Motorlu Giyotin Cam',
+                description: 'Elektrik motorlu, uzaktan kumandalı konforlu giyotin cam sistemi.',
+                pros: ['Tek tuş kullanım', 'Uzaktan kumanda', 'Sensör opsiyonu', 'Premium konfor'],
+            },
+            {
+                name: 'Isı Camlı Giyotin',
+                description: 'Çift cam ile üstün ısı ve ses yalıtımlı giyotin cam sistemi.',
+                pros: ['Enerji tasarrufu', 'Ses yalıtımı', '4 mevsim kullanım', 'Premium kalite'],
+            },
+        ],
+    },
+    pricingNote: 'Giyotin cam fiyatları alanın ölçülerine, cam tipine, profil kalitesine ve sisteme (manuel/motorlu) göre değişir. Balıkesir\'de ücretsiz keşif ile size özel fiyat teklifi sunuyoruz.',
+    faqs: [
+        {
+            question: 'Balıkesir\'de giyotin cam montajı yapıyor musunuz?',
+            answer: 'Evet, Balıkesir il genelinde ve özellikle Edremit, Altınoluk, Akçay, Güre, Zeytinli bölgelerinde giyotin cam montajı yapıyoruz. Ücretsiz keşif için bize ulaşın.',
+        },
+        {
+            question: 'Giyotin cam deniz kenarında dayanıklı mıdır?',
+            answer: 'Evet, Ege kıyısındaki projelerde korozyona dayanıklı alüminyum profiller ve özel kaplama kullanıyoruz. Tuzlu deniz havasına karşı ekstra koruma sağlanır.',
+        },
+        {
+            question: 'Yazlık evlere giyotin cam yaptırabilir miyim?',
+            answer: 'Evet, yazlık evler, villalar ve bahçeli konutlar giyotin cam sistemi için çok uygun alanlardır. Teras, balkon ve kış bahçesi kapatma yapılabilir.',
+        },
+        {
+            question: 'Motorlu giyotin cam sistemi var mı?',
+            answer: 'Evet, motorlu giyotin cam sistemleri uzaktan kumanda ile kontrol edilebilir. İsteğe bağlı yağmur sensörü ve zamanlayıcı eklenebilir.',
+        },
+    ],
+};
+
+const edremitGiyotinCam: DistrictPage = {
+    slug: 'edremit-giyotin-cam',
+    district: 'Edremit',
+    districtSlug: 'edremit',
+    service: 'giyotin-cam',
+    serviceTitle: 'Giyotin Cam',
+    serviceHref: '/giyotin-cam',
+    title: 'Edremit Giyotin Cam',
+    metaTitle: 'Edremit Giyotin Cam Sistemleri | Ata Yapı - Motorlu & Manuel',
+    metaDescription: 'Edremit\'te giyotin cam sistemi montajı. Altınoluk, Akçay, Güre, Zeytinli ve Kadıköy\'de hizmet. Dikey sürgülü cam paneller ile teras ve balkon kapatma. Ücretsiz keşif.',
+    h1: 'Edremit Giyotin Cam Sistemleri',
+    intro: 'Edremit Körfezi\'nin eşsiz doğası ve ılıman Akdeniz iklimi, balkon, teras ve dış mekan alanlarını yıl boyunca kullanılabilir kılar. Ata Yapı olarak Edremit ilçesi ve bağlı mahallelerde — Altınoluk, Akçay, Güre, Zeytinli, Kadıköy — giyotin cam sistemleri kuruyoruz. Zeytinlikler arasındaki villalardan sahil kenarındaki yazlık konutlara kadar her projeye özel çözüm sunuyoruz.',
+    valueProposition: [
+        'Edremit ve tüm mahallelerinde ücretsiz keşif',
+        'Zeytinlik ve sahil bölgelerine uygun özel tasarımlar',
+        'Edremit Körfezi iklimine uygun malzeme seçimi',
+        'Yazlık ve müstakil konutlarda uzman montaj',
+        'Hızlı teslimat ve profesyonel kurulum',
+    ],
+    systemSelection: {
+        title: 'Edremit\'te Hangi Giyotin Cam Uygun?',
+        description: 'Manzaraya açık balkon ve teraslarınız için en uygun giyotin cam tipini birlikte belirleyelim.',
+        options: [
+            {
+                name: 'Standart Giyotin Cam',
+                description: 'Tek cam, alüminyum profil ile ekonomik giyotin cam çözümü.',
+                pros: ['Uygun fiyat', 'Hızlı montaj', 'Kolay kullanım', 'Manzara koruma'],
+            },
+            {
+                name: 'Motorlu Giyotin Cam',
+                description: 'Elektrik motorlu, uzaktan kumandalı premium giyotin cam.',
+                pros: ['Konforlu kullanım', 'Uzaktan kumanda', 'Yağmur sensörü', 'Otomatik kapanma'],
+            },
+            {
+                name: 'Panoramik Giyotin',
+                description: 'Geniş cam panellerle kesintisiz manzara deneyimi.',
+                pros: ['Geniş açıklık', 'Minimal profil', 'Panoramik görüş', 'Premium estetik'],
+            },
+        ],
+    },
+    pricingNote: 'Edremit bölgesinde giyotin cam fiyatları projeye göre değişir. Ücretsiz keşif ile ölçüm alıp size özel teklif hazırlıyoruz.',
+    faqs: [
+        {
+            question: 'Edremit\'te giyotin cam montajı kaç gün sürer?',
+            answer: 'Standart bir balkon veya teras giyotin cam montajı 1-2 gün içinde tamamlanır. Büyük projelerde süre 2-3 güne uzayabilir.',
+        },
+        {
+            question: 'Altınoluk ve Akçay\'da hizmet veriyor musunuz?',
+            answer: 'Evet, Edremit\'e bağlı tüm mahallelerde — Altınoluk, Akçay, Güre, Zeytinli, Kadıköy — giyotin cam montajı yapıyoruz.',
+        },
+        {
+            question: 'Zeytinliklerdeki villalara giyotin cam uygulanabilir mi?',
+            answer: 'Evet, Edremit bölgesindeki villa ve müstakil konutlarda teras, kış bahçesi ve balkon kapatma projeleri için giyotin cam sistemi idealdir.',
+        },
+    ],
+};
+
+const altinolukGiyotinCam: DistrictPage = {
+    slug: 'altinoluk-giyotin-cam',
+    district: 'Altınoluk',
+    districtSlug: 'altinoluk',
+    service: 'giyotin-cam',
+    serviceTitle: 'Giyotin Cam',
+    serviceHref: '/giyotin-cam',
+    title: 'Altınoluk Giyotin Cam',
+    metaTitle: 'Altınoluk Giyotin Cam Sistemleri | Ata Yapı - Ücretsiz Keşif',
+    metaDescription: 'Altınoluk\'ta giyotin cam balkon ve teras kapatma. Sahil konumuna uygun korozyona dayanıklı profiller. Ücretsiz keşif ile özel fiyat teklifi alın.',
+    h1: 'Altınoluk Giyotin Cam Sistemleri',
+    intro: 'Altınoluk\'un turkuaz denizi ve yeşil Kazdağları manzarası, giyotin cam sistemi ile balkon ve teraslarınızdan kesintisiz olarak keyfini çıkarmanızı sağlar. Sahil kenarındaki yazlık konutlardan dağ eteklerindeki villalara kadar Altınoluk genelinde giyotin cam montajı hizmeti veriyoruz.',
+    valueProposition: [
+        'Altınoluk sahil bölgesine uygun tuzlu havaya dayanıklı profiller',
+        'Kazdağları manzarasını koruyacak panoramik cam seçenekleri',
+        'Yazlık ve daimi konutlar için uzman montaj',
+        'Ücretsiz keşif ve ölçüm hizmeti',
+        'Profesyonel montaj ve 2 yıl garanti',
+    ],
+    systemSelection: {
+        title: 'Altınoluk\'ta Giyotin Cam Seçenekleri',
+        description: 'Sahil konumunuza ve ihtiyacınıza göre en uygun giyotin cam sistemini seçin.',
+        options: [
+            {
+                name: 'Sahil Tipi Giyotin',
+                description: 'Tuzlu havaya dayanıklı özel kaplama ve profiller ile sahil için tasarlanmış sistem.',
+                pros: ['Korozyon direnci', 'UV koruması', 'Deniz manzarası', 'Uzun ömür'],
+            },
+            {
+                name: 'Motorlu Premium',
+                description: 'Motorlu, uzaktan kumandalı premium giyotin cam sistemi.',
+                pros: ['Konfor', 'Otomasyon', 'Yağmur sensörü', 'Premium kalite'],
+            },
+        ],
+    },
+    pricingNote: 'Altınoluk bölgesinde giyotin cam fiyatları projeye göre özelleştirilir. Yerinde ücretsiz keşif sonrası net fiyat teklifi sunuyoruz.',
+    faqs: [
+        {
+            question: 'Altınoluk\'ta deniz kenarında giyotin cam dayanıklı mıdır?',
+            answer: 'Evet, sahil bölgelerinde özel korozyona dayanıklı alüminyum profiller ve kaplamalar kullanıyoruz. Tuzlu deniz havasına karşı ekstra koruma sağlanır.',
+        },
+        {
+            question: 'Yazlık evime giyotin cam yaptırabilir miyim?',
+            answer: 'Evet, yazlık konutlar için giyotin cam çok popüler bir seçenektir. Yaz aylarında tamamen açarak balkonu kullanabilir, kışın kapatarak koruma sağlayabilirsiniz.',
+        },
+    ],
+};
+
+const izmirGiyotinCam: DistrictPage = {
+    slug: 'izmir-giyotin-cam',
+    district: 'İzmir',
+    districtSlug: 'izmir',
+    service: 'giyotin-cam',
+    serviceTitle: 'Giyotin Cam',
+    serviceHref: '/giyotin-cam',
+    title: 'İzmir Giyotin Cam',
+    metaTitle: 'İzmir Giyotin Cam Sistemleri | Ata Yapı - Motorlu & Manuel',
+    metaDescription: 'İzmir\'de giyotin cam sistemleri montajı. Dikey sürgülü cam paneller ile balkon, teras ve kış bahçesi çözümleri. İzmir genelinde ücretsiz keşif.',
+    h1: 'İzmir Giyotin Cam Sistemleri',
+    intro: 'İzmir\'in Ege kıyısındaki ılıman iklimi ve modern yaşam tarzı, giyotin cam sistemleri için ideal koşullar sunar. Ata Yapı olarak İzmir genelinde — merkezden sahil ilçelerine kadar — giyotin cam balkon, teras kapatma ve kış bahçesi projeleri gerçekleştiriyoruz. Konut, restoran, kafe ve ticari alanlarda profesyonel montaj hizmeti veriyoruz.',
+    valueProposition: [
+        'İzmir genelinde ücretsiz keşif ve ölçüm',
+        'Ege iklimine uygun dayanıklı profiller',
+        'Konut ve ticari projelerde uzman çözümler',
+        'Motorlu ve manuel giyotin cam seçenekleri',
+        '2 yıl garanti ve satış sonrası destek',
+    ],
+    systemSelection: {
+        title: 'İzmir\'de Giyotin Cam Çözümleri',
+        description: 'İzmir\'in farklı bölgelerine ve kullanım ihtiyaçlarınıza uygun giyotin cam tipini seçin.',
+        options: [
+            {
+                name: 'Konut Tipi Giyotin',
+                description: 'Ev, apartman ve villa balkonları için standart giyotin cam sistemi.',
+                pros: ['Uygun fiyat', 'Kolay kullanım', 'Hızlı montaj', 'Estetik görünüm'],
+            },
+            {
+                name: 'Ticari Giyotin Cam',
+                description: 'Restoran, kafe ve işyerleri için geniş açıklıklı giyotin cam.',
+                pros: ['Geniş panel', 'Motorlu sistem', 'Hava sirkülasyonu', 'Müşteri konforu'],
+            },
+        ],
+    },
+    pricingNote: 'İzmir bölgesinde giyotin cam fiyatları projeye göre değişir. Ücretsiz keşif sonrası detaylı fiyat teklifi sunuyoruz.',
+    faqs: [
+        {
+            question: 'İzmir\'de giyotin cam montajı yapıyor musunuz?',
+            answer: 'Evet, İzmir il genelinde giyotin cam montajı yapıyoruz. Merkezden sahil ilçelerine kadar tüm bölgelere hizmet veriyoruz.',
+        },
+        {
+            question: 'İzmir\'de giyotin cam fiyatları ne kadar?',
+            answer: 'Fiyatlar projeye göre değişir. Ücretsiz keşif sonrası size özel fiyat teklifi hazırlıyoruz. Detaylı bilgi için bize ulaşın.',
+        },
+    ],
+};
+
+const canakkaleGiyotinCam: DistrictPage = {
+    slug: 'canakkale-giyotin-cam',
+    district: 'Çanakkale',
+    districtSlug: 'canakkale',
+    service: 'giyotin-cam',
+    serviceTitle: 'Giyotin Cam',
+    serviceHref: '/giyotin-cam',
+    title: 'Çanakkale Giyotin Cam',
+    metaTitle: 'Çanakkale Giyotin Cam Sistemleri | Ata Yapı - Ücretsiz Keşif',
+    metaDescription: 'Çanakkale\'de giyotin cam sistemleri montajı. Dikey sürgülü cam ile balkon, teras ve kış bahçesi çözümleri. Çanakkale genelinde ücretsiz keşif hizmeti.',
+    h1: 'Çanakkale Giyotin Cam Sistemleri',
+    intro: 'Çanakkale\'nin tarihi dokusu ve eşsiz coğrafyası, modern yaşam alanlarıyla buluşuyor. Ata Yapı olarak Çanakkale genelinde giyotin cam sistemleri kurulumu gerçekleştiriyoruz. Boğaz manzaralı konutlardan sahil restoranlarına kadar her projeye uygun dikey sürgülü cam çözümleri sunuyoruz.',
+    valueProposition: [
+        'Çanakkale genelinde ücretsiz keşif ve ölçüm',
+        'Boğaz iklimine uygun dayanıklı malzemeler',
+        'Konut ve ticari projelerde deneyimli montaj',
+        'Motorlu ve manuel giyotin cam seçenekleri',
+        '2 yıl garanti ve teknik destek',
+    ],
+    systemSelection: {
+        title: 'Çanakkale\'de Giyotin Cam Seçenekleri',
+        description: 'Çanakkale\'nin farklı bölgeleri ve ihtiyaçlarınıza uygun giyotin cam çözümünü seçin.',
+        options: [
+            {
+                name: 'Standart Giyotin',
+                description: 'Konut balkon ve terasları için ekonomik giyotin cam sistemi.',
+                pros: ['Ekonomik', 'Kolay kullanım', 'Hızlı montaj', 'Dayanıklı'],
+            },
+            {
+                name: 'Premium Motorlu',
+                description: 'Ticari ve konut projeleri için motorlu premium giyotin cam.',
+                pros: ['Motorlu açılım', 'Uzaktan kumanda', 'Sensör opsiyonu', 'Premium kalite'],
+            },
+        ],
+    },
+    pricingNote: 'Çanakkale bölgesinde giyotin cam fiyatları projeye göre belirlenir. Ücretsiz keşif sonrası detaylı teklif sunuyoruz.',
+    faqs: [
+        {
+            question: 'Çanakkale\'de giyotin cam yaptırabilir miyim?',
+            answer: 'Evet, Çanakkale il genelinde giyotin cam montajı yapıyoruz. Ücretsiz keşif randevusu için bize ulaşın.',
+        },
+        {
+            question: 'Rüzgarlı bölgelerde giyotin cam dayanıklı mıdır?',
+            answer: 'Evet, Çanakkale\'nin rüzgarlı iklimine uygun güçlendirilmiş profiller ve temperli cam kullanıyoruz. Yüksek rüzgar dayanımı sağlanır.',
+        },
+    ],
+};
+
+// Add new pages to the exports
+districtPages.push(
+    balikesirGiyotinCam,
+    edremitGiyotinCam,
+    altinolukGiyotinCam,
+    izmirGiyotinCam,
+    canakkaleGiyotinCam,
+);
+
 // Helper function to get a district page by slug
 export const getDistrictPageBySlug = (slug: string): DistrictPage | undefined => {
     return districtPages.find((page) => page.slug === slug);
@@ -856,6 +1131,7 @@ export const getPagesByDistrict = (districtSlug: string): DistrictPage[] => {
 };
 
 // Group pages by service
-export const getPagesByService = (service: 'cam-balkon' | 'sineklik' | 'tente'): DistrictPage[] => {
+export const getPagesByService = (service: 'cam-balkon' | 'sineklik' | 'tente' | 'giyotin-cam' | 'teleskopik-garaj'): DistrictPage[] => {
     return districtPages.filter((page) => page.service === service);
 };
+

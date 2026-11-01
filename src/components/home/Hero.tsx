@@ -30,21 +30,21 @@ export default function Hero() {
                     {/* Badge */}
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-gray-300 mb-6 animate-fade-in">
                         <span className="w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse" />
-                        Maltepe&lsquo;de 10+ Yıllık Tecrübe
+                        Balıkesir · İzmir · Çanakkale · İstanbul
                     </div>
 
                     {/* Main Heading */}
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 animate-fade-in-delay-1" style={{ fontFamily: 'var(--font-heading)' }}>
-                        Cam Balkon, Sineklik,{" "}
+                        Giyotin Cam Sistemleri{" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)]">
-                            Tente & Pimapen
+                            & Teleskopik Garaj
                         </span>
                     </h1>
 
                     {/* Subtitle */}
                     <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed animate-fade-in-delay-2">
-                        Ölçüye özel üretim, profesyonel montaj ve 2 yıl garanti ile
-                        yaşam alanlarınızı dönüştürüyoruz.{" "}
+                        Giyotin cam, motorlu giyotin sistem, cam balkon ve teleskopik garaj
+                        çözümlerinde ölçüye özel üretim, profesyonel montaj ve 2 yıl garanti.{" "}
                         <strong className="text-white">Ücretsiz keşif</strong> için hemen arayın.
                     </p>
 
