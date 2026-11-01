@@ -8,12 +8,17 @@ export default function VisitorTracker() {
     const lastTrackedPath = useRef<string | null>(null);
 
     useEffect(() => {
-        // Exclude internal admin and api routes
-        if (!pathname || pathname.startsWith("/admin") || pathname.startsWith("/api") || pathname.startsWith("/_next")) {
+        // Exclude internal admin, quote generator, and api routes
+        if (
+            !pathname ||
+            pathname.startsWith("/admin") ||
+            pathname.startsWith("/teklif") ||
+            pathname.startsWith("/api") ||
+            pathname.startsWith("/_next")
+        ) {
             return;
         }
 
-        // Avoid tracking the exact same path multiple times in rapid succession
         if (lastTrackedPath.current === pathname) {
             return;
         }
@@ -46,18 +51,15 @@ export default function VisitorTracker() {
             device,
         };
 
-        // Fire and forget
         try {
             fetch("/api/track", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
                 keepalive: true,
-            }).catch(() => {
-                // Silently handle if network drops
-            });
+            }).catch(() => {});
         } catch {
-            // Silently handle
+            // Silently ignore network errors
         }
     }, [pathname]);
 

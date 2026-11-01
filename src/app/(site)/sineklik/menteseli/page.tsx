@@ -1,14 +1,23 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import FAQSection from '@/components/seo/FAQSection';
 import CTABlock from '@/components/seo/CTABlock';
 import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import { SITE_CONTACT, getWhatsAppUrl } from '@/lib/constants';
+import {
+    ArrowRightIcon,
+    BuildingIcon,
+    CheckIcon,
+    SparkGridIcon,
+    WhatsAppIcon,
+} from '@/components/icons/ArchitecturalIcons';
 
 export const metadata: Metadata = {
     title: 'Menteşeli Sineklik Sistemleri | Ata Yapı',
     description:
-        'Menteşeli sineklik sistemleri ile kapı tipi açılım. Balkon kapıları için ideal çözüm. Maltepe ve çevresinde ücretsiz keşif.',
+        'Menteşeli sineklik sistemleri ile kapı ve pencere tipi pratik açılım. Balkon kapıları için dayanıklı çözüm. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
         canonical: 'https://www.xn--atayap-u9a.site/sineklik/menteseli',
     },
@@ -17,44 +26,75 @@ export const metadata: Metadata = {
 const faqs = [
     {
         question: 'Menteşeli sineklik nedir?',
-        answer: 'Menteşeli sineklik, metal veya plastik menteşeler ile çerçeveye bağlı, kapı gibi açılıp kapanan sineklik sistemidir. Genellikle balkon ve teras kapılarında kullanılır.',
+        answer: 'Menteşeli sineklik, dayanıklı alüminyum çerçevesi menteşeler ile doğramaya bağlanan, kapı veya pencere kanadı gibi dışa doğru açılıp kapanan sineklik sistemidir.',
     },
     {
         question: 'Menteşeli sineklik hangi alanlar için uygundur?',
-        answer: 'Menteşeli sineklik özellikle balkon kapıları, teras çıkışları ve sık kullanılan kapılar için idealdir. Geniş geçiş alanı sağlar.',
+        answer: 'Özellikle sık girilip çıkılan balkon kapıları, bahçe ve teras çıkışları ile panjur bulunmayan pencereler için ideal ve ekonomik bir çözümdür.',
     },
     {
         question: 'Menteşeli sineklik fiyatları ne kadar?',
-        answer: 'Menteşeli sineklik fiyatları kapı boyutuna göre değişir. Standart bir balkon kapısı için 1.500-2.500 TL arasında değişmektedir.',
+        answer: 'Fiyatlar kapı veya pencere ölçüsüne, profil rengine ve tül tipine göre belirlenir. Ücretsiz keşif sonrası net fiyat sunulur.',
     },
     {
         question: 'Menteşeli sineklik kendiliğinden kapanır mı?',
-        answer: 'Evet, menteşeli sinekliklere kapı kapatıcı (closer) mekanizması eklenebilir. Bu sayede kapı otomatik olarak kapanır.',
+        answer: 'İsteğe bağlı yaylı menteşe ve mıknatıslı kilit karşılığı uygulanarak sineklik kanadının bırakıldığında kendiliğinden kapanması sağlanabilir.',
     },
     {
-        question: 'Menteşeli sineklik mi plise sineklik mi tercih etmeliyim?',
-        answer: 'Sık kullanılan kapılar için menteşeli sineklik, pencereler ve dar alanlar için plise sineklik daha uygundur.',
+        question: 'Menteşeli sineklik kışın çıkarılabilir mi?',
+        answer: 'Evet, geçmeli pimli menteşe yapısı sayesinde kış aylarında alet gerektirmeden yerinden çıkarılıp saklanabilir veya yıkanabilir.',
     },
     {
         question: 'Menteşeli sineklik montajı ne kadar sürer?',
-        answer: 'Tek bir menteşeli sineklik montajı yaklaşık 30-45 dakika sürer.',
+        answer: 'Ölçüye göre atölyemizde hazırlanan menteşeli sinekliklerin yerinde montajı kanat başına yaklaşık 15-20 dakika sürer.',
     },
 ];
 
 const features = [
-    { title: 'Kapı Tipi Açılım', description: 'Kapı gibi açılıp kapanan pratik sistem.', icon: '🚪' },
-    { title: 'Geniş Geçiş', description: 'Rahat geçiş için tam açılım alanı.', icon: '↔️' },
-    { title: 'Dayanıklı Yapı', description: 'Güçlü menteşeler ve sağlam çerçeve.', icon: '💪' },
-    { title: 'Kolay Kullanım', description: 'Tek elle kolayca açılıp kapatılır.', icon: '👆' },
-    { title: 'Kapı Kapatıcı', description: 'Otomatik kapanma mekanizması opsiyonu.', icon: '🔄' },
-    { title: 'Ekonomik', description: 'Uygun fiyatlı ve uzun ömürlü.', icon: '💰' },
+    {
+        code: '01',
+        title: 'Kapı Tipi Pratik Açılım',
+        description: 'Mıknatıslı tutucu ve ergonomik tutamak ile tek hareketle rahatça açılıp kapanır.',
+    },
+    {
+        code: '02',
+        title: 'Tam Geçiş Açıklığı',
+        description: 'Alt eşik profili gerektirmediği için balkon ve teras çıkışlarında takılma yapmaz.',
+    },
+    {
+        code: '03',
+        title: 'Rijit Alüminyum Çerçeve',
+        description: 'Köşe takozlarıyla güçlendirilmiş 17x25 mm veya kapı tipi geniş alüminyum profil.',
+    },
+    {
+        code: '04',
+        title: 'Çıkarılabilir Menteşe',
+        description: 'Temizlik veya kış mevsiminde kolayca sökülüp takılabilen geçmeli menteşe yapısı.',
+    },
+    {
+        code: '05',
+        title: 'Yaylı Otomatik Kapanma',
+        description: 'Balkon kapılarında açık unutulmayı önleyen opsiyonel yaylı menteşe mekanizması.',
+    },
+    {
+        code: '06',
+        title: 'Ekonomik & Uzun Ömürlü',
+        description: 'Basit mekanik yapısı sayesinde arıza yapmaz, yıllar sonra bile sadece tül değişimiyle yenilenir.',
+    },
+];
+
+const usageAreas = [
+    { title: 'Balkon Kapıları', description: 'Yoğun kullanılan balkon çıkışlarında tam geçiş kolaylığı.' },
+    { title: 'Bahçe & Veranda', description: 'Müstakil ev ve bahçe katı kapılarında sağlam koruma.' },
+    { title: 'Mutfak Pencereleri', description: 'Sürekli havalandırma gerektiren mutfak doğramaları.' },
+    { title: 'Teras Çıkışları', description: 'Ortadan kayıtlı sağlam alüminyum kapı kasası uygulamaları.' },
 ];
 
 export default function MenteseliSineklikPage() {
     return (
         <>
             {/* Breadcrumb */}
-            <div className="bg-gray-50 border-b border-gray-100">
+            <div className="bg-slate-50 border-b border-slate-200/80">
                 <div className="container">
                     <Breadcrumb
                         items={[
@@ -67,99 +107,131 @@ export default function MenteseliSineklikPage() {
             </div>
 
             {/* Hero */}
-            <section className="py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-                <div className="container">
-                    <div className="max-w-2xl">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-[var(--accent)] mb-6">
-                            <span className="w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse" />
-                            Klasik Çözüm
-                        </span>
-                        <h1
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
-                            style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                            Menteşeli{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--secondary)] to-[var(--accent)]">
-                                Sineklik
+            <section className="relative py-20 lg:py-28 bg-[#0b0f19] arch-grid-dark text-white overflow-hidden">
+                <div className="container relative z-10">
+                    <div className="grid lg:grid-cols-12 gap-12 items-center">
+                        <div className="lg:col-span-7">
+                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.06] border border-white/10 rounded-full text-xs font-semibold uppercase tracking-[0.16em] text-slate-300 mb-6">
+                                <SparkGridIcon className="w-3.5 h-3.5 text-[var(--primary)]" />
+                                Klasik Alüminyum Sistem
                             </span>
-                        </h1>
-                        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                            Kapı tipi açılım ile balkon ve teras kapılarınız için ideal sineklik çözümü.
-                            Geniş geçiş alanı, dayanıklı yapı ve kolay kullanım.
-                        </p>
-                        <div className="flex flex-wrap gap-4">
-                            <Link
-                                href="/iletisim"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300"
+                            <h1
+                                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6"
+                                style={{ fontFamily: 'var(--font-heading)' }}
                             >
-                                Ücretsiz Keşif
-                            </Link>
-                            <a
-                                href="https://wa.me/905314002959"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300"
-                            >
-                                WhatsApp
-                            </a>
+                                Menteşeli{' '}
+                                <span className="text-[var(--primary)]">Sineklik</span>
+                            </h1>
+                            <p className="text-lg text-slate-300 mb-8 leading-relaxed max-w-2xl">
+                                Kapı ve pencere tipi açılım ile balkon çıkışlarınız için uzun ömürlü,
+                                kolay temizlenebilir ve ekonomik alüminyum sineklik sistemi.
+                            </p>
+                            <div className="flex flex-wrap gap-3.5">
+                                <Link
+                                    href="/iletisim"
+                                    className="btn-press inline-flex items-center gap-2.5 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-7 py-4 rounded-xl font-semibold transition-all shadow-lg shadow-red-950/30"
+                                >
+                                    Ücretsiz Keşif Planla
+                                    <ArrowRightIcon className="w-4 h-4" />
+                                </Link>
+                                <a
+                                    href={getWhatsAppUrl('Merhaba, menteşeli sineklik için ölçü ve fiyat bilgisi almak istiyorum.')}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-press inline-flex items-center gap-2.5 bg-[var(--whatsapp)] hover:bg-[var(--whatsapp-dark)] text-white px-7 py-4 rounded-xl font-semibold transition-all"
+                                >
+                                    <WhatsAppIcon className="w-4 h-4" />
+                                    WhatsApp Hattı
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-5">
+                            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                                <Image
+                                    src="/sineklik-service.png"
+                                    alt="Menteşeli Sineklik Sistemleri - Ata Yapı"
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 42vw"
+                                    className="object-cover"
+                                    priority
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19]/80 via-transparent to-transparent" />
+                                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between px-4 py-3 rounded-xl bg-[#0b0f19]/85 backdrop-blur-md border border-white/10 text-xs">
+                                    <span className="text-slate-300 font-medium">Mıknatıslı & Yaylı Opsiyon</span>
+                                    <span className="text-emerald-400 font-semibold">{SITE_CONTACT.phoneDisplay}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* What is */}
-            <section className="py-16 lg:py-20 bg-white">
+            {/* Technical Overview */}
+            <section className="py-16 lg:py-24 bg-white">
                 <div className="container">
                     <div className="max-w-4xl mx-auto">
+                        <span className="section-eyebrow">Sistem Özeti</span>
                         <h2
-                            className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center"
+                            className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 tracking-tight"
                             style={{ fontFamily: 'var(--font-heading)' }}
                         >
                             Menteşeli Sineklik Nedir?
                         </h2>
-                        <div className="prose prose-lg max-w-none text-gray-600">
+                        <div className="space-y-4 text-slate-600 leading-relaxed text-base md:text-lg">
                             <p>
-                                Menteşeli sineklik, metal menteşeler ile çerçeveye bağlanan ve kapı gibi
-                                açılıp kapanan geleneksel sineklik sistemidir. En yaygın kullanılan
-                                sineklik tiplerinden biridir.
+                                Menteşeli sineklik, elektrostatik boyalı alüminyum profillerin gerdirilmiş fiberglass
+                                tül ile birleştirildiği ve doğramaya menteşelerle bağlandığı klasik sineklik modelidir.
+                                Mekanik parça karmaşası olmadığı için arıza riski en düşük sistemdir.
                             </p>
                             <p>
-                                Özellikle balkon kapıları, teras çıkışları ve mutfak kapıları için tercih edilir.
-                                Tek veya çift kanatlı olarak üretilebilir. Kapı kapatıcı (closer) mekanizması
-                                eklenerek otomatik kapanma sağlanabilir.
+                                Kapı uygulamalarında kanadın esnemesini önleyen orta destek kaydı ve mıknatıslı
+                                karşılık standart olarak uygulanır. Doğrama renginize uygun beyaz, antrasit veya
+                                ahşap desenli profillerle üretilir.
                             </p>
-                            <p>
-                                Alüminyum veya PVC çerçeve seçenekleri mevcuttur. Kapı doğramasına uygun
-                                renk seçimi yapılabilir.
-                            </p>
+                        </div>
+                        <div className="grid sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-slate-200/80">
+                            {['Orta Kayıt Destekli Kapı Tipi', 'Sökülüp Yıkanabilir Kanat', 'Mıknatıslı Kilit Karşılığı'].map((item) => (
+                                <div key={item} className="flex items-center gap-2.5 text-sm font-semibold text-slate-800">
+                                    <span className="w-5 h-5 rounded-full bg-red-50 text-[var(--primary)] flex items-center justify-center shrink-0">
+                                        <CheckIcon className="w-3.5 h-3.5" />
+                                    </span>
+                                    {item}
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Features */}
-            <section className="py-16 lg:py-20 bg-gray-50">
+            <section className="py-16 lg:py-24 bg-slate-50 arch-grid-light border-y border-slate-200/70">
                 <div className="container">
-                    <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 text-center"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                        Menteşeli Sineklik Avantajları
-                    </h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                        {features.map((feature, index) => (
+                    <div className="max-w-2xl mb-12">
+                        <span className="section-eyebrow">Teknik Avantajlar</span>
+                        <h2
+                            className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight"
+                            style={{ fontFamily: 'var(--font-heading)' }}
+                        >
+                            Menteşeli Sineklik Avantajları
+                        </h2>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {features.map((feature) => (
                             <div
-                                key={index}
-                                className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
+                                key={feature.code}
+                                className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-slate-300 transition-all shadow-sm"
                             >
-                                <div className="text-3xl mb-3">{feature.icon}</div>
+                                <span className="inline-block text-xs font-mono font-bold text-[var(--primary)] bg-red-50 px-2.5 py-1 rounded-md mb-4">
+                                    {feature.code}
+                                </span>
                                 <h3
-                                    className="font-bold text-gray-900 mb-2"
+                                    className="font-bold text-slate-900 text-lg mb-2"
                                     style={{ fontFamily: 'var(--font-heading)' }}
                                 >
                                     {feature.title}
                                 </h3>
-                                <p className="text-gray-600 text-sm">{feature.description}</p>
+                                <p className="text-slate-600 text-sm leading-relaxed">{feature.description}</p>
                             </div>
                         ))}
                     </div>
@@ -169,33 +241,25 @@ export default function MenteseliSineklikPage() {
             {/* Usage Areas */}
             <section className="py-16 lg:py-20 bg-white">
                 <div className="container">
-                    <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 text-center"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                        Menteşeli Sineklik Nerelerde Kullanılır?
-                    </h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-                        <div className="text-center p-6 bg-gray-50 rounded-xl">
-                            <div className="text-4xl mb-3">🏠</div>
-                            <h3 className="font-bold text-gray-900 mb-2">Balkon Kapıları</h3>
-                            <p className="text-gray-600 text-sm">Balkon çıkışları için en çok tercih edilen sistem.</p>
-                        </div>
-                        <div className="text-center p-6 bg-gray-50 rounded-xl">
-                            <div className="text-4xl mb-3">🌳</div>
-                            <h3 className="font-bold text-gray-900 mb-2">Bahçe Kapıları</h3>
-                            <p className="text-gray-600 text-sm">Bahçeye açılan kapılar için dayanıklı çözüm.</p>
-                        </div>
-                        <div className="text-center p-6 bg-gray-50 rounded-xl">
-                            <div className="text-4xl mb-3">🍳</div>
-                            <h3 className="font-bold text-gray-900 mb-2">Mutfak Kapıları</h3>
-                            <p className="text-gray-600 text-sm">Mutfak havalandırması için pratik seçenek.</p>
-                        </div>
-                        <div className="text-center p-6 bg-gray-50 rounded-xl">
-                            <div className="text-4xl mb-3">☀️</div>
-                            <h3 className="font-bold text-gray-900 mb-2">Teras Çıkışları</h3>
-                            <p className="text-gray-600 text-sm">Geniş teraslara açılan çift kanatlı sistemler.</p>
-                        </div>
+                    <div className="max-w-2xl mb-10">
+                        <span className="section-eyebrow">Uygulama Alanları</span>
+                        <h2
+                            className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight"
+                            style={{ fontFamily: 'var(--font-heading)' }}
+                        >
+                            Menteşeli Sineklik Nerelerde Kullanılır?
+                        </h2>
+                    </div>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        {usageAreas.map((area) => (
+                            <div key={area.title} className="p-6 bg-slate-50 rounded-2xl border border-slate-200/70">
+                                <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[var(--primary)] mb-4">
+                                    <BuildingIcon className="w-5 h-5" />
+                                </div>
+                                <h3 className="font-bold text-slate-900 mb-2">{area.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{area.description}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -207,29 +271,30 @@ export default function MenteseliSineklikPage() {
             <FAQSection title="Menteşeli Sineklik Hakkında Sıkça Sorulan Sorular" faqs={faqs} />
 
             {/* Related Links */}
-            <section className="py-12 bg-gray-50">
+            <section className="py-12 bg-slate-50 border-t border-slate-200/80">
                 <div className="container">
-                    <h2 className="text-xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
+                    <h2 className="text-lg font-bold text-slate-900 mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
                         Diğer Sineklik Sistemleri
                     </h2>
                     <div className="flex flex-wrap gap-3">
                         <Link
                             href="/sineklik/pileli"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                            className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
                         >
                             Pileli Sineklik
                         </Link>
                         <Link
                             href="/sineklik/kedi-sineklik"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                            className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
                         >
                             Kedi Sinekliği
                         </Link>
                         <Link
                             href="/sineklik"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
                         >
-                            Tüm Sineklik Sistemleri →
+                            Tüm Sineklik Sistemleri
+                            <ArrowRightIcon className="w-3.5 h-3.5" />
                         </Link>
                     </div>
                 </div>
@@ -237,8 +302,8 @@ export default function MenteseliSineklikPage() {
 
             {/* CTA */}
             <CTABlock
-                title="Menteşeli Sineklik Yaptırmak İster misiniz?"
-                description="Balkon kapılarınız için ücretsiz keşif randevusu alın."
+                title="Balkon Kapınız İçin Menteşeli Sineklik"
+                description="Özel ölçü üretim ve hızlı montaj için ücretsiz keşif randevusu alın."
             />
         </>
     );

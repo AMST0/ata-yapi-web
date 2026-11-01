@@ -6,9 +6,18 @@ const getResendClient = () => {
     return new Resend(apiKey);
 };
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://atayapi.com';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.xn--atayap-u9a.site';
 const LOGO_URL = `${APP_URL}/logo.png`;
 const BRAND_COLOR = '#E31E24';
+
+function escapeHtml(value: unknown): string {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
 
 interface NotificationData {
     name?: string;
@@ -24,7 +33,6 @@ interface NotificationData {
 
 export async function sendAdminNotification(type: 'message' | 'quote', data: NotificationData) {
     if (!process.env.RESEND_API_KEY) {
-        console.warn('RESEND_API_KEY is not set. Email notification skipped.');
         return { success: false, error: 'API Key missing' };
     }
 
@@ -33,31 +41,32 @@ export async function sendAdminNotification(type: 'message' | 'quote', data: Not
     const baseStyle = `
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         line-height: 1.6;
-        color: #333;
+        color: #1e293b;
         max-width: 600px;
         margin: 0 auto;
-        border: 1px solid #eee;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         overflow: hidden;
     `;
 
     const headerStyle = `
-        background-color: ${BRAND_COLOR};
-        padding: 30px;
+        background-color: #0f172a;
+        border-bottom: 3px solid ${BRAND_COLOR};
+        padding: 28px;
         text-align: center;
     `;
 
     const contentStyle = `
-        padding: 40px;
+        padding: 36px;
         background-color: #ffffff;
     `;
 
     const footerStyle = `
-        padding: 20px;
-        background-color: #f9f9f9;
+        padding: 18px;
+        background-color: #f8fafc;
         text-align: center;
         font-size: 12px;
-        color: #888;
+        color: #64748b;
     `;
 
     const buttonStyle = `
@@ -66,7 +75,7 @@ export async function sendAdminNotification(type: 'message' | 'quote', data: Not
         background-color: ${BRAND_COLOR};
         color: #ffffff;
         text-decoration: none;
-        border-radius: 6px;
+        border-radius: 8px;
         font-weight: bold;
         margin-top: 20px;
     `;
@@ -77,33 +86,37 @@ export async function sendAdminNotification(type: 'message' | 'quote', data: Not
         html = `
             <div style="${baseStyle}">
                 <div style="${headerStyle}">
-                    <img src="${LOGO_URL}" alt="Ata Yapı" style="height: 50px; width: auto;" />
+                    <img src="${LOGO_URL}" alt="Ata Yapı" style="height: 44px; width: auto;" />
                 </div>
                 <div style="${contentStyle}">
-                    <h2 style="margin-top: 0; color: ${BRAND_COLOR};">Yeni Mesaj Alındı</h2>
-                    <p>Web siteniz üzerinden yeni bir iletişim formu dolduruldu.</p>
+                    <h2 style="margin-top: 0; color: #0f172a;">Yeni Müşteri Talebi</h2>
+                    <p>Web siteniz üzerinden yeni bir iletişim / teklif formu dolduruldu.</p>
                     <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
                         <tr>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; width: 120px;">Ad Soyad:</td>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${data.name}</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold; width: 120px;">Ad Soyad:</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">${escapeHtml(data.name)}</td>
                         </tr>
                         <tr>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold;">Telefon:</td>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${data.phone}</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold;">Telefon:</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">${escapeHtml(data.phone)}</td>
                         </tr>
                         <tr>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold;">Hizmet:</td>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${data.service || 'Belirtilmedi'}</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold;">E-posta:</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">${escapeHtml(data.email || '-')}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold;">Hizmet:</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">${escapeHtml(data.service || 'Belirtilmedi')}</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px 0; font-weight: bold; vertical-align: top;">Mesaj:</td>
-                            <td style="padding: 10px 0;">${data.message || '-'}</td>
+                            <td style="padding: 10px 0;">${escapeHtml(data.message || '-')}</td>
                         </tr>
                     </table>
-                    <a href="${APP_URL}/admin/messages" style="${buttonStyle}">Tüm Mesajları Gör</a>
+                    <a href="${APP_URL}/admin/messages" style="${buttonStyle}">Yönetim Panelinde Gör</a>
                 </div>
                 <div style="${footerStyle}">
-                    © ${new Date().getFullYear()} Ata Yapı Maltepe. Tüm hakları saklıdır.
+                    © ${new Date().getFullYear()} Ata Yapı Cam &amp; Alüminyum Sistemleri
                 </div>
             </div>
         `;
@@ -111,33 +124,33 @@ export async function sendAdminNotification(type: 'message' | 'quote', data: Not
         html = `
             <div style="${baseStyle}">
                 <div style="${headerStyle}">
-                    <img src="${LOGO_URL}" alt="Ata Yapı" style="height: 50px; width: auto;" />
+                    <img src="${LOGO_URL}" alt="Ata Yapı" style="height: 44px; width: auto;" />
                 </div>
                 <div style="${contentStyle}">
-                    <h2 style="margin-top: 0; color: ${BRAND_COLOR};">Yeni Teklif Oluşturuldu</h2>
+                    <h2 style="margin-top: 0; color: #0f172a;">Yeni Teklif Oluşturuldu</h2>
                     <p>Teklif oluşturma sistemi üzerinden yeni bir teklif hazırlandı.</p>
                     <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
                         <tr>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold; width: 120px;">Teklif No:</td>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${data.quoteNumber}</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold; width: 120px;">Teklif No:</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">${escapeHtml(data.quoteNumber)}</td>
                         </tr>
                         <tr>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold;">Müşteri:</td>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${data.customerName}</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold;">Müşteri:</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">${escapeHtml(data.customerName)}</td>
                         </tr>
                         <tr>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: bold;">Telefon:</td>
-                            <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${data.customerPhone}</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-weight: bold;">Telefon:</td>
+                            <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">${escapeHtml(data.customerPhone)}</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px 0; font-weight: bold;">Toplam Tutar:</td>
-                            <td style="padding: 10px 0;">${data.total} TL + KDV</td>
+                            <td style="padding: 10px 0;">${escapeHtml(data.total)} TL + KDV</td>
                         </tr>
                     </table>
                     <a href="${APP_URL}/admin/quotes" style="${buttonStyle}">Teklif Detayına Git</a>
                 </div>
                 <div style="${footerStyle}">
-                    © ${new Date().getFullYear()} Ata Yapı Maltepe. Tüm hakları saklıdır.
+                    © ${new Date().getFullYear()} Ata Yapı Cam &amp; Alüminyum Sistemleri
                 </div>
             </div>
         `;
@@ -145,28 +158,28 @@ export async function sendAdminNotification(type: 'message' | 'quote', data: Not
 
     const resend = getResendClient();
     if (!resend) {
-        console.warn('RESEND_API_KEY is not set. Email notification skipped.');
         return { success: false, error: 'API Key missing' };
     }
 
+    const safeSubjectName = String(data.name || 'Müşteri').replace(/[\r\n]/g, ' ').slice(0, 80);
+    const safeQuoteNo = String(data.quoteNumber || '').replace(/[\r\n]/g, ' ').slice(0, 40);
+
     try {
         await resend.emails.send({
-            from: 'Ata Yapı <bildirim@atayapimaltepe.com>', // Preferred sender if domain authenticated
+            from: 'Ata Yapı <bildirim@atayapimaltepe.com>',
             to: adminEmail,
-            subject: type === 'message' ? `Yeni İletişim Formu: ${data.name}` : `Yeni Teklif: ${data.quoteNumber}`,
-            html: html,
+            subject: type === 'message' ? `Yeni İletişim Formu: ${safeSubjectName}` : `Yeni Teklif: ${safeQuoteNo}`,
+            html,
         });
 
         return { success: true };
-    } catch (error) {
-        console.error('Resend email error:', error);
-        // Fallback for onboarding domain if domain not verified
+    } catch {
         try {
             await resend.emails.send({
                 from: 'Ata Yapı <onboarding@resend.dev>',
                 to: adminEmail,
-                subject: type === 'message' ? `Yeni İletişim Formu: ${data.name}` : `Yeni Teklif: ${data.quoteNumber}`,
-                html: html,
+                subject: type === 'message' ? `Yeni İletişim Formu: ${safeSubjectName}` : `Yeni Teklif: ${safeQuoteNo}`,
+                html,
             });
             return { success: true };
         } catch (innerError) {

@@ -6,10 +6,14 @@ import {
     updateQuote,
     updateQuoteStatus,
     deleteQuote,
-    getQuoteStats
+    getQuoteStats,
 } from '@/lib/db-operations';
+import { isQuoteAuthorized, requireAdmin } from '@/lib/admin-auth';
 
 export async function GET(request: NextRequest) {
+    const authError = requireAdmin(request);
+    if (authError) return authError;
+
     try {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
@@ -21,7 +25,7 @@ export async function GET(request: NextRequest) {
         }
 
         if (id) {
-            const quote = await getQuoteById(parseInt(id));
+            const quote = await getQuoteById(parseInt(id, 10));
             if (!quote) {
                 return NextResponse.json({ error: 'Quote not found' }, { status: 404 });
             }
@@ -37,24 +41,29 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+    if (!isQuoteAuthorized(request)) {
+        return NextResponse.json({ error: 'Unauthorized quote creation' }, { status: 401 });
+    }
+
     try {
         const data = await request.json();
 
-        if (!data.customerName || !data.customerPhone) {
-            return NextResponse.json({ error: 'Customer name and phone are required' }, { status: 400 });
-        }
+        const customerName = String(data.customerName || 'Müşteri').trim().slice(0, 140);
+        const customerPhone = String(data.customerPhone || '-').trim().slice(0, 40);
 
-        const quoteNumber = `TEK-${Date.now().toString().slice(-6)}${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+        const quoteNumber = `TEK-${Date.now().toString().slice(-6)}${Math.floor(Math.random() * 1000)
+            .toString()
+            .padStart(3, '0')}`;
 
         const quote = await createQuote({
             quoteNumber,
-            customerName: data.customerName,
-            customerPhone: data.customerPhone,
-            projectAddress: data.projectAddress,
-            items: data.items || [],
-            total: data.total || 0,
-            validityDays: data.validityDays || 10,
-            notes: data.notes,
+            customerName,
+            customerPhone,
+            projectAddress: data.projectAddress ? String(data.projectAddress).slice(0, 240) : undefined,
+            items: Array.isArray(data.items) ? data.items : [],
+            total: Number(data.total) || 0,
+            validityDays: Number(data.validityDays) || 10,
+            notes: data.notes ? String(data.notes).slice(0, 1000) : undefined,
             status: data.status || 'draft',
         });
 
@@ -66,6 +75,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
+    const authError = requireAdmin(request);
+    if (authError) return authError;
+
     try {
         const data = await request.json();
 
@@ -73,12 +85,11 @@ export async function PATCH(request: NextRequest) {
             return NextResponse.json({ error: 'Quote ID is required' }, { status: 400 });
         }
 
-        // If only status is being updated
         if (data.status && Object.keys(data).length === 2) {
-            await updateQuoteStatus(data.id, data.status);
+            await updateQuoteStatus(Number(data.id), data.status);
         } else {
             const { id, ...updateData } = data;
-            await updateQuote(id, updateData);
+            await updateQuote(Number(id), updateData);
         }
 
         return NextResponse.json({ success: true });
@@ -89,6 +100,9 @@ export async function PATCH(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+    const authError = requireAdmin(request);
+    if (authError) return authError;
+
     try {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
@@ -97,7 +111,7 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ error: 'Quote ID is required' }, { status: 400 });
         }
 
-        await deleteQuote(parseInt(id));
+        await deleteQuote(parseInt(id, 10));
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Error deleting quote:', error);

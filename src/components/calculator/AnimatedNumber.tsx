@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useSpring, useTransform } from "framer-motion";
 
 interface AnimatedNumberProps {
@@ -28,12 +28,11 @@ export default function AnimatedNumber({
 
     const displayRef = useRef<HTMLSpanElement>(null);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- spring.set is stable
     useEffect(() => {
         if (!reducedMotion) {
             spring.set(value);
         }
-    }, [value, reducedMotion]);
+    }, [value, reducedMotion, spring]);
 
     useEffect(() => {
         if (!reducedMotion && displayRef.current) {

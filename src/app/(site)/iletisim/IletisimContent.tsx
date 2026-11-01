@@ -2,108 +2,161 @@
 
 import ContactForm from "@/components/home/ContactForm";
 import { useLanguage } from "@/lib/i18n";
+import { SITE_CONTACT, getWhatsAppUrl } from "@/lib/constants";
+import { trackWhatsAppClick, trackPhoneClick } from "@/lib/analytics";
+import {
+  MapPinIcon,
+  PhoneIcon,
+  ClockIcon,
+  MailIcon,
+  WhatsAppIcon,
+} from "@/components/icons/ArchitecturalIcons";
 
 export default function IletisimContent() {
-    const { t, language } = useLanguage();
-    const p = t.pages.iletisim;
+  const { t, language } = useLanguage();
+  const p = t.pages.iletisim;
 
-    const whatsappText =
-        language === "de"
-            ? "Hallo, ich interessiere mich für Ihre Produkte und möchte ein Angebot anfordern."
-            : language === "en"
-            ? "Hello, I would like to inquire about your products and request a quote."
-            : "Merhaba, ürünleriniz hakkında bilgi ve fiyat teklifi almak istiyorum.";
+  const whatsappText =
+    language === "de"
+      ? "Guten Tag, ich interessiere mich für Ihre Produkte und möchte ein Angebot anfordern."
+      : language === "en"
+      ? "Hello, I would like to inquire about your products and request a quote."
+      : "Merhaba, ürünleriniz hakkında bilgi ve fiyat teklifi almak istiyorum.";
 
-    return (
-        <>
-            <section className="py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-                <div className="container">
-                    <div className="max-w-2xl">
-                        <span className="text-sm font-semibold text-[var(--accent)] uppercase tracking-wider mb-3 block">
-                            {t.contact.title}
-                        </span>
-                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
-                            {p.hero_title}
-                        </h1>
-                        <p className="text-lg text-gray-300">
-                            {p.hero_desc}
-                        </p>
+  return (
+    <>
+      {/* Hero */}
+      <section className="relative py-20 lg:py-28 bg-[#0b0f19] text-white overflow-hidden border-b border-slate-800">
+        <div className="absolute inset-0 arch-grid-dark opacity-70 pointer-events-none" />
+        <div className="container relative z-10">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-white/[0.06] border border-white/15 text-xs font-semibold tracking-wide text-slate-200 mb-6">
+              <span className="w-2 h-2 bg-red-500 rounded-full" />
+              <span>{t.contact.title}</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+              {p.hero_title}
+            </h1>
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+              {p.hero_desc}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Contact Grid */}
+      <section className="py-16 lg:py-24 bg-slate-50">
+        <div className="container">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+            {/* Left: Form */}
+            <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 lg:p-10 shadow-sm">
+              <div className="mb-6 pb-5 border-b border-slate-100">
+                <h2 className="text-2xl font-bold text-slate-900 mb-1.5">
+                  {p.form_title}
+                </h2>
+                <p className="text-slate-600 text-sm">{p.form_desc}</p>
+              </div>
+              <ContactForm />
+            </div>
+
+            {/* Right: Official Address, Direct Channels & Live Map */}
+            <div className="lg:col-span-5 space-y-6">
+              <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 space-y-5">
+                <h2 className="text-lg font-bold text-slate-900 pb-3 border-b border-slate-100">
+                  {t.footer.contact_info}
+                </h2>
+
+                <div className="space-y-4 text-sm">
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0">
+                      <MapPinIcon className="w-4 h-4" />
                     </div>
-                </div>
-            </section>
-
-            <section className="py-20 bg-white">
-                <div className="container">
-                    <div className="grid lg:grid-cols-2 gap-12">
-                        {/* Contact Form */}
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
-                                {p.form_title}
-                            </h2>
-                            <p className="text-gray-600 mb-6 text-sm">
-                                {p.form_desc}
-                            </p>
-                            <ContactForm />
-                        </div>
-
-                        {/* Contact Info */}
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
-                                {t.footer.contact_info}
-                            </h2>
-                            <div className="space-y-6 mb-8">
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 flex items-center justify-center bg-[var(--primary)]/10 text-[var(--primary)] rounded-xl shrink-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                                    </div>
-                                    <div>
-                                        <div className="font-semibold text-gray-900">{p.addr_title}</div>
-                                        <div className="text-gray-600">{p.addr_val}</div>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 flex items-center justify-center bg-[var(--primary)]/10 text-[var(--primary)] rounded-xl shrink-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
-                                    </div>
-                                    <div>
-                                        <div className="font-semibold text-gray-900">{p.phone_title}</div>
-                                        <a href="tel:+905314002959" className="text-gray-600 hover:text-[var(--primary)]">{p.phone_val}</a>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 flex items-center justify-center bg-[var(--primary)]/10 text-[var(--primary)] rounded-xl shrink-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                                    </div>
-                                    <div>
-                                        <div className="font-semibold text-gray-900">{p.hours_title}</div>
-                                        <div className="text-gray-600">{p.hours_val}</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <a
-                                href={`https://wa.me/905314002959?text=${encodeURIComponent(whatsappText)}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-press flex items-center justify-center gap-2 w-full bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white py-4 rounded-xl font-semibold transition-colors"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                                </svg>
-                                {t.shared.cta_whatsapp}
-                            </a>
-
-                            {/* Map */}
-                            <div className="mt-8 rounded-2xl overflow-hidden h-64">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3013.5!2d29.13!3d40.93!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sGirne%2C%20Meri%C3%A7%20Sk.%20No%3A13%2C%2034852%20Maltepe%2F%C4%B0stanbul!5e0!3m2!1str!2str"
-                                    width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" title="Ata Yapı Konum"
-                                />
-                            </div>
-                        </div>
+                    <div>
+                      <div className="font-semibold text-slate-900 mb-0.5">{p.addr_title}</div>
+                      <a
+                        href={SITE_CONTACT.mapDirectionsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-slate-600 hover:text-[var(--primary)] transition-colors leading-relaxed"
+                      >
+                        {p.addr_val}
+                      </a>
                     </div>
+                  </div>
+
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0">
+                      <PhoneIcon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-slate-900 mb-0.5">{p.phone_title}</div>
+                      <a
+                        href={`tel:${SITE_CONTACT.phoneRaw}`}
+                        onClick={trackPhoneClick}
+                        className="text-slate-700 font-semibold hover:text-[var(--primary)] transition-colors"
+                      >
+                        {SITE_CONTACT.phoneDisplay}
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0">
+                      <MailIcon className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="font-semibold text-slate-900 mb-0.5">
+                        {t.contact.email_label}
+                      </div>
+                      <a
+                        href={`mailto:${SITE_CONTACT.email}`}
+                        className="text-slate-600 hover:text-[var(--primary)] transition-colors break-all"
+                      >
+                        {SITE_CONTACT.email}
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0">
+                      <ClockIcon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-slate-900 mb-0.5">{p.hours_title}</div>
+                      <div className="text-slate-600">{p.hours_val}</div>
+                    </div>
+                  </div>
                 </div>
-            </section>
-        </>
-    );
+
+                <a
+                  href={getWhatsAppUrl(whatsappText)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={trackWhatsAppClick}
+                  className="btn-press flex items-center justify-center gap-2.5 w-full bg-[#16a34a] hover:bg-[#15803d] text-white py-3.5 rounded-xl font-semibold text-sm transition-colors"
+                >
+                  <WhatsAppIcon className="w-5 h-5" />
+                  <span>{t.shared.cta_whatsapp}</span>
+                </a>
+              </div>
+
+              {/* Live Google Maps Embed */}
+              <div className="rounded-2xl overflow-hidden h-72 border border-slate-200 bg-slate-100">
+                <iframe
+                  src={SITE_CONTACT.mapEmbedUrl}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Ata Yapı Fabrika & Atölye Konumu"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

@@ -188,12 +188,29 @@ export async function markMessageAsRead(id: number) {
     if (msg) msg.read = true;
 }
 
+export async function deleteMessage(id: number) {
+    if (isDbConfigured()) {
+        try {
+            const db = getDb();
+            await db.delete(messages).where(eq(messages.id, id));
+            return;
+        } catch (error) {
+            console.warn('[db-operations] Neon DB error on deleteMessage, using localStore fallback:', error);
+        }
+    }
+
+    const idx = localStore.messages.findIndex((m) => m.id === id);
+    if (idx !== -1) {
+        localStore.messages.splice(idx, 1);
+    }
+}
+
 export async function getUnreadMessageCount() {
     if (isDbConfigured()) {
         try {
             const db = getDb();
             const result = await db.select({ count: sql<number>`count(*)` }).from(messages).where(eq(messages.read, false));
-            return result[0]?.count || 0;
+            return Number(result[0]?.count || 0);
         } catch (error) {
             console.warn('[db-operations] Neon DB error on getUnreadMessageCount, using localStore fallback:', error);
         }
@@ -363,11 +380,11 @@ export async function createQuote(data: NewQuote) {
         customerName: data.customerName,
         customerPhone: data.customerPhone,
         projectAddress: data.projectAddress ?? null,
-        items: (data.items as any[]) || [],
+        items: (data.items as LocalQuote['items']) || [],
         total: Number(data.total) || 0,
         validityDays: data.validityDays || 10,
         notes: data.notes ?? null,
-        status: (data.status as any) || 'draft',
+        status: (data.status as LocalQuote['status']) || 'draft',
         createdAt: new Date(),
         updatedAt: new Date(),
     };
@@ -432,11 +449,11 @@ export async function updateQuote(id: number, data: Partial<NewQuote>) {
         if (data.customerName !== undefined) quote.customerName = data.customerName;
         if (data.customerPhone !== undefined) quote.customerPhone = data.customerPhone;
         if (data.projectAddress !== undefined) quote.projectAddress = data.projectAddress ?? null;
-        if (data.items !== undefined) quote.items = data.items as any[];
+        if (data.items !== undefined) quote.items = data.items as LocalQuote['items'];
         if (data.total !== undefined) quote.total = Number(data.total) || 0;
         if (data.validityDays !== undefined && data.validityDays !== null) quote.validityDays = data.validityDays;
         if (data.notes !== undefined) quote.notes = data.notes ?? null;
-        if (data.status !== undefined) quote.status = (data.status as any) || 'draft';
+        if (data.status !== undefined) quote.status = (data.status as LocalQuote['status']) || 'draft';
         quote.updatedAt = new Date();
     }
 }

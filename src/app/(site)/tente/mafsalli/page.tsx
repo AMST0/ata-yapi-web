@@ -1,14 +1,22 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import FAQSection from '@/components/seo/FAQSection';
 import CTABlock from '@/components/seo/CTABlock';
 import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import { SITE_CONTACT, getWhatsAppUrl } from '@/lib/constants';
+import {
+    ArrowRightIcon,
+    CheckIcon,
+    SunWindIcon,
+    WhatsAppIcon,
+} from '@/components/icons/ArchitecturalIcons';
 
 export const metadata: Metadata = {
     title: 'Mafsallı Tente Sistemleri | Ata Yapı',
     description:
-        'Mafsallı tente sistemleri ile ekonomik gölgelik çözümü. Kolay kullanım, geniş renk seçeneği. Maltepe ve çevresinde ücretsiz keşif.',
+        'Mafsallı tente sistemleri ile balkon, teras ve mağaza cephelerinde ekonomik ve dayanıklı gölgelendirme. Maltepe ve çevresinde ücretsiz keşif.',
     alternates: {
         canonical: 'https://www.xn--atayap-u9a.site/tente/mafsalli',
     },
@@ -17,44 +25,68 @@ export const metadata: Metadata = {
 const faqs = [
     {
         question: 'Mafsallı tente nedir?',
-        answer: 'Mafsallı tente, iki adet kol (mafsal) mekanizması ile açılıp kapanan geleneksel tente sistemidir. Balkon ve teraslar için en çok tercih edilen modeldir.',
+        answer: 'Mafsallı tente, yüksek gergili yaylı alüminyum kol mekanizması sayesinde ayak veya dikme gerektirmeden öne doğru açılıp kapanan klasik gölgelendirme sistemidir.',
     },
     {
         question: 'Mafsallı tente fiyatları ne kadar?',
-        answer: 'Mafsallı tente fiyatları boyuta ve kumaş kalitesine göre değişir. Ortalama bir balkon için fiyatlar 4.000 TL\'den başlar.',
+        answer: 'Cephe genişliği, açılım ölçüsü, akrilik kumaş seçimi ve manuel/motorlu kontrol tercihine göre hesaplanır. Ücretsiz keşifle net fiyat sunulur.',
     },
     {
-        question: 'Mafsallı tente manuel mi motorlu mu?',
-        answer: 'Mafsallı tenteler hem manuel (elle krank ile) hem de motorlu olarak üretilebilir. Manuel sistem daha ekonomik, motorlu sistem daha pratiktir.',
+        question: 'Mafsallı tente manuel mi motorlu mu yapılabilir?',
+        answer: 'Her iki seçenek de mevcuttur. Ekonomik manuel çevirme kollu sistem olarak üretilebildiği gibi, sonradan veya ilk kurulumda uzaktan kumandalı motor eklenebilir.',
     },
     {
-        question: 'Mafsallı tente ne kadar açılır?',
-        answer: 'Standart mafsallı tenteler 2-3.5 metre arasında öne doğru açılabilir. Özel üretim ile 4 metreye kadar açılım sağlanabilir.',
+        question: 'Mafsallı tente öne doğru ne kadar açılır?',
+        answer: 'Cephe genişliğine bağlı olarak 1.50 m, 2.00 m, 2.50 m, 3.00 m ve 3.50 m standart kol açılımlarıyla üretilir.',
     },
     {
-        question: 'Mafsallı tente rüzgarda dayanır mı?',
-        answer: 'Orta şiddette rüzgarda sorun olmaz. Kuvvetli rüzgarda tente kapatılmalıdır. Motorlu sistemlere rüzgar sensörü eklenerek otomatik kapanma sağlanabilir.',
+        question: 'Mafsallı tente yağmur ve güneşe dayanıklı mı?',
+        answer: 'Su itici apre kaplamalı akrilik kumaş güneşin UV ışınlarını ve yaz yağmurlarını keser. Şiddetli fırtına ve yoğun kar yağışında tentenin kapalı tutulması önerilir.',
     },
     {
-        question: 'Mafsallı tente bakımı nasıl yapılır?',
-        answer: 'Yılda 1-2 kez kumaş yıkanmalı, kol mekanizması yağlanmalıdır. Düzenli bakımla 10+ yıl sorunsuz kullanım sağlanır.',
+        question: 'Mafsallı tente eğimi ayarlanabilir mi?',
+        answer: 'Evet, montaj sırasında cephenizin güneş alma açısına göre 5° ile 45° arasında eğim ayarı yapılır.',
     },
 ];
 
 const features = [
-    { title: 'Ekonomik Fiyat', description: 'Diğer sistemlere göre daha uygun fiyatlı.', icon: '💰' },
-    { title: 'Kolay Kullanım', description: 'Elle krank veya motor ile kolay açılış.', icon: '👆' },
-    { title: 'Geniş Renk Seçeneği', description: 'Düz ve desenli kumaş alternatifleri.', icon: '🎨' },
-    { title: 'Hızlı Montaj', description: 'Genellikle yarım günde montaj tamamlanır.', icon: '⚡' },
-    { title: 'Dayanıklı Yapı', description: 'Güçlü kol mekanizması ve sağlam kumaş.', icon: '💪' },
-    { title: 'Modüler Yapı', description: 'İsteğe göre motor ve sensör eklenebilir.', icon: '🔧' },
+    {
+        code: '01',
+        title: 'Dikmesiz Serbest Gölgelik',
+        description: 'Alüminyum enjeksiyon mafsal kolları sayesinde zeminde ayak olmadan tam açık alan sağlar.',
+    },
+    {
+        code: '02',
+        title: 'Yüksek Fiyat / Performans',
+        description: 'Balkon, kafe ve esnaf cepheleri için en ekonomik ve kendini kanıtlamış gölgelendirme sistemi.',
+    },
+    {
+        code: '03',
+        title: 'Geniş Kumaş Koleksiyonu',
+        description: '100+ düz ve çizgili ithal akrilik kumaş deseni ile bina ve kurumsal kimliğe tam uyum.',
+    },
+    {
+        code: '04',
+        title: 'Ayarlanabilir Eğim Açısı',
+        description: 'Batı ve güney cephelerde alçak güneş açısını kesmek için kademeli eğim ayarı.',
+    },
+    {
+        code: '05',
+        title: 'Alüminyum Koruyucu Saçak',
+        description: 'Ruloyu üstten yağmurdan koruyan opsiyonel alüminyum üst çatı profili.',
+    },
+    {
+        code: '06',
+        title: 'Motor & Sensör Uyumu',
+        description: 'İstenildiğinde tüp motor ve rüzgar sensörü entegrasyonuna uygun modüler şasi.',
+    },
 ];
 
 export default function MafsalliTentePage() {
     return (
         <>
             {/* Breadcrumb */}
-            <div className="bg-gray-50 border-b border-gray-100">
+            <div className="bg-slate-50 border-b border-slate-200/80">
                 <div className="container">
                     <Breadcrumb
                         items={[
@@ -67,145 +99,156 @@ export default function MafsalliTentePage() {
             </div>
 
             {/* Hero */}
-            <section className="py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-                <div className="container">
-                    <div className="max-w-2xl">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-[var(--accent)] mb-6">
-                            <span className="w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse" />
-                            Klasik Çözüm
-                        </span>
-                        <h1
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
-                            style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                            Mafsallı{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-[var(--secondary)]">
-                                Tente
+            <section className="relative py-20 lg:py-28 bg-[#0b0f19] arch-grid-dark text-white overflow-hidden">
+                <div className="container relative z-10">
+                    <div className="grid lg:grid-cols-12 gap-12 items-center">
+                        <div className="lg:col-span-7">
+                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.06] border border-white/10 rounded-full text-xs font-semibold uppercase tracking-[0.16em] text-slate-300 mb-6">
+                                <SunWindIcon className="w-3.5 h-3.5 text-[var(--primary)]" />
+                                Klasik Eklem Kollu Sistem
                             </span>
-                        </h1>
-                        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                            Kol mekanizması ile açılıp kapanan klasik tente sistemi. Ekonomik
-                            fiyat, kolay kullanım ve geniş kumaş seçenekleri. Balkonlar için
-                            en popüler tercih.
-                        </p>
-                        <div className="flex flex-wrap gap-4">
-                            <Link
-                                href="/iletisim"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300"
+                            <h1
+                                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6"
+                                style={{ fontFamily: 'var(--font-heading)' }}
                             >
-                                Ücretsiz Keşif
-                            </Link>
-                            <a
-                                href="https://wa.me/905314002959"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300"
-                            >
-                                WhatsApp
-                            </a>
+                                Mafsallı{' '}
+                                <span className="text-[var(--primary)]">Tente Sistemleri</span>
+                            </h1>
+                            <p className="text-lg text-slate-300 mb-8 leading-relaxed max-w-2xl">
+                                Yaylı alüminyum kol mekanizması ile açılıp kapanan klasik tente sistemi.
+                                Balkonlar, teraslar ve mağaza vitrinleri için ekonomik, dayanıklı ve geniş
+                                renk seçenekli gölgelendirme.
+                            </p>
+                            <div className="flex flex-wrap gap-3.5">
+                                <Link
+                                    href="/iletisim"
+                                    className="btn-press inline-flex items-center gap-2.5 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-7 py-4 rounded-xl font-semibold transition-all shadow-lg shadow-red-950/30"
+                                >
+                                    Ücretsiz Keşif Planla
+                                    <ArrowRightIcon className="w-4 h-4" />
+                                </Link>
+                                <a
+                                    href={getWhatsAppUrl('Merhaba, mafsallı tente fiyatları ve kumaş seçenekleri hakkında bilgi almak istiyorum.')}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-press inline-flex items-center gap-2.5 bg-[var(--whatsapp)] hover:bg-[var(--whatsapp-dark)] text-white px-7 py-4 rounded-xl font-semibold transition-all"
+                                >
+                                    <WhatsAppIcon className="w-4 h-4" />
+                                    WhatsApp Hattı
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-5">
+                            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                                <Image
+                                    src="/mafsalli-tente.png"
+                                    alt="Mafsallı Tente Sistemleri - Ata Yapı"
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 42vw"
+                                    className="object-cover"
+                                    priority
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19]/80 via-transparent to-transparent" />
+                                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between px-4 py-3 rounded-xl bg-[#0b0f19]/85 backdrop-blur-md border border-white/10 text-xs">
+                                    <span className="text-slate-300 font-medium">Manuel & Motorlu Seçenek</span>
+                                    <span className="text-emerald-400 font-semibold">{SITE_CONTACT.phoneDisplay}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* What is */}
-            <section className="py-16 lg:py-20 bg-white">
+            {/* Technical Overview & Working Steps */}
+            <section className="py-16 lg:py-24 bg-white">
                 <div className="container">
                     <div className="max-w-4xl mx-auto">
+                        <span className="section-eyebrow">Çalışma Prensibi</span>
                         <h2
-                            className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center"
+                            className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 tracking-tight"
                             style={{ fontFamily: 'var(--font-heading)' }}
                         >
-                            Mafsallı Tente Nedir?
+                            Mafsallı Tente Nasıl Çalışır?
                         </h2>
-                        <div className="prose prose-lg max-w-none text-gray-600">
-                            <p>
-                                Mafsallı tente, iki adet kol (mafsal) mekanizması ve yaylı kol sistemi ile
-                                açılıp kapanan geleneksel tente modelidir. En yaygın kullanılan tente
-                                tipi olup balkon, teras ve dükkan önlerinde sıklıkla tercih edilir.
-                            </p>
-                            <p>
-                                Manuel versiyonlar elle döndürülen bir krank ile açılıp kapatılırken,
-                                motorlu versiyonlar kumanda veya şalter ile kontrol edilir. Ekonomik
-                                fiyatı ve kolay kullanımı ile öne çıkar.
-                            </p>
-                            <p>
-                                Mafsallı tenteler 2-6 metre arası genişliklerde ve 2-3.5 metre arası
-                                açılımlarda üretilebilir. Geniş kumaş renk ve desen seçenekleri mevcuttur.
-                            </p>
+                        <p className="text-slate-600 leading-relaxed text-base md:text-lg mb-10">
+                            40x40 mm çelik taşıyıcı profil üzerine kurulan sistem, içten çelik zincirli alüminyum
+                            kolların kumaşı sürekli gergin tutması prensibiyle çalışır. Manuel çevirme kolu veya
+                            kumandalı motor ile istenilen açılım mesafesinde durdurulabilir.
+                        </p>
+
+                        <div className="grid md:grid-cols-3 gap-6">
+                            {[
+                                {
+                                    step: '01',
+                                    title: 'Yaylı Mafsal Kolları',
+                                    desc: 'Çelik zincirli alüminyum kollar açılış boyunca kumaşı sarkmadan gergin tutar.',
+                                },
+                                {
+                                    step: '02',
+                                    title: 'Galvaniz Sarım Borusu',
+                                    desc: '70/78 mm oluklu galvaniz mil üzerine kumaş düzgün ve kırışıksız sarılır.',
+                                },
+                                {
+                                    step: '03',
+                                    title: 'UV Blokajlı Akrilik Kumaş',
+                                    desc: '5 yıl solmazlık garantili kumaş ısıyı keserek balkon sıcaklığını düşürür.',
+                                },
+                            ].map((item) => (
+                                <div key={item.step} className="p-6 rounded-2xl bg-slate-50 border border-slate-200/80">
+                                    <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#0b0f19] text-white font-mono text-xs font-bold mb-4">
+                                        {item.step}
+                                    </span>
+                                    <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+                                    <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="grid sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-slate-200/80">
+                            {['2.0m – 6.0m Cephe Genişliği', '3.5m Maksimum Öne Açılım', 'Saçaklı Korumalı Opsiyon'].map((item) => (
+                                <div key={item} className="flex items-center gap-2.5 text-sm font-semibold text-slate-800">
+                                    <span className="w-5 h-5 rounded-full bg-red-50 text-[var(--primary)] flex items-center justify-center shrink-0">
+                                        <CheckIcon className="w-3.5 h-3.5" />
+                                    </span>
+                                    {item}
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Features */}
-            <section className="py-16 lg:py-20 bg-gray-50">
+            <section className="py-16 lg:py-24 bg-slate-50 arch-grid-light border-y border-slate-200/70">
                 <div className="container">
-                    <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 text-center"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                        Mafsallı Tente Avantajları
-                    </h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                        {features.map((feature, index) => (
+                    <div className="max-w-2xl mb-12">
+                        <span className="section-eyebrow">Teknik Avantajlar</span>
+                        <h2
+                            className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight"
+                            style={{ fontFamily: 'var(--font-heading)' }}
+                        >
+                            Mafsallı Tente Avantajları
+                        </h2>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {features.map((feature) => (
                             <div
-                                key={index}
-                                className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
+                                key={feature.code}
+                                className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-slate-300 transition-all shadow-sm"
                             >
-                                <div className="text-3xl mb-3">{feature.icon}</div>
+                                <span className="inline-block text-xs font-mono font-bold text-[var(--primary)] bg-red-50 px-2.5 py-1 rounded-md mb-4">
+                                    {feature.code}
+                                </span>
                                 <h3
-                                    className="font-bold text-gray-900 mb-2"
+                                    className="font-bold text-slate-900 text-lg mb-2"
                                     style={{ fontFamily: 'var(--font-heading)' }}
                                 >
                                     {feature.title}
                                 </h3>
-                                <p className="text-gray-600 text-sm">{feature.description}</p>
+                                <p className="text-slate-600 text-sm leading-relaxed">{feature.description}</p>
                             </div>
                         ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* How it works */}
-            <section className="py-16 lg:py-20 bg-white">
-                <div className="container">
-                    <div className="max-w-4xl mx-auto">
-                        <h2
-                            className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center"
-                            style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                            Mafsallı Tente Nasıl Çalışır?
-                        </h2>
-                        <div className="grid md:grid-cols-3 gap-8">
-                            <div className="text-center">
-                                <div className="w-16 h-16 mx-auto mb-4 bg-[var(--accent)]/10 rounded-full flex items-center justify-center text-2xl">
-                                    1
-                                </div>
-                                <h3 className="font-bold text-gray-900 mb-2">Kol Mekanizması</h3>
-                                <p className="text-gray-600 text-sm">
-                                    İki adet yaylı kol kumaşı gergin tutar ve açılış-kapanışı sağlar.
-                                </p>
-                            </div>
-                            <div className="text-center">
-                                <div className="w-16 h-16 mx-auto mb-4 bg-[var(--accent)]/10 rounded-full flex items-center justify-center text-2xl">
-                                    2
-                                </div>
-                                <h3 className="font-bold text-gray-900 mb-2">Mil (Boru)</h3>
-                                <p className="text-gray-600 text-sm">
-                                    Kumaş merkezi mile sarılır. Krank veya motor ile mil döndürülerek açılış yapılır.
-                                </p>
-                            </div>
-                            <div className="text-center">
-                                <div className="w-16 h-16 mx-auto mb-4 bg-[var(--accent)]/10 rounded-full flex items-center justify-center text-2xl">
-                                    3
-                                </div>
-                                <h3 className="font-bold text-gray-900 mb-2">Kumaş</h3>
-                                <p className="text-gray-600 text-sm">
-                                    UV dayanımlı akrilik veya polyester kumaş gölgelendirme sağlar.
-                                </p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -217,29 +260,30 @@ export default function MafsalliTentePage() {
             <FAQSection title="Mafsallı Tente Hakkında Sıkça Sorulan Sorular" faqs={faqs} />
 
             {/* Related Links */}
-            <section className="py-12 bg-gray-50">
+            <section className="py-12 bg-slate-50 border-t border-slate-200/80">
                 <div className="container">
-                    <h2 className="text-xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
+                    <h2 className="text-lg font-bold text-slate-900 mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
                         Diğer Tente Sistemleri
                     </h2>
                     <div className="flex flex-wrap gap-3">
                         <Link
                             href="/tente/kasetli"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                            className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
                         >
                             Kasetli Tente
                         </Link>
                         <Link
                             href="/tente/motorlu"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                            className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
                         >
                             Motorlu Tente
                         </Link>
                         <Link
                             href="/tente"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
                         >
-                            Tüm Tente Sistemleri →
+                            Tüm Tente Sistemleri
+                            <ArrowRightIcon className="w-3.5 h-3.5" />
                         </Link>
                     </div>
                 </div>
@@ -247,8 +291,8 @@ export default function MafsalliTentePage() {
 
             {/* CTA */}
             <CTABlock
-                title="Mafsallı Tente Yaptırmak İster misiniz?"
-                description="Ekonomik tente çözümü için ücretsiz keşif randevusu alın."
+                title="Balkon ve Mağaza Cepheniz İçin Mafsallı Tente"
+                description="Ücretsiz yerinde keşif ve kumaş kartelası sunumu için bizimle iletişime geçin."
             />
         </>
     );

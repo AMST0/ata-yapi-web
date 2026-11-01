@@ -6,398 +6,476 @@ import BalconyPreview from "./BalconyPreview";
 import AnimatedNumber from "./AnimatedNumber";
 import Toast from "./Toast";
 import { trackCalculatorWhatsApp } from "@/lib/analytics";
+import { useLanguage } from "@/lib/i18n";
+import { getWhatsAppUrl } from "@/lib/constants";
+import {
+  WhatsAppIcon,
+  ShieldIcon,
+  RulerIcon,
+  WrenchIcon,
+  LayersIcon,
+} from "@/components/icons/ArchitecturalIcons";
 
 type BalconyType = "flat" | "L" | "U";
 
-const balconyTypes = [
-    { id: "flat" as const, label: "Düz", icon: "▭" },
-    { id: "L" as const, label: "L Tipi", icon: "⌐" },
-    { id: "U" as const, label: "U Tipi", icon: "⊔" },
-];
-
-interface PremiumSliderProps {
-    label: string;
-    value: number;
-    onChange: (v: number) => void;
-    min: number;
-    max: number;
-    step: number;
-    gradient: string;
-    onStartDragging: () => void;
+interface TechnicalSliderProps {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  min: number;
+  max: number;
+  step: number;
+  onStartDragging: () => void;
 }
 
-const PremiumSlider = ({
-    label,
-    value,
-    onChange,
-    min,
-    max,
-    step,
-    gradient,
-    onStartDragging
-}: PremiumSliderProps) => {
-    const percentage = ((value - min) / (max - min)) * 100;
+function TechnicalSlider({
+  label,
+  value,
+  onChange,
+  min,
+  max,
+  step,
+  onStartDragging,
+}: TechnicalSliderProps) {
+  const percentage = ((value - min) / (max - min)) * 100;
 
-    return (
-        <div className="space-y-3">
-            <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-600">{label}</span>
-                <div className="flex items-center gap-1 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full border border-gray-200/50 shadow-sm">
-                    <span className="text-lg font-bold text-gray-900">{value}</span>
-                    <span className="text-xs text-gray-500">cm</span>
-                </div>
-            </div>
-            <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                    className={`absolute inset-y-0 left-0 rounded-full ${gradient}`}
-                    style={{ width: `${percentage}%` }}
-                />
-                <input
-                    type="range"
-                    min={min}
-                    max={max}
-                    step={step}
-                    value={value}
-                    onChange={(e) => {
-                        onChange(Number(e.target.value));
-                        onStartDragging();
-                    }}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                />
-                <div
-                    className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white rounded-full shadow-lg border-2 border-gray-300 cursor-grab active:cursor-grabbing transition-transform hover:scale-110"
-                    style={{ left: `calc(${percentage}% - 10px)` }}
-                />
-            </div>
-            <div className="flex justify-between text-xs text-gray-400">
-                <span>{min} cm</span>
-                <span>{max} cm</span>
-            </div>
+  return (
+    <div className="space-y-2.5">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-semibold uppercase tracking-wider text-slate-600">
+          {label}
+        </span>
+        <div className="inline-flex items-baseline gap-1 px-2.5 py-1 rounded-md bg-slate-900 text-white font-mono text-sm font-bold">
+          <span>{value}</span>
+          <span className="text-[11px] text-slate-400 font-normal">cm</span>
         </div>
-    );
-};
+      </div>
+
+      <div className="relative h-2 bg-slate-200 rounded-full">
+        <div
+          className="absolute inset-y-0 left-0 rounded-full bg-slate-900"
+          style={{ width: `${percentage}%` }}
+        />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) => {
+            onChange(Number(e.target.value));
+            onStartDragging();
+          }}
+          aria-label={label}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+        />
+        <div
+          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-[var(--primary)] rounded-full shadow-md border-2 border-white pointer-events-none"
+          style={{ left: `calc(${percentage}% - 8px)` }}
+        />
+      </div>
+
+      <div className="flex justify-between text-[11px] font-mono text-slate-400">
+        <span>{min} cm</span>
+        <span>{max} cm</span>
+      </div>
+    </div>
+  );
+}
 
 export default function BalconyCalculator() {
-    const shouldReduceMotion = useReducedMotion();
+  const { t } = useLanguage();
+  const shouldReduceMotion = useReducedMotion();
 
-    const [mainWidth, setMainWidth] = useState(300);
-    const [mainHeight, setMainHeight] = useState(250);
-    const [leftWidth, setLeftWidth] = useState(150);
-    const [leftHeight, setLeftHeight] = useState(200);
-    const [rightWidth, setRightWidth] = useState(150);
-    const [rightHeight, setRightHeight] = useState(200);
+  const [mainWidth, setMainWidth] = useState(320);
+  const [mainHeight, setMainHeight] = useState(240);
+  const [leftWidth, setLeftWidth] = useState(160);
+  const [leftHeight, setLeftHeight] = useState(240);
+  const [rightWidth, setRightWidth] = useState(160);
+  const [rightHeight, setRightHeight] = useState(240);
 
-    const [balconyType, setBalconyType] = useState<BalconyType>("flat");
-    const [showToast, setShowToast] = useState(false);
-    const [isDragging, setIsDragging] = useState(false);
+  const [balconyType, setBalconyType] = useState<BalconyType>("flat");
+  const [showToast, setShowToast] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
-    const calculatePanels = useCallback(() => {
-        const panelWidth = 55;
-        const mainPanels = Math.ceil(mainWidth / panelWidth);
+  const balconyTypes = [
+    { id: "flat" as const, label: t.calculator.type_flat, code: "I" },
+    { id: "L" as const, label: t.calculator.type_l, code: "L" },
+    { id: "U" as const, label: t.calculator.type_u, code: "U" },
+  ];
 
-        if (balconyType === "L") {
-            const leftPanels = Math.ceil(leftWidth / panelWidth);
-            return mainPanels + leftPanels;
-        } else if (balconyType === "U") {
-            const leftPanels = Math.ceil(leftWidth / panelWidth);
-            const rightPanels = Math.ceil(rightWidth / panelWidth);
-            return mainPanels + leftPanels + rightPanels;
-        }
+  const calculatePanels = useCallback(() => {
+    const panelWidth = 55;
+    const mainPanels = Math.ceil(mainWidth / panelWidth);
 
-        return mainPanels;
-    }, [mainWidth, leftWidth, rightWidth, balconyType]);
+    if (balconyType === "L") {
+      return mainPanels + Math.ceil(leftWidth / panelWidth);
+    }
+    if (balconyType === "U") {
+      return (
+        mainPanels +
+        Math.ceil(leftWidth / panelWidth) +
+        Math.ceil(rightWidth / panelWidth)
+      );
+    }
+    return mainPanels;
+  }, [mainWidth, leftWidth, rightWidth, balconyType]);
 
-    const calculateArea = useCallback(() => {
-        const mainArea = (mainWidth * mainHeight) / 10000;
+  const calculateArea = useCallback(() => {
+    const mainArea = (mainWidth * mainHeight) / 10000;
 
-        if (balconyType === "L") {
-            const leftArea = (leftWidth * leftHeight) / 10000;
-            return mainArea + leftArea;
-        } else if (balconyType === "U") {
-            const leftArea = (leftWidth * leftHeight) / 10000;
-            const rightArea = (rightWidth * rightHeight) / 10000;
-            return mainArea + leftArea + rightArea;
-        }
+    if (balconyType === "L") {
+      return mainArea + (leftWidth * leftHeight) / 10000;
+    }
+    if (balconyType === "U") {
+      return (
+        mainArea +
+        (leftWidth * leftHeight) / 10000 +
+        (rightWidth * rightHeight) / 10000
+      );
+    }
+    return mainArea;
+  }, [mainWidth, mainHeight, leftWidth, leftHeight, rightWidth, rightHeight, balconyType]);
 
-        return mainArea;
-    }, [mainWidth, mainHeight, leftWidth, leftHeight, rightWidth, rightHeight, balconyType]);
+  const panels = calculatePanels();
+  const area = calculateArea();
 
-    const panels = calculatePanels();
-    const area = calculateArea();
+  useEffect(() => {
+    if (!isDragging) return;
+    const timeout = setTimeout(() => {
+      setShowToast(true);
+      setIsDragging(false);
+      setTimeout(() => setShowToast(false), 1400);
+    }, 400);
+    return () => clearTimeout(timeout);
+  }, [mainWidth, mainHeight, leftWidth, leftHeight, rightWidth, rightHeight, isDragging]);
 
-    useEffect(() => {
-        if (!isDragging) return;
-        const timeout = setTimeout(() => {
-            setShowToast(true);
-            setIsDragging(false);
-            setTimeout(() => setShowToast(false), 1500);
-        }, 400);
-        return () => clearTimeout(timeout);
-    }, [mainWidth, mainHeight, leftWidth, leftHeight, rightWidth, rightHeight, isDragging]);
-
-    const generateWhatsAppMessage = () => {
-        const typeLabels = { flat: "Düz", L: "L Tipi", U: "U Tipi" };
-        let dimensionsText = `- Ana Genişlik: ${mainWidth} cm\n- Ana Yükseklik: ${mainHeight} cm`;
-
-        if (balconyType === "L") {
-            dimensionsText += `\n- Sol Yan Genişlik: ${leftWidth} cm\n- Sol Yan Yükseklik: ${leftHeight} cm`;
-        } else if (balconyType === "U") {
-            dimensionsText += `\n- Sol Yan: ${leftWidth}x${leftHeight} cm`;
-            dimensionsText += `\n- Sağ Yan: ${rightWidth}x${rightHeight} cm`;
-        }
-
-        const message = `Merhaba, cam balkon için fiyat almak istiyorum.\n\n📐 Ölçüler (${typeLabels[balconyType]}):\n${dimensionsText}\n\n📊 Tahmini:\n- Alan: ${area.toFixed(2)} m²\n- Panel Sayısı: ${panels} adet\n\nLütfen ücretsiz keşif için bana dönüş yapar mısınız?`;
-        return encodeURIComponent(message);
+  const buildWhatsAppMessage = () => {
+    const typeLabels: Record<BalconyType, string> = {
+      flat: t.calculator.type_flat,
+      L: t.calculator.type_l,
+      U: t.calculator.type_u,
     };
 
-    return (
-        <section id="hesaplayici" className="py-20 lg:py-28 bg-gradient-to-b from-gray-50 to-white">
-            <div className="container">
-                <div className="text-center max-w-2xl mx-auto mb-16">
-                    <motion.div
-                        initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
+    let dims = `• ${t.calculator.main_section}: ${mainWidth} x ${mainHeight} cm`;
+    if (balconyType === "L") {
+      dims += `\n• ${t.calculator.side_section}: ${leftWidth} x ${leftHeight} cm`;
+    } else if (balconyType === "U") {
+      dims += `\n• ${t.calculator.left_section}: ${leftWidth} x ${leftHeight} cm`;
+      dims += `\n• ${t.calculator.right_section}: ${rightWidth} x ${rightHeight} cm`;
+    }
+
+    return `${t.calculator.wa_intro}\n\n[${t.calculator.wa_dims} - ${typeLabels[balconyType]}]\n${dims}\n\n[${t.calculator.wa_est}]\n• ${t.calculator.est_area}: ${area.toFixed(2)} m²\n• ${t.calculator.panel_count}: ${panels} ${t.calculator.unit_pcs}\n\n${t.calculator.wa_outro}`;
+  };
+
+  return (
+    <section id="hesaplayici" className="py-20 lg:py-28 bg-white border-b border-slate-200/80">
+      <div className="container">
+        {/* Section Header */}
+        <div className="max-w-3xl mb-12">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--primary)] mb-3">
+            <span className="w-6 h-[2px] bg-[var(--primary)]" />
+            <span>{t.calculator.badge}</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl lg:text-[2.6rem] font-bold text-slate-900 mb-3">
+            {t.calculator.title}
+          </h2>
+          <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
+            {t.calculator.subtitle}
+          </p>
+        </div>
+
+        {/* Architectural Configurator Frame */}
+        <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-6 lg:p-8 shadow-sm">
+          {/* Geometry Selector Tabs */}
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-200">
+            <div className="inline-flex bg-slate-200/70 rounded-xl p-1 gap-1 w-full sm:w-auto">
+              {balconyTypes.map((type) => {
+                const active = balconyType === type.id;
+                return (
+                  <button
+                    key={type.id}
+                    type="button"
+                    onClick={() => setBalconyType(type.id)}
+                    className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
+                      active
+                        ? "bg-slate-900 text-white shadow-xs"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
+                    }`}
+                  >
+                    <span
+                      className={`w-5 h-5 rounded text-[11px] font-mono font-bold inline-flex items-center justify-center ${
+                        active ? "bg-red-600 text-white" : "bg-slate-300/70 text-slate-700"
+                      }`}
                     >
-                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[var(--primary)]/10 to-[var(--secondary)]/10 rounded-full text-sm font-semibold text-[var(--primary)] mb-4">
-                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <rect x="4" y="2" width="16" height="20" rx="2" />
-                                <line x1="8" y1="6" x2="16" y2="6" />
-                                <line x1="8" y1="10" x2="16" y2="10" />
-                                <line x1="8" y1="14" x2="12" y2="14" />
-                            </svg>
-                            Akıllı Hesaplayıcı
-                        </span>
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
-                            Cam Balkon <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">Fiyat Hesaplayıcı</span>
-                        </h2>
-                        <p className="text-gray-600 text-lg">
-                            Balkon ölçülerinizi girerek tahmini maliyet hesaplayın. Kesin fiyat için ücretsiz keşif randevusu alın.
-                        </p>
-                    </motion.div>
-                </div>
-
-                <div className="max-w-6xl mx-auto">
-                    <motion.div
-                        initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="relative"
-                    >
-                        <div className="absolute -inset-4 bg-gradient-to-r from-[var(--primary)]/5 via-[var(--secondary)]/5 to-[var(--accent)]/5 rounded-[2rem] blur-xl" />
-
-                        <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl shadow-gray-200/50 p-8 md:p-10 border border-gray-100">
-                            <div className="flex justify-center mb-10">
-                                <div className="inline-flex bg-gray-100/80 backdrop-blur-sm rounded-2xl p-1.5 gap-1">
-                                    {balconyTypes.map((type) => (
-                                        <button
-                                            key={type.id}
-                                            onClick={() => setBalconyType(type.id)}
-                                            className={`relative flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${balconyType === type.id
-                                                ? "text-white shadow-lg"
-                                                : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
-                                                }`}
-                                        >
-                                            <span className="text-lg">{type.icon}</span>
-                                            <span>{type.label}</span>
-                                            {balconyType === type.id && (
-                                                <motion.div
-                                                    layoutId="activeTabBg"
-                                                    className="absolute inset-0 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] rounded-xl -z-10"
-                                                    transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 30 }}
-                                                />
-                                            )}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="grid lg:grid-cols-[1fr_320px] gap-8">
-                                <div className="space-y-6">
-                                    <div className="relative bg-gradient-to-br from-gray-50 via-white to-gray-50 rounded-2xl p-6 min-h-[280px] flex items-center justify-center border border-gray-100">
-                                        <div className="absolute top-4 left-4 flex items-center gap-2 text-xs text-gray-400">
-                                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                                            Canlı Önizleme
-                                        </div>
-                                        <AnimatePresence mode="wait">
-                                            <BalconyPreview
-                                                key={balconyType}
-                                                mainWidth={mainWidth}
-                                                mainHeight={mainHeight}
-                                                leftWidth={leftWidth}
-                                                leftHeight={leftHeight}
-                                                rightWidth={rightWidth}
-                                                rightHeight={rightHeight}
-                                                type={balconyType}
-                                                reducedMotion={shouldReduceMotion ?? false}
-                                            />
-                                        </AnimatePresence>
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <div className="p-6 bg-gradient-to-br from-blue-50/80 to-indigo-50/50 rounded-2xl border border-blue-100/50">
-                                            <div className="flex items-center gap-2 mb-5">
-                                                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                                                    <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <rect x="3" y="3" width="18" height="18" rx="2" />
-                                                    </svg>
-                                                </div>
-                                                <span className="font-bold text-gray-800">
-                                                    {balconyType === "flat" ? "Balkon Ölçüleri" : "Ana Bölüm (Orta)"}
-                                                </span>
-                                            </div>
-                                            <div className="grid md:grid-cols-2 gap-6">
-                                                <PremiumSlider label="Genişlik" value={mainWidth} onChange={setMainWidth} min={100} max={600} step={10} gradient="bg-gradient-to-r from-blue-400 to-blue-600" onStartDragging={() => setIsDragging(true)} />
-                                                <PremiumSlider label="Yükseklik" value={mainHeight} onChange={setMainHeight} min={150} max={350} step={5} gradient="bg-gradient-to-r from-indigo-400 to-indigo-600" onStartDragging={() => setIsDragging(true)} />
-                                            </div>
-                                        </div>
-
-                                        <AnimatePresence>
-                                            {(balconyType === "L" || balconyType === "U") && (
-                                                <motion.div
-                                                    initial={{ opacity: 0, height: 0 }}
-                                                    animate={{ opacity: 1, height: "auto" }}
-                                                    exit={{ opacity: 0, height: 0 }}
-                                                    className="overflow-hidden"
-                                                >
-                                                    <div className="p-6 bg-gradient-to-br from-emerald-50/80 to-teal-50/50 rounded-2xl border border-emerald-100/50">
-                                                        <div className="flex items-center gap-2 mb-5">
-                                                            <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
-                                                                <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                                    <path d="M3 3h18v18H3z" />
-                                                                    <path d="M3 12h9v9" />
-                                                                </svg>
-                                                            </div>
-                                                            <span className="font-bold text-gray-800">
-                                                                {balconyType === "U" ? "Sol Yan Bölüm" : "Yan Bölüm"}
-                                                            </span>
-                                                        </div>
-                                                        <div className="grid md:grid-cols-2 gap-6">
-                                                            <PremiumSlider label="Genişlik" value={leftWidth} onChange={setLeftWidth} min={50} max={300} step={10} gradient="bg-gradient-to-r from-emerald-400 to-emerald-600" onStartDragging={() => setIsDragging(true)} />
-                                                            <PremiumSlider label="Yükseklik" value={leftHeight} onChange={setLeftHeight} min={100} max={300} step={5} gradient="bg-gradient-to-r from-teal-400 to-teal-600" onStartDragging={() => setIsDragging(true)} />
-                                                        </div>
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-
-                                        <AnimatePresence>
-                                            {balconyType === "U" && (
-                                                <motion.div
-                                                    initial={{ opacity: 0, height: 0 }}
-                                                    animate={{ opacity: 1, height: "auto" }}
-                                                    exit={{ opacity: 0, height: 0 }}
-                                                    className="overflow-hidden"
-                                                >
-                                                    <div className="p-6 bg-gradient-to-br from-violet-50/80 to-purple-50/50 rounded-2xl border border-violet-100/50">
-                                                        <div className="flex items-center gap-2 mb-5">
-                                                            <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-purple-600 rounded-lg flex items-center justify-center">
-                                                                <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                                    <path d="M3 3h18v18H3z" />
-                                                                    <path d="M12 12h9v9" />
-                                                                </svg>
-                                                            </div>
-                                                            <span className="font-bold text-gray-800">Sağ Yan Bölüm</span>
-                                                        </div>
-                                                        <div className="grid md:grid-cols-2 gap-6">
-                                                            <PremiumSlider label="Genişlik" value={rightWidth} onChange={setRightWidth} min={50} max={300} step={10} gradient="bg-gradient-to-r from-violet-400 to-violet-600" onStartDragging={() => setIsDragging(true)} />
-                                                            <PremiumSlider label="Yükseklik" value={rightHeight} onChange={setRightHeight} min={100} max={300} step={5} gradient="bg-gradient-to-r from-purple-400 to-purple-600" onStartDragging={() => setIsDragging(true)} />
-                                                        </div>
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </div>
-                                </div>
-
-                                <div className="lg:sticky lg:top-8 h-fit">
-                                    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-6 text-white" >
-                                        <div className="text-center mb-6">
-                                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-xs font-medium text-gray-300 mb-4">
-                                                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                                                Anlık Hesaplama
-                                            </div>
-                                            <h3 className="text-lg font-semibold text-gray-200">Tahmini Sonuçlar</h3>
-                                        </div>
-
-                                        <div className="space-y-6">
-                                            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
-                                                <div className="flex items-center gap-3 mb-3">
-                                                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                                                        <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                            <rect x="3" y="3" width="18" height="18" rx="2" />
-                                                            <path d="M9 9h6v6H9z" />
-                                                        </svg>
-                                                    </div>
-                                                    <span className="text-sm text-gray-400">Tahmini Alan</span>
-                                                </div>
-                                                <div className="flex items-baseline gap-2">
-                                                    <AnimatedNumber value={area} decimals={2} reducedMotion={shouldReduceMotion ?? false} className="text-4xl font-bold text-white" />
-                                                    <span className="text-xl text-gray-400">m²</span>
-                                                </div>
-                                            </div>
-
-                                            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
-                                                <div className="flex items-center gap-3 mb-3">
-                                                    <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-500 rounded-lg flex items-center justify-center">
-                                                        <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                            <rect x="3" y="3" width="6" height="18" rx="1" />
-                                                            <rect x="11" y="3" width="4" height="18" rx="1" />
-                                                            <rect x="17" y="3" width="4" height="18" rx="1" />
-                                                        </svg>
-                                                    </div>
-                                                    <span className="text-sm text-gray-400">Panel Sayısı</span>
-                                                </div>
-                                                <div className="flex items-baseline gap-2">
-                                                    <AnimatedNumber value={panels} decimals={0} reducedMotion={shouldReduceMotion ?? false} className="text-4xl font-bold text-white" />
-                                                    <span className="text-xl text-gray-400">adet</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <motion.a
-                                            href={`https://wa.me/905314002959?text=${generateWhatsAppMessage()}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            onClick={trackCalculatorWhatsApp}
-                                            className="mt-6 flex items-center justify-center gap-3 w-full bg-gradient-to-r from-[var(--accent)] to-emerald-500 hover:from-emerald-500 hover:to-[var(--accent)] text-white px-6 py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg shadow-green-500/25 hover:shadow-green-500/40"
-                                            whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
-                                            whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                                            </svg>
-                                            Ücretsiz Keşif Talep Et
-                                        </motion.a>
-
-                                        <p className="mt-4 text-xs text-gray-500 text-center">
-                                            * Kesin fiyat için yerinde ölçüm gereklidir.
-                                        </p>
-                                    </div>
-
-                                    <div className="mt-4 grid grid-cols-3 gap-2">
-                                        <div className="bg-gray-50 rounded-xl p-3 text-center">
-                                            <div className="text-2xl mb-1">🛡️</div>
-                                            <div className="text-xs font-medium text-gray-600">2 Yıl Garanti</div>
-                                        </div>
-                                        <div className="bg-gray-50 rounded-xl p-3 text-center">
-                                            <div className="text-2xl mb-1">📏</div>
-                                            <div className="text-xs font-medium text-gray-600">Özel Üretim</div>
-                                        </div>
-                                        <div className="bg-gray-50 rounded-xl p-3 text-center">
-                                            <div className="text-2xl mb-1">🚚</div>
-                                            <div className="text-xs font-medium text-gray-600">Ücretsiz Montaj</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
+                      {type.code}
+                    </span>
+                    <span>{type.label}</span>
+                  </button>
+                );
+              })}
             </div>
 
-            <Toast show={showToast} message="Hesaplandı ✓" />
-        </section>
-    );
+            <div className="hidden md:inline-flex items-center gap-2 text-xs font-mono text-slate-500">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span>CAD // 55cm STD PANEL</span>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+            {/* Left: CAD Elevation Preview + Dimension Controls */}
+            <div className="lg:col-span-8 space-y-5">
+              {/* Technical Elevation Canvas */}
+              <div className="relative bg-white arch-grid-light rounded-xl p-6 min-h-[260px] flex items-center justify-center border border-slate-200">
+                <div className="absolute top-3.5 left-4 inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-slate-500 bg-white/90 px-2.5 py-1 rounded border border-slate-200">
+                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />
+                  <span>{t.calculator.live_preview}</span>
+                </div>
+                <AnimatePresence mode="wait">
+                  <BalconyPreview
+                    key={balconyType}
+                    mainWidth={mainWidth}
+                    mainHeight={mainHeight}
+                    leftWidth={leftWidth}
+                    leftHeight={leftHeight}
+                    rightWidth={rightWidth}
+                    rightHeight={rightHeight}
+                    type={balconyType}
+                    reducedMotion={shouldReduceMotion ?? false}
+                  />
+                </AnimatePresence>
+              </div>
+
+              {/* Dimension Input Panels */}
+              <div className="space-y-4">
+                <div className="p-5 sm:p-6 bg-white rounded-xl border border-slate-200">
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-2.5">
+                      <span className="px-2 py-0.5 rounded bg-slate-900 text-white font-mono text-xs font-bold">
+                        A
+                      </span>
+                      <span className="font-bold text-slate-900 text-sm sm:text-base">
+                        {balconyType === "flat"
+                          ? t.calculator.balcony_dims
+                          : t.calculator.main_section}
+                      </span>
+                    </div>
+                    <span className="text-xs font-mono text-slate-400">
+                      {mainWidth} × {mainHeight} cm
+                    </span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <TechnicalSlider
+                      label={t.calculator.width}
+                      value={mainWidth}
+                      onChange={setMainWidth}
+                      min={100}
+                      max={600}
+                      step={10}
+                      onStartDragging={() => setIsDragging(true)}
+                    />
+                    <TechnicalSlider
+                      label={t.calculator.height}
+                      value={mainHeight}
+                      onChange={setMainHeight}
+                      min={150}
+                      max={350}
+                      step={5}
+                      onStartDragging={() => setIsDragging(true)}
+                    />
+                  </div>
+                </div>
+
+                <AnimatePresence>
+                  {(balconyType === "L" || balconyType === "U") && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-5 sm:p-6 bg-white rounded-xl border border-slate-200">
+                        <div className="flex items-center justify-between mb-5">
+                          <div className="flex items-center gap-2.5">
+                            <span className="px-2 py-0.5 rounded bg-slate-700 text-white font-mono text-xs font-bold">
+                              B
+                            </span>
+                            <span className="font-bold text-slate-900 text-sm sm:text-base">
+                              {balconyType === "U"
+                                ? t.calculator.left_section
+                                : t.calculator.side_section}
+                            </span>
+                          </div>
+                          <span className="text-xs font-mono text-slate-400">
+                            {leftWidth} × {leftHeight} cm
+                          </span>
+                        </div>
+                        <div className="grid sm:grid-cols-2 gap-6">
+                          <TechnicalSlider
+                            label={t.calculator.width}
+                            value={leftWidth}
+                            onChange={setLeftWidth}
+                            min={50}
+                            max={300}
+                            step={10}
+                            onStartDragging={() => setIsDragging(true)}
+                          />
+                          <TechnicalSlider
+                            label={t.calculator.height}
+                            value={leftHeight}
+                            onChange={setLeftHeight}
+                            min={100}
+                            max={300}
+                            step={5}
+                            onStartDragging={() => setIsDragging(true)}
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <AnimatePresence>
+                  {balconyType === "U" && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-5 sm:p-6 bg-white rounded-xl border border-slate-200">
+                        <div className="flex items-center justify-between mb-5">
+                          <div className="flex items-center gap-2.5">
+                            <span className="px-2 py-0.5 rounded bg-slate-700 text-white font-mono text-xs font-bold">
+                              C
+                            </span>
+                            <span className="font-bold text-slate-900 text-sm sm:text-base">
+                              {t.calculator.right_section}
+                            </span>
+                          </div>
+                          <span className="text-xs font-mono text-slate-400">
+                            {rightWidth} × {rightHeight} cm
+                          </span>
+                        </div>
+                        <div className="grid sm:grid-cols-2 gap-6">
+                          <TechnicalSlider
+                            label={t.calculator.width}
+                            value={rightWidth}
+                            onChange={setRightWidth}
+                            min={50}
+                            max={300}
+                            step={10}
+                            onStartDragging={() => setIsDragging(true)}
+                          />
+                          <TechnicalSlider
+                            label={t.calculator.height}
+                            value={rightHeight}
+                            onChange={setRightHeight}
+                            min={100}
+                            max={300}
+                            step={5}
+                            onStartDragging={() => setIsDragging(true)}
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Right: Dark Obsidian Technical Readout & WhatsApp Dispatch */}
+            <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-4">
+              <div className="bg-[#0b0f19] text-white rounded-xl p-6 border border-slate-800 shadow-xl">
+                <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-800">
+                  <span className="text-xs font-mono uppercase tracking-widest text-slate-400">
+                    {t.calculator.est_results}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    {t.calculator.instant_calc}
+                  </span>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="p-4 rounded-lg bg-slate-900/90 border border-slate-800">
+                    <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+                      <span>{t.calculator.est_area}</span>
+                      <RulerIcon className="w-4 h-4 text-red-500" />
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <AnimatedNumber
+                        value={area}
+                        decimals={2}
+                        reducedMotion={shouldReduceMotion ?? false}
+                        className="text-3xl sm:text-4xl font-bold font-mono text-white"
+                      />
+                      <span className="text-base text-slate-400 font-mono">m²</span>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-lg bg-slate-900/90 border border-slate-800">
+                    <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+                      <span>{t.calculator.panel_count}</span>
+                      <LayersIcon className="w-4 h-4 text-red-500" />
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <AnimatedNumber
+                        value={panels}
+                        decimals={0}
+                        reducedMotion={shouldReduceMotion ?? false}
+                        className="text-3xl sm:text-4xl font-bold font-mono text-white"
+                      />
+                      <span className="text-base text-slate-400">
+                        {t.calculator.unit_pcs}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <a
+                  href={getWhatsAppUrl(buildWhatsAppMessage())}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={trackCalculatorWhatsApp}
+                  className="btn-press mt-6 flex items-center justify-center gap-2.5 w-full bg-[#16a34a] hover:bg-[#15803d] text-white px-5 py-4 rounded-xl font-semibold text-sm sm:text-base transition-colors shadow-lg shadow-emerald-950/40"
+                >
+                  <WhatsAppIcon className="w-5 h-5 shrink-0" />
+                  <span>{t.calculator.cta_request}</span>
+                </a>
+
+                <p className="mt-3.5 text-[11px] text-slate-400 text-center leading-relaxed">
+                  {t.calculator.disclaimer}
+                </p>
+              </div>
+
+              {/* Clean SVG Engineering Assurances */}
+              <div className="grid grid-cols-3 gap-2.5">
+                <div className="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                  <ShieldIcon className="w-4 h-4 text-[var(--primary)] mx-auto mb-1.5" />
+                  <div className="text-[11px] font-semibold text-slate-700 leading-tight">
+                    {t.calculator.b1_warranty}
+                  </div>
+                </div>
+                <div className="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                  <RulerIcon className="w-4 h-4 text-[var(--primary)] mx-auto mb-1.5" />
+                  <div className="text-[11px] font-semibold text-slate-700 leading-tight">
+                    {t.calculator.b2_custom}
+                  </div>
+                </div>
+                <div className="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                  <WrenchIcon className="w-4 h-4 text-[var(--primary)] mx-auto mb-1.5" />
+                  <div className="text-[11px] font-semibold text-slate-700 leading-tight">
+                    {t.calculator.b3_install}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Toast show={showToast} message={t.calculator.toast_calculated} />
+    </section>
+  );
 }

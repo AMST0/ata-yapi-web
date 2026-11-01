@@ -1,14 +1,22 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import FAQSection from '@/components/seo/FAQSection';
 import CTABlock from '@/components/seo/CTABlock';
 import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import { SITE_CONTACT, getWhatsAppUrl } from '@/lib/constants';
+import {
+    ArrowRightIcon,
+    CheckIcon,
+    ShieldIcon,
+    WhatsAppIcon,
+} from '@/components/icons/ArchitecturalIcons';
 
 export const metadata: Metadata = {
-    title: 'Kedi Sinekliği Sistemleri | Ata Yapı - Güçlendirilmiş File',
+    title: 'Kedi Sinekliği Sistemleri | Ata Yapı - Çelik & Pet Tül',
     description:
-        'Kedi sinekliği ile evcil hayvanlarınızı koruyun. Güçlendirilmiş file, yırtılmaz yapı. Maltepe ve çevresinde ücretsiz keşif.',
+        'Kedi sinekliği ile evcil hayvanlarınızı yüksekten düşmeye karşı koruyun. Yırtılmaz çelik ve pet tül, kilitli alüminyum çerçeve. Maltepe ücretsiz keşif.',
     alternates: {
         canonical: 'https://www.xn--atayap-u9a.site/sineklik/kedi-sineklik',
     },
@@ -16,45 +24,69 @@ export const metadata: Metadata = {
 
 const faqs = [
     {
-        question: 'Kedi sinekliği normal sineklikten farkı nedir?',
-        answer: 'Kedi sinekliği özel güçlendirilmiş fiberglass veya metal file kullanır. Kedilerin tırmalamaya ve atlamaya karşı dayanıklıdır. Normal sinekliklere göre 3-5 kat daha dayanıklıdır.',
+        question: 'Kedi sinekliğinin normal sineklikten farkı nedir?',
+        answer: 'Kedi sinekliğinde standart fiberglass tül yerine tırmalamaya dayanıklı kalın PVC kaplı Pet-Screen veya paslanmaz çelik tel örgü kullanılır; ayrıca kanadın açılmaması için emniyet mandalı uygulanır.',
     },
     {
-        question: 'Kedi sinekliği kedimin güvenliğini sağlar mı?',
-        answer: 'Evet, kedi sinekliği kedilerin pencereden düşmesini önler ve güvenli bir ortam sağlar. Özellikle yüksek katlarda yaşayan kedi sahipleri için şiddetle tavsiye edilir.',
+        question: 'Kedi sinekliği yüksek katlarda tam güvenlik sağlar mı?',
+        answer: 'Evet. Alüminyum çerçeveye derin fitille preslenen yırtılmaz tül ve dışarıdan açılmayı engelleyen emniyet kilidi sayesinde kedilerin pencereden sarkmasını ve düşmesini engeller.',
     },
     {
         question: 'Kedi sinekliği fiyatları ne kadar?',
-        answer: 'Kedi sinekliği normal sinekliğe göre %30-50 daha pahalıdır. File kalitesine göre pencere başına 1.000-2.000 TL arasında değişir.',
+        answer: 'Seçilen tül tipine (güçlendirilmiş Pet-Screen veya paslanmaz çelik tül) ve pencere/kapı ölçüsüne göre fiyatlandırılır. Ücretsiz keşifte numuneler gösterilerek net teklif verilir.',
     },
     {
-        question: 'Kedi file mi metal file mi tercih etmeliyim?',
-        answer: 'Aktif ve büyük kediler için metal file önerilir. Sakin kediler ve küçük kedi yavruları için güçlendirilmiş fiberglass file yeterlidir.',
+        question: 'Pet-Screen mi paslanmaz çelik tül mü tercih etmeliyim?',
+        answer: 'Tırmalama alışkanlığı yoğun veya kilolu kediler için paslanmaz çelik/alüminyum tel tül önerilir. Yavru ve sakin kedilerde kalın dokulu Pet-Screen ekonomik ve güvenli bir çözümdür.',
     },
     {
-        question: 'Kedi sinekliği temizliği zor mu?',
-        answer: 'Hayır, normal sineklik gibi kolayca temizlenir. Nemli bezle silmek veya hafif su sıkmak yeterlidir.',
+        question: 'Kedi sinekliği hava ve ışık geçişini engeller mi?',
+        answer: 'Hayır, ince gözenekli tel ve pet tül yapısı evin doğal hava sirkülasyonunu ve gün ışığını kesmeden tam koruma sağlar.',
     },
     {
-        question: 'Mevcut sinekliğime kedi filesi takılabilir mi?',
-        answer: 'Genellikle file değişimi yapılarak mevcut çerçeve kullanılabilir. Ancak çerçeve yapısına göre komple değişim gerekebilir.',
+        question: 'Mevcut sinekliğime kedi tülü takılabilir mi?',
+        answer: 'Mevcut sinekliğinizin alüminyum kasası ve menteşeleri sağlamsa tül değişimi ve emniyet mandalı ilavesi yapılabilir; plastik veya zayıf kasalarda komple yenileme önerilir.',
     },
 ];
 
 const features = [
-    { title: 'Güçlendirilmiş File', description: 'Normal fileye göre 3-5 kat daha dayanıklı.', icon: '💪' },
-    { title: 'Düşme Önleme', description: 'Kedilerin pencereden düşmesini engeller.', icon: '🐱' },
-    { title: 'Tırmalama Dayanımı', description: 'Kedilerin tırmalamasına karşı yırtılmaz.', icon: '🔒' },
-    { title: 'UV Dayanımı', description: 'Güneş ışığında solmaz ve yıpranmaz.', icon: '☀️' },
-    { title: 'Kolay Temizlik', description: 'Normal sineklik gibi kolayca temizlenir.', icon: '🧹' },
-    { title: 'Hava Geçirgenliği', description: 'Temiz hava sirkülasyonu sağlar.', icon: '🌬️' },
+    {
+        code: '01',
+        title: 'Yırtılmaz Pet & Çelik Tül',
+        description: 'Standart sineklik tülüne göre 5 kata kadar daha yüksek çekme ve tırmalama mukavemeti.',
+    },
+    {
+        code: '02',
+        title: 'Emniyet Kilit Mandalı',
+        description: 'Kedinin pati veya ağırlığıyla kanadı iterek açmasını önleyen mekanik emniyet kilidi.',
+    },
+    {
+        code: '03',
+        title: 'Güçlendirilmiş Alüminyum Kasa',
+        description: 'Yüke karşı esnemeyen kalın etli alüminyum profil ve metal destekli menteşe bağlantısı.',
+    },
+    {
+        code: '04',
+        title: 'UV & Korozyon Direnci',
+        description: 'Güneş altında gevrekleşmeyen, yağmurda paslanmayan dış cephe uyumlu malzeme.',
+    },
+    {
+        code: '05',
+        title: 'Haşere + Evcil Hayvan Koruması',
+        description: 'Hem evcil dostunuzun güvenliğini sağlar hem de sinek ve böcek girişini %100 keser.',
+    },
+    {
+        code: '06',
+        title: 'Tam Hava Sirkülasyonu',
+        description: 'Yaz aylarında pencerelerinizi güvenle sonuna kadar açık bırakabilme özgürlüğü.',
+    },
 ];
 
 export default function KediSineklikPage() {
     return (
         <>
             {/* Breadcrumb */}
-            <div className="bg-gray-50 border-b border-gray-100">
+            <div className="bg-slate-50 border-b border-slate-200/80">
                 <div className="container">
                     <Breadcrumb
                         items={[
@@ -67,167 +99,175 @@ export default function KediSineklikPage() {
             </div>
 
             {/* Hero */}
-            <section className="py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-                <div className="container">
-                    <div className="max-w-2xl">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-[var(--accent)] mb-6">
-                            <span className="w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse" />
-                            Evcil Hayvan Güvenliği
-                        </span>
-                        <h1
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
-                            style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                            Kedi{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--secondary)] to-[var(--accent)]">
-                                Sinekliği
+            <section className="relative py-20 lg:py-28 bg-[#0b0f19] arch-grid-dark text-white overflow-hidden">
+                <div className="container relative z-10">
+                    <div className="grid lg:grid-cols-12 gap-12 items-center">
+                        <div className="lg:col-span-7">
+                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.06] border border-white/10 rounded-full text-xs font-semibold uppercase tracking-[0.16em] text-slate-300 mb-6">
+                                <ShieldIcon className="w-3.5 h-3.5 text-[var(--primary)]" />
+                                Evcil Hayvan Güvenlik Sistemi
                             </span>
-                        </h1>
-                        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                            Kedinizin güvenliği için özel tasarlanmış güçlendirilmiş sineklik sistemi.
-                            Tırmalama ve atlama dayanımlı file ile pencereden düşme riskini ortadan kaldırın.
-                        </p>
-                        <div className="flex flex-wrap gap-4">
-                            <Link
-                                href="/iletisim"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300"
+                            <h1
+                                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6"
+                                style={{ fontFamily: 'var(--font-heading)' }}
                             >
-                                Ücretsiz Keşif
-                            </Link>
-                            <a
-                                href="https://wa.me/905314002959"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300"
-                            >
-                                WhatsApp
-                            </a>
+                                Kilitli Kedi{' '}
+                                <span className="text-[var(--primary)]">Sinekliği</span>
+                            </h1>
+                            <p className="text-lg text-slate-300 mb-8 leading-relaxed max-w-2xl">
+                                Evcil hayvanlarınızın güvenliği için özel üretilen yırtılmaz çelik / pet tüllü
+                                ve emniyet mandallı alüminyum sineklik sistemi. Pencerelerinizi gönül rahatlığıyla açın.
+                            </p>
+                            <div className="flex flex-wrap gap-3.5">
+                                <Link
+                                    href="/iletisim"
+                                    className="btn-press inline-flex items-center gap-2.5 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-7 py-4 rounded-xl font-semibold transition-all shadow-lg shadow-red-950/30"
+                                >
+                                    Ücretsiz Keşif Planla
+                                    <ArrowRightIcon className="w-4 h-4" />
+                                </Link>
+                                <a
+                                    href={getWhatsAppUrl('Merhaba, kedi sinekliği için ölçü ve fiyat bilgisi almak istiyorum.')}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-press inline-flex items-center gap-2.5 bg-[var(--whatsapp)] hover:bg-[var(--whatsapp-dark)] text-white px-7 py-4 rounded-xl font-semibold transition-all"
+                                >
+                                    <WhatsAppIcon className="w-4 h-4" />
+                                    WhatsApp Hattı
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-5">
+                            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                                <Image
+                                    src="/sineklik-service.png"
+                                    alt="Kedi Sinekliği Sistemleri - Ata Yapı"
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 42vw"
+                                    className="object-cover"
+                                    priority
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19]/80 via-transparent to-transparent" />
+                                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between px-4 py-3 rounded-xl bg-[#0b0f19]/85 backdrop-blur-md border border-white/10 text-xs">
+                                    <span className="text-slate-300 font-medium">Çelik Tül & Emniyet Mandallı</span>
+                                    <span className="text-emerald-400 font-semibold">{SITE_CONTACT.phoneDisplay}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Alert */}
-            <section className="py-8 bg-amber-50 border-b border-amber-100">
+            {/* Safety Notice */}
+            <section className="py-6 bg-amber-50/80 border-b border-amber-200/80">
                 <div className="container">
-                    <div className="flex items-start gap-4 max-w-3xl mx-auto">
-                        <div className="shrink-0 w-12 h-12 flex items-center justify-center bg-amber-100 rounded-xl text-2xl">
-                            ⚠️
+                    <div className="flex items-start gap-4 max-w-4xl mx-auto">
+                        <div className="shrink-0 w-10 h-10 flex items-center justify-center bg-amber-100 text-amber-800 rounded-xl border border-amber-200">
+                            <ShieldIcon className="w-5 h-5" />
                         </div>
                         <div>
-                            <h3 className="font-bold text-gray-900 mb-1">Önemli Uyarı</h3>
-                            <p className="text-gray-700">
-                                Yüksek katlarda yaşıyorsanız ve kediniz varsa, mutlaka kedi sinekliği yaptırmanızı
-                                öneriyoruz. Her yıl binlerce kedi &quot;yüksekten düşme sendromu&quot; nedeniyle yaralanmaktadır.
+                            <h2 className="font-bold text-slate-900 text-sm uppercase tracking-wider mb-1">
+                                Yüksek Kat Güvenlik Uyarısı
+                            </h2>
+                            <p className="text-slate-700 text-sm leading-relaxed">
+                                Standart tül sineklikler yalnızca haşere engellemek içindir; kedilerin tırmalaması veya
+                                yaslanması halinde yırtılabilir. Evcil hayvan bulunan dairelerde mutlaka emniyet mandallı
+                                kedi sinekliği kullanılmalıdır.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* What is */}
-            <section className="py-16 lg:py-20 bg-white">
+            {/* Mesh Comparison */}
+            <section className="py-16 lg:py-24 bg-white">
                 <div className="container">
-                    <div className="max-w-4xl mx-auto">
+                    <div className="max-w-2xl mb-12">
+                        <span className="section-eyebrow">Malzeme Seçenekleri</span>
                         <h2
-                            className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center"
+                            className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight"
                             style={{ fontFamily: 'var(--font-heading)' }}
                         >
-                            Kedi Sinekliği Nedir?
+                            Kedi Sinekliği Tül Tipleri
                         </h2>
-                        <div className="prose prose-lg max-w-none text-gray-600">
-                            <p>
-                                Kedi sinekliği, evcil hayvan sahipleri için özel olarak tasarlanmış
-                                güçlendirilmiş sineklik sistemidir. Normal sinekliklere göre çok daha
-                                dayanıklı file kullanılır.
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl">
+                        <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200/80">
+                            <span className="inline-block text-xs font-semibold uppercase tracking-wider text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full mb-4">
+                                Standart Koruma
+                            </span>
+                            <h3 className="text-xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'var(--font-heading)' }}>
+                                Güçlendirilmiş Pet-Screen Tül
+                            </h3>
+                            <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                                Kalın vinil kaplı polyester dokuma tül. Standart sineklik tülüne göre 3-4 kat daha kalındır;
+                                orta hareketlilikteki kediler için esnek ve güvenli koruma sunar.
                             </p>
-                            <p>
-                                İki ana tip kedi sinekliği mevcuttur: Güçlendirilmiş fiberglass file ve
-                                paslanmaz çelik (metal) file. Metal file en yüksek dayanımı sunarken,
-                                güçlendirilmiş fiberglass daha ekonomik bir alternatiftir.
+                            <ul className="space-y-2.5 text-sm text-slate-700">
+                                {['Esnek ve darbe emici doku', 'Paslanma yapmaz, kolay silinir', 'Ekonomik fiyat avantajı'].map((item) => (
+                                    <li key={item} className="flex items-center gap-2.5">
+                                        <CheckIcon className="w-4 h-4 text-emerald-600 shrink-0" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="bg-[#0b0f19] text-white rounded-2xl p-8 border border-slate-800">
+                            <span className="inline-block text-xs font-semibold uppercase tracking-wider text-red-300 bg-red-500/15 border border-red-500/30 px-3 py-1 rounded-full mb-4">
+                                Maksimum Mukavemet
+                            </span>
+                            <h3 className="text-xl font-bold text-white mb-3" style={{ fontFamily: 'var(--font-heading)' }}>
+                                Paslanmaz Çelik / Alüminyum Tel Tül
+                            </h3>
+                            <p className="text-slate-300 text-sm leading-relaxed mb-6">
+                                Tırmalamaya ve ısırmaya karşı en yüksek mukavemeti sunan metal örgü tül.
+                                Aktif, tırmanmayı seven veya iri kediler için kesin güvenlik sağlar.
                             </p>
-                            <p>
-                                Kedi sinekliği sadece kedileri korumakla kalmaz, aynı zamanda normal
-                                sineklik işlevini de görür ve haşerelere karşı koruma sağlar.
-                            </p>
+                            <ul className="space-y-2.5 text-sm text-slate-200">
+                                {['Pençe ve tırnakla yırtılmaz metal örgü', 'Emniyet mandalı + çelik perçinli menteşe', '10+ yıl formunu koruyan ömür'].map((item) => (
+                                    <li key={item} className="flex items-center gap-2.5">
+                                        <CheckIcon className="w-4 h-4 text-emerald-400 shrink-0" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Features */}
-            <section className="py-16 lg:py-20 bg-gray-50">
+            <section className="py-16 lg:py-24 bg-slate-50 arch-grid-light border-y border-slate-200/70">
                 <div className="container">
-                    <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 text-center"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                        Kedi Sinekliği Özellikleri
-                    </h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                        {features.map((feature, index) => (
+                    <div className="max-w-2xl mb-12">
+                        <span className="section-eyebrow">Teknik Detaylar</span>
+                        <h2
+                            className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight"
+                            style={{ fontFamily: 'var(--font-heading)' }}
+                        >
+                            Kedi Sinekliği Özellikleri
+                        </h2>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {features.map((feature) => (
                             <div
-                                key={index}
-                                className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
+                                key={feature.code}
+                                className="bg-white rounded-2xl p-6 border border-slate-200/80 hover:border-slate-300 transition-all shadow-sm"
                             >
-                                <div className="text-3xl mb-3">{feature.icon}</div>
+                                <span className="inline-block text-xs font-mono font-bold text-[var(--primary)] bg-red-50 px-2.5 py-1 rounded-md mb-4">
+                                    {feature.code}
+                                </span>
                                 <h3
-                                    className="font-bold text-gray-900 mb-2"
+                                    className="font-bold text-slate-900 text-lg mb-2"
                                     style={{ fontFamily: 'var(--font-heading)' }}
                                 >
                                     {feature.title}
                                 </h3>
-                                <p className="text-gray-600 text-sm">{feature.description}</p>
+                                <p className="text-slate-600 text-sm leading-relaxed">{feature.description}</p>
                             </div>
                         ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* File Types */}
-            <section className="py-16 lg:py-20 bg-white">
-                <div className="container">
-                    <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 text-center"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                        Kedi Sinekliği File Tipleri
-                    </h2>
-                    <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                        <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">Güçlendirilmiş Fiberglass</h3>
-                            <p className="text-gray-600 mb-4">
-                                Normal fiberglass fileye göre 3 kat daha kalın ve dayanıklı. Orta aktiflikte kediler için uygundur.
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-600">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-[var(--accent)]">✓</span> Ekonomik fiyat
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-[var(--accent)]">✓</span> Hafif yapı
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-[var(--accent)]">✓</span> İyi hava geçirgenliği
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="bg-[var(--primary)]/5 rounded-2xl p-6 border border-[var(--primary)]/20">
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">Paslanmaz Çelik (Metal) File</h3>
-                            <p className="text-gray-600 mb-4">
-                                En yüksek dayanım. Aktif ve büyük kediler için önerilir. Yırtılma ihtimali yoktur.
-                            </p>
-                            <ul className="space-y-2 text-sm text-gray-600">
-                                <li className="flex items-center gap-2">
-                                    <span className="text-[var(--accent)]">✓</span> Maksimum dayanım
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-[var(--accent)]">✓</span> Yırtılmaz yapı
-                                </li>
-                                <li className="flex items-center gap-2">
-                                    <span className="text-[var(--accent)]">✓</span> Uzun ömür (10+ yıl)
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -239,29 +279,30 @@ export default function KediSineklikPage() {
             <FAQSection title="Kedi Sinekliği Hakkında Sıkça Sorulan Sorular" faqs={faqs} />
 
             {/* Related Links */}
-            <section className="py-12 bg-gray-50">
+            <section className="py-12 bg-slate-50 border-t border-slate-200/80">
                 <div className="container">
-                    <h2 className="text-xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
+                    <h2 className="text-lg font-bold text-slate-900 mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
                         Diğer Sineklik Sistemleri
                     </h2>
                     <div className="flex flex-wrap gap-3">
                         <Link
                             href="/sineklik/pileli"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                            className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
                         >
                             Pileli Sineklik
                         </Link>
                         <Link
                             href="/sineklik/menteseli"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                            className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
                         >
                             Menteşeli Sineklik
                         </Link>
                         <Link
                             href="/sineklik"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
                         >
-                            Tüm Sineklik Sistemleri →
+                            Tüm Sineklik Sistemleri
+                            <ArrowRightIcon className="w-3.5 h-3.5" />
                         </Link>
                     </div>
                 </div>
@@ -269,8 +310,8 @@ export default function KediSineklikPage() {
 
             {/* CTA */}
             <CTABlock
-                title="Kediniz İçin Güvenli Sineklik İster misiniz?"
-                description="Evcil hayvan güvenliği için ücretsiz keşif randevusu alın."
+                title="Kediniz İçin Güvenli Pencere & Balkon"
+                description="Çelik ve Pet-Screen kedi sinekliği numunelerimizi görmek için ücretsiz keşif talep edin."
             />
         </>
     );

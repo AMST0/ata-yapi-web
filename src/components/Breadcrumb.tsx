@@ -1,72 +1,56 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export interface BreadcrumbItem {
-    label: string;
-    href?: string;
+  label: string;
+  href?: string;
 }
 
 interface BreadcrumbProps {
-    items: BreadcrumbItem[];
+  items: BreadcrumbItem[];
 }
 
-/**
- * Breadcrumb component with JSON-LD structured data
- */
 export default function Breadcrumb({ items }: BreadcrumbProps) {
-    // Generate JSON-LD structured data
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: items.map((item, index) => ({
-            '@type': 'ListItem',
-            position: index + 1,
-            name: item.label,
-            ...(item.href && { item: `https://www.xn--atayap-u9a.site${item.href}` }),
-        })),
-    };
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.label,
+      ...(item.href && { item: `https://www.xn--atayap-u9a.site${item.href}` }),
+    })),
+  };
 
-    return (
-        <>
-            {/* JSON-LD Structured Data */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-            {/* Visual Breadcrumb */}
-            <nav aria-label="Breadcrumb" className="py-4">
-                <ol className="flex items-center gap-2 text-sm text-gray-500">
-                    {items.map((item, index) => (
-                        <li key={index} className="flex items-center gap-2">
-                            {index > 0 && (
-                                <svg
-                                    className="w-4 h-4 text-gray-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                    />
-                                </svg>
-                            )}
-                            {item.href ? (
-                                <Link
-                                    href={item.href}
-                                    className="hover:text-[var(--primary)] transition-colors"
-                                >
-                                    {item.label}
-                                </Link>
-                            ) : (
-                                <span className="text-gray-900 font-medium">{item.label}</span>
-                            )}
-                        </li>
-                    ))}
-                </ol>
-            </nav>
-        </>
-    );
+      <nav aria-label="Breadcrumb" className="py-3">
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs font-medium text-slate-400">
+          {items.map((item, index) => (
+            <li key={index} className="flex items-center gap-1.5">
+              {index > 0 && (
+                <span className="text-slate-500 select-none" aria-hidden="true">
+                  /
+                </span>
+              )}
+              {item.href ? (
+                <Link
+                  href={item.href}
+                  className="hover:text-[var(--primary)] transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <span className="font-semibold opacity-95">{item.label}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </>
+  );
 }

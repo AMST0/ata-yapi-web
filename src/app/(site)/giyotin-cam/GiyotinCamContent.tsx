@@ -3,268 +3,285 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/lib/i18n";
+import { getWhatsAppUrl } from "@/lib/constants";
+import { trackWhatsAppClick } from "@/lib/analytics";
 import FreeInspection from "@/components/seo/FreeInspection";
 import WarrantyProcess from "@/components/seo/WarrantyProcess";
+import CTABlock from "@/components/seo/CTABlock";
+import {
+  MotorIcon,
+  BuildingIcon,
+  FactoryIcon,
+  LayersIcon,
+  ShieldIcon,
+  SunWindIcon,
+  SparkGridIcon,
+  WhatsAppIcon,
+  ArrowRightIcon,
+  ArrowUpRightIcon,
+} from "@/components/icons/ArchitecturalIcons";
 
 export default function GiyotinCamContent() {
-    const { t, language } = useLanguage();
-    const p = t.pages.giyotin;
+  const { t, language } = useLanguage();
+  const p = t.pages.giyotin;
 
-    const whatsappText =
+  const whatsappText =
+    language === "de"
+      ? "Guten Tag, ich interessiere mich für motorisierte Guillotine-Glassysteme."
+      : language === "en"
+      ? "Hello, I am inquiring about motorized guillotine glass systems."
+      : "Merhaba, giyotin cam sistemi hakkında bilgi almak istiyorum.";
+
+  const subCategories = [
+    {
+      index: "01",
+      title: p.sub1_t,
+      description: p.sub1_d,
+      href: "/giyotin-cam/motorlu",
+      badge: language === "de" ? "Automation" : language === "en" ? "Automation" : "Otomasyon",
+      icon: <MotorIcon className="w-5 h-5" />,
+    },
+    {
+      index: "02",
+      title: p.sub2_t,
+      description: p.sub2_d,
+      href: "/giyotin-cam/uygulamalar",
+      badge:
         language === "de"
-            ? "Hallo, ich interessiere mich für motorisierte Guillotine-Glassysteme."
-            : language === "en"
-            ? "Hello, I am inquiring about motorized guillotine glass systems."
-            : "Merhaba, giyotin cam sistemi hakkında bilgi almak istiyorum.";
+          ? "Gewerbe & Wohnbau"
+          : language === "en"
+          ? "Commercial & Home"
+          : "Ticari & Konut",
+      icon: <BuildingIcon className="w-5 h-5" />,
+    },
+    {
+      index: "03",
+      title: p.sub3_t,
+      description: p.sub3_d,
+      href: "/giyotin-cam/imalat",
+      badge: t.common.factory_direct,
+      icon: <FactoryIcon className="w-5 h-5" />,
+    },
+  ];
 
-    const subCategories = [
-        {
-            title: p.sub1_t,
-            description: p.sub1_d,
-            href: "/giyotin-cam/motorlu",
-            badge: language === "de" ? "Automation" : language === "en" ? "Automation" : "Otomasyon",
-            icon: "⚡",
-        },
-        {
-            title: p.sub2_t,
-            description: p.sub2_d,
-            href: "/giyotin-cam/uygulamalar",
-            badge: language === "de" ? "Gewerbe & Wohnbau" : language === "en" ? "Commercial & Home" : "Ticari & Konut",
-            icon: "🏢",
-        },
-        {
-            title: p.sub3_t,
-            description: p.sub3_d,
-            href: "/giyotin-cam/imalat",
-            badge: t.common.factory_direct,
-            icon: "🔧",
-        },
-    ];
+  const features = [
+    { index: "01", title: p.f1_t, description: p.f1_d, icon: <MotorIcon className="w-5 h-5" /> },
+    { index: "02", title: p.f2_t, description: p.f2_d, icon: <LayersIcon className="w-5 h-5" /> },
+    { index: "03", title: p.f3_t, description: p.f3_d, icon: <ShieldIcon className="w-5 h-5" /> },
+    { index: "04", title: p.f4_t, description: p.f4_d, icon: <SparkGridIcon className="w-5 h-5" /> },
+  ];
 
-    const features = [
-        {
-            title: p.f1_t,
-            description: p.f1_d,
-            icon: "↕️",
-        },
-        {
-            title: p.f2_t,
-            description: p.f2_d,
-            icon: "🌅",
-        },
-        {
-            title: p.f3_t,
-            description: p.f3_d,
-            icon: "🛡️",
-        },
-        {
-            title: p.f4_t,
-            description: p.f4_d,
-            icon: "✨",
-        },
-    ];
+  const usageAreas = [
+    { index: "01", title: p.a1_t, description: p.a1_d, icon: <BuildingIcon className="w-5 h-5" /> },
+    { index: "02", title: p.a2_t, description: p.a2_d, icon: <SunWindIcon className="w-5 h-5" /> },
+    { index: "03", title: p.a3_t, description: p.a3_d, icon: <LayersIcon className="w-5 h-5" /> },
+    { index: "04", title: p.a4_t, description: p.a4_d, icon: <SparkGridIcon className="w-5 h-5" /> },
+  ];
 
-    const usageAreas = [
-        { title: p.a1_t, description: p.a1_d, icon: "🏢" },
-        { title: p.a2_t, description: p.a2_d, icon: "☕" },
-        { title: p.a3_t, description: p.a3_d, icon: "🏡" },
-        { title: p.a4_t, description: p.a4_d, icon: "🌿" },
-    ];
+  const gallery = [
+    { src: "/giyotin-cam-hero.jpg", alt: "Ata Yapı Motorlu Giyotin Cam" },
+    { src: "/giyotin-cam-service.jpg", alt: "Giyotin Cam Restoran Uygulaması" },
+    { src: "/giyotin-cam-detail.jpg", alt: "Alüminyum Profil & Zincir Detayı" },
+    { src: "/giyotin-cam-terrace.png", alt: "Teras Giyotin Cam Kapatma" },
+  ];
 
-    const gallery = [
-        { src: "/giyotin-cam-hero.png", alt: "Guillotine Glass" },
-        { src: "/giyotin-cam-service.png", alt: "Modern Glass Application" },
-        { src: "/giyotin-cam-detail.png", alt: "Detail View" },
-        { src: "/giyotin-cam-terrace.png", alt: "Terrace Glass Solution" },
-    ];
+  return (
+    <>
+      {/* Architectural Hero */}
+      <section className="relative py-20 lg:py-28 bg-[#0b0f19] text-white overflow-hidden border-b border-slate-800">
+        <div className="absolute inset-0">
+          <Image
+            src="/giyotin-cam-hero.jpg"
+            alt={p.hero_title}
+            fill
+            sizes="100vw"
+            className="object-cover opacity-30"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/90 to-[#0b0f19]/40" />
+          <div className="absolute inset-0 arch-grid-dark opacity-70 pointer-events-none" />
+        </div>
+        <div className="container relative z-10">
+          <div className="max-w-3xl">
+            <nav aria-label="Breadcrumb" className="mb-6">
+              <ol className="flex items-center gap-2 text-xs font-medium text-slate-400">
+                <li>
+                  <Link href="/" className="hover:text-white transition-colors">
+                    {t.common.back}
+                  </Link>
+                </li>
+                <li>/</li>
+                <li className="text-white font-semibold">{p.hero_title}</li>
+              </ol>
+            </nav>
 
-    return (
-        <>
-            {/* Hero */}
-            <section className="relative py-24 lg:py-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
-                <div className="absolute inset-0">
-                    <Image
-                        src="/giyotin-cam-hero.png"
-                        alt="Guillotine Glass Systems"
-                        fill
-                        className="object-cover opacity-30"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent" />
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-white/[0.06] border border-white/15 text-xs font-semibold tracking-wide text-slate-200 mb-6">
+              <span className="w-2 h-2 bg-red-500 rounded-full" />
+              <span>{p.hero_badge}</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-5">
+              {p.hero_title}
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-8 leading-relaxed">
+              {p.hero_desc}
+            </p>
+            <div className="flex flex-wrap gap-3.5">
+              <Link
+                href="/iletisim"
+                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-7 py-3.5 rounded-xl font-semibold text-sm sm:text-base transition-colors"
+              >
+                <span>{t.nav.free_discovery}</span>
+                <ArrowRightIcon className="w-4 h-4" />
+              </Link>
+              <a
+                href={getWhatsAppUrl(whatsappText)}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={trackWhatsAppClick}
+                className="btn-press inline-flex items-center gap-2 bg-[#16a34a] hover:bg-[#15803d] text-white px-7 py-3.5 rounded-xl font-semibold text-sm sm:text-base transition-colors"
+              >
+                <WhatsAppIcon className="w-5 h-5" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sub Categories */}
+      <section className="py-16 lg:py-24 bg-slate-50 border-b border-slate-200/80">
+        <div className="container">
+          <div className="grid md:grid-cols-3 gap-6">
+            {subCategories.map((sub) => (
+              <Link
+                key={sub.href}
+                href={sub.href}
+                className="group flex flex-col justify-between bg-white p-7 rounded-2xl border border-slate-200 hover:border-slate-900 transition-all card-hover"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="w-11 h-11 rounded-xl bg-slate-100 text-slate-800 group-hover:bg-[var(--primary)] group-hover:text-white flex items-center justify-center transition-colors">
+                      {sub.icon}
+                    </div>
+                    <span className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md">
+                      {sub.badge}
+                    </span>
+                  </div>
+                  <h2 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-[var(--primary)] transition-colors">
+                    {sub.title}
+                  </h2>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-5">
+                    {sub.description}
+                  </p>
                 </div>
-                <div className="container relative z-10">
-                    <div className="max-w-3xl">
-                        <nav aria-label="Breadcrumb" className="mb-6">
-                            <ol className="flex items-center gap-2 text-sm text-gray-400">
-                                <li>
-                                    <Link href="/" className="hover:text-white transition-colors">
-                                        {t.common.back}
-                                    </Link>
-                                </li>
-                                <li><span className="mx-1">/</span></li>
-                                <li className="text-white font-medium">{p.hero_title}</li>
-                            </ol>
-                        </nav>
-
-                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-[var(--accent)] mb-6">
-                            <span className="w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse" />
-                            {p.hero_badge}
-                        </span>
-                        <h1
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
-                            style={{ fontFamily: "var(--font-heading)" }}
-                        >
-                            {p.hero_title}
-                        </h1>
-                        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                            {p.hero_desc}
-                        </p>
-                        <div className="flex flex-wrap gap-4">
-                            <Link
-                                href="/iletisim"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg shadow-red-500/25"
-                            >
-                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                                </svg>
-                                {t.nav.free_discovery}
-                            </Link>
-                            <a
-                                href={`https://wa.me/905314002959?text=${encodeURIComponent(whatsappText)}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-press inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20BD5A] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg shadow-green-500/25"
-                            >
-                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                                </svg>
-                                WhatsApp
-                            </a>
-                        </div>
-                    </div>
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-900 group-hover:text-[var(--primary)]">
+                  <span>{t.services.explore_button}</span>
+                  <ArrowUpRightIcon className="w-4 h-4" />
                 </div>
-            </section>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Sub Categories */}
-            <section className="py-20 bg-gray-50">
-                <div className="container">
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {subCategories.map((sub, index) => (
-                            <Link
-                                key={index}
-                                href={sub.href}
-                                className="group block bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-[var(--primary)]/30 transition-all duration-300"
-                            >
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-3xl">{sub.icon}</span>
-                                    <span className="text-xs font-semibold px-3 py-1 bg-gray-100 text-gray-700 rounded-full">
-                                        {sub.badge}
-                                    </span>
-                                </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[var(--primary)] transition-colors">
-                                    {sub.title}
-                                </h3>
-                                <p className="text-gray-600 text-sm leading-relaxed mb-4">{sub.description}</p>
-                                <span className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--primary)]">
-                                    {t.services.explore_button} →
-                                </span>
-                            </Link>
-                        ))}
-                    </div>
+      {/* Technical Features */}
+      <section className="py-16 lg:py-24 bg-white border-b border-slate-200/80">
+        <div className="container">
+          <div className="max-w-2xl mb-12">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--primary)] mb-3">
+              <span className="w-6 h-[2px] bg-[var(--primary)]" />
+              <span>SPECIFICATIONS</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
+              {p.feat_title}
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {features.map((feat) => (
+              <div
+                key={feat.index}
+                className="p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-slate-900 transition-colors group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 text-slate-800 group-hover:bg-[var(--primary)] group-hover:text-white group-hover:border-transparent flex items-center justify-center transition-colors">
+                    {feat.icon}
+                  </div>
+                  <span className="text-xs font-mono font-semibold text-slate-400">
+                    {feat.index}
+                  </span>
                 </div>
-            </section>
+                <h3 className="text-base font-bold text-slate-900 mb-2">
+                  {feat.title}
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  {feat.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Features */}
-            <section className="py-20 lg:py-28 bg-white">
-                <div className="container">
-                    <div className="text-center max-w-2xl mx-auto mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: "var(--font-heading)" }}>
-                            {p.feat_title}
-                        </h2>
-                    </div>
+      {/* Usage Areas */}
+      <section className="py-16 lg:py-24 bg-[#0b0f19] text-white border-b border-slate-800">
+        <div className="container">
+          <div className="max-w-2xl mb-12">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-red-500 mb-3">
+              <span className="w-6 h-[2px] bg-red-500" />
+              <span>APPLICATIONS</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold">{p.areas_title}</h2>
+          </div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {features.map((feat, index) => (
-                            <div key={index} className="p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-md transition-all">
-                                <div className="text-4xl mb-4">{feat.icon}</div>
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">{feat.title}</h3>
-                                <p className="text-gray-600 text-sm leading-relaxed">{feat.description}</p>
-                            </div>
-                        ))}
-                    </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {usageAreas.map((area) => (
+              <div
+                key={area.index}
+                className="p-6 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-slate-600 transition-colors"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-white/10 text-red-400 flex items-center justify-center">
+                    {area.icon}
+                  </div>
+                  <span className="text-xs font-mono text-slate-500">{area.index}</span>
                 </div>
-            </section>
+                <h3 className="text-lg font-bold mb-2 text-white">{area.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  {area.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Usage Areas */}
-            <section className="py-20 bg-gray-900 text-white">
-                <div className="container">
-                    <div className="text-center max-w-2xl mx-auto mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "var(--font-heading)" }}>
-                            {p.areas_title}
-                        </h2>
-                    </div>
+      {/* Real Application Gallery */}
+      <section className="py-16 lg:py-20 bg-slate-50 border-b border-slate-200/80">
+        <div className="container">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {gallery.map((item, index) => (
+              <div
+                key={index}
+                className="relative aspect-[4/3] rounded-xl overflow-hidden border border-slate-200 bg-slate-900 group"
+              >
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {usageAreas.map((area, index) => (
-                            <div key={index} className="p-6 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all">
-                                <div className="text-4xl mb-4">{area.icon}</div>
-                                <h3 className="text-xl font-bold mb-2">{area.title}</h3>
-                                <p className="text-gray-300 text-sm leading-relaxed">{area.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Gallery */}
-            <section className="py-20 bg-gray-50">
-                <div className="container">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {gallery.map((item, index) => (
-                            <div key={index} className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md group">
-                                <Image
-                                    src={item.src}
-                                    alt={item.alt}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Free Inspection and Warranty blocks */}
-            <FreeInspection />
-            <WarrantyProcess />
-
-            {/* Bottom CTA */}
-            <section className="py-20 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] text-white">
-                <div className="container text-center">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "var(--font-heading)" }}>
-                        {t.shared.cta_title}
-                    </h2>
-                    <p className="text-white/80 text-lg mb-8 max-w-xl mx-auto">
-                        {t.shared.cta_desc}
-                    </p>
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <Link
-                            href="/iletisim"
-                            className="btn-press bg-white text-[var(--primary)] hover:bg-gray-100 px-10 py-5 rounded-xl font-bold text-lg transition-all shadow-xl"
-                        >
-                            {t.shared.cta_form}
-                        </Link>
-                        <a
-                            href={`https://wa.me/905314002959?text=${encodeURIComponent(whatsappText)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-press bg-[#25D366] text-white hover:bg-[#20BD5A] px-10 py-5 rounded-xl font-bold text-lg transition-all shadow-xl"
-                        >
-                            WhatsApp (+90 531 400 29 59)
-                        </a>
-                    </div>
-                </div>
-            </section>
-        </>
-    );
+      <FreeInspection />
+      <WarrantyProcess />
+      <CTABlock />
+    </>
+  );
 }

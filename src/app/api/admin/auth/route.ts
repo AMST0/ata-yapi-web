@@ -1,35 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'atayapi2026';
-const AUTH_COOKIE_NAME = 'admin_session';
-const AUTH_TOKEN = 'authenticated_admin_atayapi';
+import {
+    AUTH_COOKIE_NAME,
+    SESSION_COOKIE_OPTIONS,
+    createAdminSessionToken,
+    isAdminAuthenticated,
+    verifyAdminPassword,
+} from '@/lib/admin-auth';
+import { isDbConfigured } from '@/lib/db';
 
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
         const { password } = body;
 
-        if (!password || password !== DEFAULT_ADMIN_PASSWORD) {
+        if (!password || !verifyAdminPassword(String(password))) {
             return NextResponse.json(
                 { success: false, error: 'Geçersiz şifre! Lütfen şifrenizi kontrol ediniz.' },
                 { status: 401 }
             );
         }
 
+        const token = createAdminSessionToken();
         const response = NextResponse.json({
             success: true,
             message: 'Giriş başarılı',
         });
 
-        // 30 days expiration
         response.cookies.set({
             name: AUTH_COOKIE_NAME,
-            value: AUTH_TOKEN,
-            httpOnly: false, // accessible to client for fast client-side checks
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            path: '/',
-            maxAge: 60 * 60 * 24 * 30,
+            value: token,
+            ...SESSION_COOKIE_OPTIONS,
         });
 
         return response;
@@ -40,11 +40,18 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-    const sessionCookie = request.cookies.get(AUTH_COOKIE_NAME);
-    const isAuthenticated = sessionCookie?.value === AUTH_TOKEN;
+    const authenticated = isAdminAuthenticated(request);
 
     return NextResponse.json({
-        authenticated: isAuthenticated,
+        authenticated,
+        ...(authenticated
+            ? {
+                  system: {
+                      dbMode: isDbConfigured() ? 'postgresql' : 'memory',
+                      smtpConfigured: true,
+                  },
+              }
+            : {}),
     });
 }
 
@@ -57,6 +64,9 @@ export async function DELETE() {
     response.cookies.set({
         name: AUTH_COOKIE_NAME,
         value: '',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
         path: '/',
         maxAge: 0,
     });

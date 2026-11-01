@@ -51,6 +51,38 @@ export interface TranslationSchema {
     stat_projects: string;
     stat_satisfaction: string;
     stat_warranty: string;
+    stat_warranty_val: string;
+  };
+  calculator: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    type_flat: string;
+    type_l: string;
+    type_u: string;
+    live_preview: string;
+    balcony_dims: string;
+    main_section: string;
+    side_section: string;
+    left_section: string;
+    right_section: string;
+    width: string;
+    height: string;
+    instant_calc: string;
+    est_results: string;
+    est_area: string;
+    panel_count: string;
+    unit_pcs: string;
+    cta_request: string;
+    disclaimer: string;
+    b1_warranty: string;
+    b2_custom: string;
+    b3_install: string;
+    wa_intro: string;
+    wa_dims: string;
+    wa_est: string;
+    wa_outro: string;
+    toast_calculated: string;
   };
   services: {
     title: string;

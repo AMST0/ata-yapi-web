@@ -20,11 +20,11 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Giyotin Cam Sistemleri | Ata Yapı",
         description:
-            "Giyotin cam sistemleri ile mekanlarınızı modern, şık ve fonksiyonel alanlara dönüştürün. Motorlu dikey sürgülü cam paneller ile %100 açıklık.",
+            "Giyotin cam sistemleri ile mekanlarınızı modern, şık ve fonksonel alanlara dönüştürün. Motorlu dikey sürgülü cam paneller ile %100 açıklık.",
         url: "https://www.xn--atayap-u9a.site/giyotin-cam",
         images: [
             {
-                url: "/giyotin-cam-hero.png",
+                url: "/giyotin-cam-hero.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Ata Yapı Giyotin Cam Sistemleri",
@@ -50,7 +50,7 @@ export default function GiyotinCamPage() {
                             url: "https://www.xn--atayap-u9a.site",
                         },
                         url: "https://www.xn--atayap-u9a.site/giyotin-cam",
-                        image: "https://www.xn--atayap-u9a.site/giyotin-cam-hero.png",
+                        image: "https://www.xn--atayap-u9a.site/giyotin-cam-hero.jpg",
                     }),
                 }}
             />

@@ -1,273 +1,265 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import Image from 'next/image';
-import Breadcrumb from '@/components/Breadcrumb';
-import FAQSection from '@/components/seo/FAQSection';
-import CTABlock from '@/components/seo/CTABlock';
-import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
+import Breadcrumb from "@/components/Breadcrumb";
+import FAQSection from "@/components/seo/FAQSection";
+import CTABlock from "@/components/seo/CTABlock";
+import WhyAtaYapi from "@/components/seo/WhyAtaYapi";
+import { getWhatsAppUrl } from "@/lib/constants";
+import {
+  ShieldIcon,
+  LayersIcon,
+  SunWindIcon,
+  BuildingIcon,
+  CheckIcon,
+  SparkGridIcon,
+  WhatsAppIcon,
+  ArrowRightIcon,
+} from "@/components/icons/ArchitecturalIcons";
 
 export const metadata: Metadata = {
-    title: 'Isı Camlı Cam Balkon Sistemleri | Ata Yapı',
-    description:
-        'Isı camlı cam balkon sistemleri ile 4 mevsim konfor. Çift cam yalıtımı, enerji tasarrufu ve sessiz ortam. Maltepe ve çevresinde ücretsiz keşif.',
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/cam-balkon/isi-camli',
-    },
+  title: "Isıcamlı Cam Balkon Sistemleri | Çift Cam Yalıtım | Ata Yapı",
+  description:
+    "Isıcamlı (çift camlı) cam balkon sistemleri ile 4 mevsim oda konforu. Yüksek ısı ve ses yalıtımı, enerji tasarrufu, temperli çift cam güvenliği.",
+  alternates: {
+    canonical: "https://www.xn--atayap-u9a.site/cam-balkon/isi-camli",
+  },
 };
 
 const faqs = [
-    {
-        question: 'Isı camlı cam balkon nedir?',
-        answer: 'Isı camlı cam balkon, çift cam (double glazing) teknolojisi kullanılarak üretilen, üstün ısı ve ses yalıtımı sağlayan cam balkon sistemidir. İki cam arasındaki hava boşluğu veya argon gazı sayesinde ısı transferi minimize edilir.',
-    },
-    {
-        question: 'Isı camlı sistem normal cam balkondan ne kadar pahalı?',
-        answer: 'Isı camlı sistemler tek camlı sistemlere göre yaklaşık %40-60 daha yüksek fiyatlıdır. Ancak enerji tasarrufu düşünüldüğünde uzun vadede kendini amorti eder.',
-    },
-    {
-        question: 'Isı camlı cam balkon enerji tasarrufu sağlar mı?',
-        answer: 'Evet, ısı camlı sistemler kış aylarında ısı kaybını %40-50 oranında azaltır. Bu sayede ısıtma giderlerinizde önemli tasarruf sağlarsınız.',
-    },
-    {
-        question: 'Isı camlı cam balkon ses yalıtımı sağlar mı?',
-        answer: 'Evet, çift cam yapısı sayesinde dış ortam gürültüsünü %30-40 oranında azaltır. Özellikle ana yola bakan balkonlar için idealdir.',
-    },
-    {
-        question: 'Çift cam arasında buğulanma olur mu?',
-        answer: 'Kaliteli üretilmiş ısı camlarında buğulanma olmaz. Cam arası hava boşluğu fabrikada nem alınarak sızdırmaz şekilde kapatılır.',
-    },
-    {
-        question: 'Isı camlı sistemlerin ömrü ne kadardır?',
-        answer: 'Doğru montaj ve bakım ile ısı camlı sistemler 20-25 yıl sorunsuz kullanılabilir. Cam garantisi 10 yıldır.',
-    },
+  {
+    question: "Isıcamlı cam balkon nedir?",
+    answer:
+      "Isıcamlı cam balkon, her iki yüzeyi de temperli çift cam (örneğin 4+12+4 mm veya 4+16+4 mm) paneller ve ısı bariyerli alüminyum profiller kullanılarak üretilen yüksek yalıtımlı sistemdir.",
+  },
+  {
+    question: "Isıcamlı cam balkon kışın odaya dahil edilebilir mi?",
+    answer:
+      "Evet, tek camlı sistemlere kıyasla ısı kaybını %50'ye varan oranda düşürdüğü için balkonunuzu kış bahçesi, çalışma odası veya oturma alanı olarak dört mevsim kullanabilirsiniz.",
+  },
+  {
+    question: "Isıcamlı cam balkon ses yalıtımı sağlar mı?",
+    answer:
+      "Çift cam katmanı ve ara hava/argon boşluğu sayesinde cadde ve trafik gürültüsünü ciddi ölçüde sönümler.",
+  },
+  {
+    question: "Çift cam arasında buğulanma olur mu?",
+    answer:
+      "Fabrikasyon nem alıcı çıtalar ve çift kademeli butil/tiyokol sızdırmazlık uygulandığı için iki cam arasında buğulanma meydana gelmez.",
+  },
 ];
 
 const benefits = [
-    { title: 'Üstün Isı Yalıtımı', description: 'Çift cam teknolojisi ile kış aylarında %40-50 ısı tasarrufu.', icon: '🌡️' },
-    { title: 'Ses Yalıtımı', description: 'Dış gürültüyü %30-40 oranında azaltarak sessiz bir ortam.', icon: '🔇' },
-    { title: 'Enerji Tasarrufu', description: 'Düşük ısıtma maliyetleri ile yatırımınızı geri kazanın.', icon: '💡' },
-    { title: '4 Mevsim Konfor', description: 'Yazın serin, kışın sıcak balkon keyfi.', icon: '☀️' },
-    { title: 'Buğulanma Yok', description: 'Özel üretim sayesinde cam arasında nem birikmez.', icon: '✨' },
-    { title: '20+ Yıl Ömür', description: 'Uzun ömürlü, dayanıklı ve düşük bakımlı sistem.', icon: '⏳' },
+  {
+    index: "01",
+    title: "Maksimum Termal Yalıtım",
+    description: "Temperli çift cam kombinasyonu ile kış aylarında %45-50 ısı kaybı önleme.",
+    icon: <ShieldIcon className="w-5 h-5" />,
+  },
+  {
+    index: "02",
+    title: "Yüksek Akustik Konfor",
+    description: "Ana cadde ve şehir gürültüsünü belirgin biçimde kesen çift katmanlı cam bariyeri.",
+    icon: <LayersIcon className="w-5 h-5" />,
+  },
+  {
+    index: "03",
+    title: "Enerji Tasarrufu",
+    description: "Komşu odaların ısı kaybını düşürerek doğalgaz ve iklimlendirme giderlerini azaltır.",
+    icon: <BuildingIcon className="w-5 h-5" />,
+  },
+  {
+    index: "04",
+    title: "4 Mevsim Yaşam Alanı",
+    description: "Yazın güneş ısısını kırar, kışın soğuk rüzgârı dışarıda tutar.",
+    icon: <SunWindIcon className="w-5 h-5" />,
+  },
+  {
+    index: "05",
+    title: "Terleme & Buğu Önleyici",
+    description: "Alüminyum ara fitiller ve EPDM contalar sayesinde yoğuşmayı minimize eder.",
+    icon: <CheckIcon className="w-5 h-5" />,
+  },
+  {
+    index: "06",
+    title: "Güçlendirilmiş Kasa & Rulman",
+    description: "Çift cam ağırlığını yıllarca sarsıntısız taşıyan ağır hizmet rulman mimarisi.",
+    icon: <SparkGridIcon className="w-5 h-5" />,
+  },
 ];
 
 export default function IsiCamliPage() {
-    return (
-        <>
-            {/* Breadcrumb */}
-            <div className="bg-gray-50 border-b border-gray-100">
-                <div className="container">
-                    <Breadcrumb
-                        items={[
-                            { label: 'Ana Sayfa', href: '/' },
-                            { label: 'Cam Balkon', href: '/cam-balkon' },
-                            { label: 'Isı Camlı Sistem' },
-                        ]}
-                    />
-                </div>
+  return (
+    <>
+      <div className="bg-slate-50 border-b border-slate-200">
+        <div className="container">
+          <Breadcrumb
+            items={[
+              { label: "Ana Sayfa", href: "/" },
+              { label: "Cam Balkon", href: "/cam-balkon" },
+              { label: "Isıcamlı Sistem" },
+            ]}
+          />
+        </div>
+      </div>
+
+      {/* Hero */}
+      <section className="relative py-20 lg:py-28 bg-[#0b0f19] text-white overflow-hidden border-b border-slate-800">
+        <div className="absolute inset-0">
+          <Image
+            src="/cam-balkon-service.png"
+            alt="Isıcamlı Cam Balkon"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-30"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/90 to-[#0b0f19]/40" />
+          <div className="absolute inset-0 arch-grid-dark opacity-70 pointer-events-none" />
+        </div>
+        <div className="container relative z-10">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-white/[0.06] border border-white/15 text-xs font-semibold tracking-wide text-slate-200 mb-6">
+              <span className="w-2 h-2 bg-red-500 rounded-full" />
+              <span>ÇİFT CAM TERMAL YALITIM SİSTEMİ</span>
             </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-5">
+              Isıcamlı <span className="text-red-500">Cam Balkon</span>
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-8 leading-relaxed">
+              Temperli çift cam teknolojisi ve alüminyum sızdırmazlık fitilleri ile balkonunuzu
+              dört mevsim gerçek bir yaşam odasına dönüştürün.
+            </p>
+            <div className="flex flex-wrap gap-3.5">
+              <Link
+                href="/iletisim"
+                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-7 py-3.5 rounded-xl font-semibold text-sm sm:text-base transition-colors"
+              >
+                <span>Ücretsiz Keşif</span>
+                <ArrowRightIcon className="w-4 h-4" />
+              </Link>
+              <a
+                href={getWhatsAppUrl("Merhaba, ısıcamlı cam balkon sistemi için fiyat teklifi almak istiyorum.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-press inline-flex items-center gap-2 bg-[#16a34a] hover:bg-[#15803d] text-white px-7 py-3.5 rounded-xl font-semibold text-sm sm:text-base transition-colors"
+              >
+                <WhatsAppIcon className="w-5 h-5" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Hero */}
-            <section className="relative py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
-                <div className="absolute inset-0">
-                    <Image
-                        src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80"
-                        alt="Isı Camlı Cam Balkon"
-                        fill
-                        className="object-cover opacity-30"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent" />
+      {/* Benefits */}
+      <section className="py-16 lg:py-24 bg-slate-50 border-b border-slate-200/80">
+        <div className="container">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-10">
+            Isıcamlı Sistemin Teknik Avantajları
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {benefits.map((benefit) => (
+              <div
+                key={benefit.index}
+                className="bg-white rounded-xl p-6 border border-slate-200 hover:border-slate-900 transition-colors group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-slate-100 text-slate-800 group-hover:bg-[var(--primary)] group-hover:text-white flex items-center justify-center transition-colors">
+                    {benefit.icon}
+                  </div>
+                  <span className="text-xs font-mono font-semibold text-slate-400">
+                    {benefit.index}
+                  </span>
                 </div>
-                <div className="container relative z-10">
-                    <div className="max-w-2xl">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-[var(--accent)] mb-6">
-                            <span className="w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse" />
-                            Premium Sistem
-                        </span>
-                        <h1
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
-                            style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                            Isı Camlı{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">
-                                Cam Balkon
-                            </span>
-                        </h1>
-                        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                            Çift cam teknolojisi ile üstün ısı ve ses yalıtımı. Balkonunuzu 4 mevsim
-                            konforlu bir yaşam alanına dönüştürün. Enerji tasarrufu yapın, sessiz bir
-                            ortamın keyfini çıkarın.
-                        </p>
-                        <div className="flex flex-wrap gap-4">
-                            <Link
-                                href="/iletisim"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg shadow-red-500/25"
-                            >
-                                Ücretsiz Keşif
-                            </Link>
-                            <a
-                                href="https://wa.me/905314002959"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300"
-                            >
-                                WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                <h3 className="font-bold text-slate-900 mb-1.5">{benefit.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{benefit.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* What is */}
-            <section className="py-16 lg:py-20 bg-white">
-                <div className="container">
-                    <div className="max-w-4xl mx-auto">
-                        <h2
-                            className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center"
-                            style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                            Isı Camlı Cam Balkon Nedir?
-                        </h2>
-                        <div className="prose prose-lg max-w-none text-gray-600">
-                            <p>
-                                Isı camlı cam balkon sistemleri, çift cam (double glazing) teknolojisi
-                                kullanılarak üretilen premium cam balkon çözümleridir. İki adet temperli
-                                cam arasında 12-16 mm hava boşluğu veya argon gazı bulunur. Bu yapı
-                                sayesinde ısı transferi minimuma indirilir ve üstün yalıtım sağlanır.
-                            </p>
-                            <p>
-                                Özellikle kuzey cephelerde, rüzgara açık bölgelerde ve gürültülü
-                                caddelere bakan balkonlarda ısı camlı sistem tercih edilmelidir.
-                                Kış aylarında balkonunuzun sıcaklığı dış ortama göre 15-20 derece
-                                daha yüksek olabilir.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      {/* Comparison Table */}
+      <section className="py-16 lg:py-20 bg-white border-b border-slate-200/80">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8">
+              Tek Cam vs Isıcamlı Sistem Karşılaştırma
+            </h2>
+            <div className="overflow-x-auto rounded-xl border border-slate-200">
+              <table className="w-full border-collapse text-sm">
+                <thead>
+                  <tr className="bg-slate-900 text-white">
+                    <th className="p-4 text-left font-semibold">Performans Kriteri</th>
+                    <th className="p-4 text-center font-semibold">8mm Tek Cam</th>
+                    <th className="p-4 text-center font-semibold bg-red-600">Isıcamlı (Çift Cam)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 bg-white">
+                  <tr>
+                    <td className="p-4 font-medium text-slate-800">Isı Yalıtım Performansı</td>
+                    <td className="p-4 text-center text-slate-600">Standart Koruma</td>
+                    <td className="p-4 text-center font-bold text-slate-900 bg-red-50/50">Maksimum Yalıtım</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-800">Ses İzolasyonu</td>
+                    <td className="p-4 text-center text-slate-600">Orta</td>
+                    <td className="p-4 text-center font-bold text-slate-900 bg-red-50/50">Yüksek Akustik Bariyer</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-800">Enerji Tasarrufu</td>
+                    <td className="p-4 text-center text-slate-600">%15</td>
+                    <td className="p-4 text-center font-bold text-slate-900 bg-red-50/50">%45 — %50</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-800">Cam Kombinasyonu</td>
+                    <td className="p-4 text-center text-slate-600">8mm Temperli</td>
+                    <td className="p-4 text-center font-bold text-slate-900 bg-red-50/50">4+12+4 / 4+16+4 Temperli</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Benefits */}
-            <section className="py-16 lg:py-20 bg-gray-50">
-                <div className="container">
-                    <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 text-center"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                        Isı Camlı Sistemin Avantajları
-                    </h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                        {benefits.map((benefit, index) => (
-                            <div
-                                key={index}
-                                className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
-                            >
-                                <div className="text-3xl mb-3">{benefit.icon}</div>
-                                <h3
-                                    className="font-bold text-gray-900 mb-2"
-                                    style={{ fontFamily: 'var(--font-heading)' }}
-                                >
-                                    {benefit.title}
-                                </h3>
-                                <p className="text-gray-600 text-sm">{benefit.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+      <WhyAtaYapi />
 
-            {/* Comparison */}
-            <section className="py-16 lg:py-20 bg-white">
-                <div className="container">
-                    <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 text-center"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                        Tek Cam vs Isı Camlı Karşılaştırma
-                    </h2>
-                    <div className="max-w-3xl mx-auto">
-                        <div className="overflow-x-auto">
-                            <table className="w-full border-collapse">
-                                <thead>
-                                    <tr className="bg-gray-100">
-                                        <th className="p-4 text-left font-semibold text-gray-900">Özellik</th>
-                                        <th className="p-4 text-center font-semibold text-gray-900">Tek Cam</th>
-                                        <th className="p-4 text-center font-semibold text-gray-900 bg-[var(--primary)]/10">Isı Camlı</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100">
-                                    <tr>
-                                        <td className="p-4 text-gray-700">Isı Yalıtımı</td>
-                                        <td className="p-4 text-center text-gray-500">Düşük</td>
-                                        <td className="p-4 text-center font-medium text-[var(--accent)] bg-[var(--primary)]/5">Yüksek</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="p-4 text-gray-700">Ses Yalıtımı</td>
-                                        <td className="p-4 text-center text-gray-500">Orta</td>
-                                        <td className="p-4 text-center font-medium text-[var(--accent)] bg-[var(--primary)]/5">Yüksek</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="p-4 text-gray-700">Enerji Tasarrufu</td>
-                                        <td className="p-4 text-center text-gray-500">%10-15</td>
-                                        <td className="p-4 text-center font-medium text-[var(--accent)] bg-[var(--primary)]/5">%40-50</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="p-4 text-gray-700">Kış Konforu</td>
-                                        <td className="p-4 text-center text-gray-500">Orta</td>
-                                        <td className="p-4 text-center font-medium text-[var(--accent)] bg-[var(--primary)]/5">Mükemmel</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="p-4 text-gray-700">Fiyat</td>
-                                        <td className="p-4 text-center text-gray-500">Ekonomik</td>
-                                        <td className="p-4 text-center font-medium text-gray-700 bg-[var(--primary)]/5">Premium</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      <FAQSection title="Isıcamlı Cam Balkon Hakkında Sıkça Sorulan Sorular" faqs={faqs} />
 
-            {/* Why Ata Yapı */}
-            <WhyAtaYapi />
+      <section className="py-12 bg-slate-50 border-t border-slate-200">
+        <div className="container">
+          <h2 className="text-lg font-bold text-slate-900 mb-4">
+            Diğer Cam Balkon Sistemleri
+          </h2>
+          <div className="flex flex-wrap gap-3 text-sm font-medium">
+            <Link
+              href="/cam-balkon/surme"
+              className="px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-slate-700 hover:border-slate-900 hover:text-slate-900 transition-colors"
+            >
+              Sürme Cam Balkon
+            </Link>
+            <Link
+              href="/cam-balkon/katlanir"
+              className="px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-slate-700 hover:border-slate-900 hover:text-slate-900 transition-colors"
+            >
+              Katlanır Cam Balkon
+            </Link>
+            <Link
+              href="/cam-balkon"
+              className="px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-slate-700 hover:border-slate-900 hover:text-slate-900 transition-colors"
+            >
+              Tüm Cam Balkon Sistemleri →
+            </Link>
+          </div>
+        </div>
+      </section>
 
-            {/* FAQ */}
-            <FAQSection title="Isı Camlı Cam Balkon Hakkında Sıkça Sorulan Sorular" faqs={faqs} />
-
-            {/* Related Links */}
-            <section className="py-12 bg-gray-50">
-                <div className="container">
-                    <h2 className="text-xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
-                        Diğer Cam Balkon Sistemleri
-                    </h2>
-                    <div className="flex flex-wrap gap-3">
-                        <Link
-                            href="/cam-balkon/surme"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
-                        >
-                            Sürme Cam Balkon
-                        </Link>
-                        <Link
-                            href="/cam-balkon/katlanir"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
-                        >
-                            Katlanır Cam Balkon
-                        </Link>
-                        <Link
-                            href="/cam-balkon"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
-                        >
-                            Tüm Cam Balkon Sistemleri →
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA */}
-            <CTABlock
-                title="Isı Camlı Cam Balkon Yaptırmak İster misiniz?"
-                description="Premium yalıtım ve konfor için ücretsiz keşif randevusu alın."
-            />
-        </>
-    );
+      <CTABlock
+        title="Isıcamlı Cam Balkon Teklifi Alın"
+        description="Dört mevsim yalıtımlı cam balkon için ücretsiz keşif ve metraj teklifi isteyin."
+      />
+    </>
+  );
 }

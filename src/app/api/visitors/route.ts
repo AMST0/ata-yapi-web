@@ -1,7 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getAllVisitors, getVisitorsToday } from '@/lib/db-operations';
+import { requireAdmin } from '@/lib/admin-auth';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+    const authError = requireAdmin(request);
+    if (authError) return authError;
+
     try {
         const [allVisitors, todayVisitors] = await Promise.all([
             getAllVisitors(100),

@@ -27,13 +27,18 @@ export interface LocalMessage {
     createdAt: Date;
 }
 
+export interface LocalQuoteItem {
+    description: string;
+    price: number;
+}
+
 export interface LocalQuote {
     id: number;
     quoteNumber: string;
     customerName: string;
     customerPhone: string;
     projectAddress?: string | null;
-    items?: any[];
+    items?: LocalQuoteItem[];
     total: number;
     validityDays: number;
     notes?: string | null;

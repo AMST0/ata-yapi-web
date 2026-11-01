@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useSyncExternalStore } from "react";
 import { Language, TranslationSchema, LanguageOption } from "./types";
 import { translations, languages, defaultLanguage } from "./translations";
 
@@ -19,39 +19,60 @@ const LanguageContext = createContext<LanguageContextProps>({
 });
 
 const STORAGE_KEY = "ata_yapi_lang";
+const LANG_CHANGE_EVENT = "ata_yapi_lang_change";
+
+function subscribeLanguage(callback: () => void): () => void {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+  window.addEventListener("storage", callback);
+  window.addEventListener(LANG_CHANGE_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(LANG_CHANGE_EVENT, callback);
+  };
+}
+
+function getClientLanguageSnapshot(): Language {
+  if (typeof window === "undefined") {
+    return defaultLanguage;
+  }
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY) as Language | null;
+    if (saved === "tr" || saved === "en" || saved === "de") {
+      return saved;
+    }
+    const browserLang = navigator.language.slice(0, 2).toLowerCase();
+    if (browserLang === "de") return "de";
+    if (browserLang === "en") return "en";
+  } catch {
+    // Ignore storage access errors
+  }
+  return defaultLanguage;
+}
+
+function getServerLanguageSnapshot(): Language {
+  return defaultLanguage;
+}
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>(defaultLanguage);
+  const language = useSyncExternalStore(
+    subscribeLanguage,
+    getClientLanguageSnapshot,
+    getServerLanguageSnapshot
+  );
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY) as Language;
-      if (saved && (saved === "tr" || saved === "en" || saved === "de")) {
-        setLanguageState(saved);
-        document.documentElement.lang = saved;
-      } else {
-        // Tarayıcı dilini kontrol et
-        const browserLang = navigator.language.slice(0, 2).toLowerCase();
-        if (browserLang === "de") {
-          setLanguageState("de");
-          document.documentElement.lang = "de";
-        } else if (browserLang === "en") {
-          setLanguageState("en");
-          document.documentElement.lang = "en";
-        }
-      }
-    } catch {
-      // localStorage erişim hatası olursa yoksay
-    }
-  }, []);
+    document.documentElement.lang = language;
+  }, [language]);
 
   const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
     try {
       localStorage.setItem(STORAGE_KEY, lang);
       document.documentElement.lang = lang;
+      window.dispatchEvent(new Event(LANG_CHANGE_EVENT));
     } catch {
-      // localStorage erişim hatası olursa yoksay
+      // Ignore storage access errors
     }
   };
 

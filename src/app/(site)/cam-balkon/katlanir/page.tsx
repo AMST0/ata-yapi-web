@@ -1,271 +1,293 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import Image from 'next/image';
-import Breadcrumb from '@/components/Breadcrumb';
-import FAQSection from '@/components/seo/FAQSection';
-import CTABlock from '@/components/seo/CTABlock';
-import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
+import Breadcrumb from "@/components/Breadcrumb";
+import FAQSection from "@/components/seo/FAQSection";
+import CTABlock from "@/components/seo/CTABlock";
+import WhyAtaYapi from "@/components/seo/WhyAtaYapi";
+import { getWhatsAppUrl } from "@/lib/constants";
+import {
+  LayersIcon,
+  ShieldIcon,
+  SunWindIcon,
+  WrenchIcon,
+  SparkGridIcon,
+  CheckIcon,
+  WhatsAppIcon,
+  ArrowRightIcon,
+} from "@/components/icons/ArchitecturalIcons";
 
 export const metadata: Metadata = {
-    title: 'Katlanır Cam Balkon Sistemleri | Ata Yapı',
-    description:
-        'Katlanır cam balkon sistemleri ile %100 açılım imkanı. Esnek kullanım, şık tasarım. Maltepe ve çevresinde ücretsiz keşif.',
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/cam-balkon/katlanir',
-    },
+  title: "Katlanır Cam Balkon Sistemleri | Ata Yapı",
+  description:
+    "Katlanır cam balkon sistemleri ile %100 açılım imkanı. Paslanmaz rulman takımı, 8mm temperli cam, şık mimari tasarım. Ücretsiz keşif.",
+  alternates: {
+    canonical: "https://www.xn--atayap-u9a.site/cam-balkon/katlanir",
+  },
 };
 
 const faqs = [
-    {
-        question: 'Katlanır cam balkon nasıl çalışır?',
-        answer: 'Katlanır cam balkon sisteminde cam paneller menteşelerle birbirine bağlıdır. Açma sırasında paneller akordiyon gibi katlanarak bir tarafa toplanır ve balkonun tamamı açılır.',
-    },
-    {
-        question: 'Katlanır cam balkon tamamen açılır mı?',
-        answer: 'Evet, katlanır cam balkon sistemleri %100 açılım imkanı sunar. Tüm paneller bir tarafa katlanarak toplanır ve balkon tamamen açık hale gelir.',
-    },
-    {
-        question: 'Katlanır cam balkon fiyatları ne kadar?',
-        answer: 'Katlanır sistem sürme sisteme göre daha yüksek fiyatlıdır. Ortalama bir balkon için fiyatlar 18.000 TL\'den başlar. Kesin fiyat için ücretsiz keşif randevusu alabilirsiniz.',
-    },
-    {
-        question: 'Katlanır cam balkon ne kadar sürede monte edilir?',
-        answer: 'Standart bir balkon için montaj 1-2 gün içinde tamamlanır. Üretim süresi dahil toplam süreç yaklaşık 1 hafta sürer.',
-    },
-    {
-        question: 'Katlanır cam balkon rüzgara dayanıklı mı?',
-        answer: 'Evet, katlanır cam balkon sistemleri rüzgara dayanıklıdır. Özel kilitleme mekanizması sayesinde kapalı konumda güvenli şekilde sabitlenir.',
-    },
-    {
-        question: 'Katlanır cam balkon hangi balkonlara uygun?',
-        answer: 'Katlanır sistem her boyuttaki balkona uygulanabilir. Özellikle manzaralı balkonlar, geniş teraslar ve açık kullanım istenen alanlar için idealdir.',
-    },
+  {
+    question: "Katlanır cam balkon nasıl çalışır?",
+    answer:
+      "Katlanır cam balkon sisteminde cam paneller paslanmaz çelik rulmanlar üzerinde kayarak köşede akordiyon gibi katlanır ve balkonun tamamı açılır.",
+  },
+  {
+    question: "Katlanır cam balkon tamamen açılır mı?",
+    answer:
+      "Evet, katlanır cam balkon sistemleri %100 açılım imkânı sunar. Tüm paneller içe doğru katlanarak toplanır ve camların dış yüzeyi de güvenle silinebilir.",
+  },
+  {
+    question: "Katlanır cam balkon fiyatları neye göre belirlenir?",
+    answer:
+      "Fiyatlar balkonun toplam metrekaresi, yüksekliği, alüminyum profil rengi (antrasit, bronz, ahşap desen vb.) ve cam kalınlığına (8mm/10mm/Isıcam) göre hesaplanır.",
+  },
+  {
+    question: "Katlanır cam balkon ne kadar sürede monte edilir?",
+    answer:
+      "Standart bir balkon için montaj 1 iş günü içinde tamamlanır. Özel imalat süresi dahil toplam teslimat yaklaşık 5-7 iş günü sürer.",
+  },
+  {
+    question: "Katlanır cam balkon rüzgâra ve yağmura dayanıklı mı?",
+    answer:
+      "Evet, damlalıklı kasa profilleri, alüminyum ara fitiller ve emniyetli çocuk kilidi mekanizması sayesinde şiddetli rüzgâr ve yağmura karşı yüksek koruma sağlar.",
+  },
 ];
 
 const features = [
-    { title: '%100 Açılım', description: 'Tüm paneller katlanarak balkonunuzu tamamen açın.', icon: '🚪' },
-    { title: 'Esnek Kullanım', description: 'Dilediğiniz kadar açıp kapatabilme imkanı.', icon: '🔄' },
-    { title: 'Manzara Keyfi', description: 'Açık konumda kesintisiz manzara deneyimi.', icon: '🏞️' },
-    { title: 'Şık Tasarım', description: 'Modern ve estetik görünüm.', icon: '✨' },
-    { title: 'Kolay Kullanım', description: 'Tek elle açılıp kapatılır.', icon: '👆' },
-    { title: 'Güvenli Kilit', description: 'Özel kilitleme sistemi ile güvenlik.', icon: '🔒' },
+  {
+    index: "01",
+    title: "%100 Tam Açılım",
+    description: "Tüm kanatları tek kenara katlayarak balkonunuzu tamamen açık terasa dönüştürün.",
+    icon: <LayersIcon className="w-5 h-5" />,
+  },
+  {
+    index: "02",
+    title: "Kolay Dış Yüzey Temizliği",
+    description: "İçe katlanan kanat mekanizması sayesinde sarkmadan güvenli cam temizliği.",
+    icon: <SparkGridIcon className="w-5 h-5" />,
+  },
+  {
+    index: "03",
+    title: "Kesintisiz Panoramik Manzara",
+    description: "Dikey kayıt profili olmadan şeffaf ve modern cephe görünümü.",
+    icon: <SunWindIcon className="w-5 h-5" />,
+  },
+  {
+    index: "04",
+    title: "Paslanmaz Çelik Rulmanlar",
+    description: "Çift sıra paslanmaz rulman takımı ile yıllarca takılmadan sessiz hareket.",
+    icon: <WrenchIcon className="w-5 h-5" />,
+  },
+  {
+    index: "05",
+    title: "8mm / 10mm Temperli Cam",
+    description: "Darbelere karşı 5 kat güçlendirilmiş Şişecam patentli emniyet camı.",
+    icon: <ShieldIcon className="w-5 h-5" />,
+  },
+  {
+    index: "06",
+    title: "Çocuk Emniyet Kilidi",
+    description: "İçeriden kilitlenebilen yüksek güvenlikli ispanyolet ve kilit mekanizması.",
+    icon: <CheckIcon className="w-5 h-5" />,
+  },
 ];
 
 export default function KatlanirCamBalkonPage() {
-    return (
-        <>
-            {/* Breadcrumb */}
-            <div className="bg-gray-50 border-b border-gray-100">
-                <div className="container">
-                    <Breadcrumb
-                        items={[
-                            { label: 'Ana Sayfa', href: '/' },
-                            { label: 'Cam Balkon', href: '/cam-balkon' },
-                            { label: 'Katlanır Sistem' },
-                        ]}
-                    />
-                </div>
+  return (
+    <>
+      <div className="bg-slate-50 border-b border-slate-200">
+        <div className="container">
+          <Breadcrumb
+            items={[
+              { label: "Ana Sayfa", href: "/" },
+              { label: "Cam Balkon", href: "/cam-balkon" },
+              { label: "Katlanır Sistem" },
+            ]}
+          />
+        </div>
+      </div>
+
+      {/* Hero */}
+      <section className="relative py-20 lg:py-28 bg-[#0b0f19] text-white overflow-hidden border-b border-slate-800">
+        <div className="absolute inset-0">
+          <Image
+            src="/cam-balkon-1.png"
+            alt="Katlanır Cam Balkon"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-30"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f19] via-[#0b0f19]/90 to-[#0b0f19]/40" />
+          <div className="absolute inset-0 arch-grid-dark opacity-70 pointer-events-none" />
+        </div>
+        <div className="container relative z-10">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-white/[0.06] border border-white/15 text-xs font-semibold tracking-wide text-slate-200 mb-6">
+              <span className="w-2 h-2 bg-red-500 rounded-full" />
+              <span>%100 AÇILIR PANORAMİK SİSTEM</span>
             </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-5">
+              Katlanır <span className="text-red-500">Cam Balkon</span>
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-8 leading-relaxed">
+              Cam panellerin tamamen katlanarak toplandığı esnek mimari sistem. Balkonunuzu
+              istediğinizde %100 açık hale getirin, dört mevsim konforla kullanın.
+            </p>
+            <div className="flex flex-wrap gap-3.5">
+              <Link
+                href="/iletisim"
+                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-7 py-3.5 rounded-xl font-semibold text-sm sm:text-base transition-colors"
+              >
+                <span>Ücretsiz Keşif</span>
+                <ArrowRightIcon className="w-4 h-4" />
+              </Link>
+              <a
+                href={getWhatsAppUrl("Merhaba, katlanır cam balkon sistemi için fiyat teklifi almak istiyorum.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-press inline-flex items-center gap-2 bg-[#16a34a] hover:bg-[#15803d] text-white px-7 py-3.5 rounded-xl font-semibold text-sm sm:text-base transition-colors"
+              >
+                <WhatsAppIcon className="w-5 h-5" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Hero */}
-            <section className="relative py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
-                <div className="absolute inset-0">
-                    <Image
-                        src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80"
-                        alt="Katlanır Cam Balkon"
-                        fill
-                        className="object-cover opacity-30"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent" />
+      {/* Overview */}
+      <section className="py-16 lg:py-20 bg-white border-b border-slate-200/80">
+        <div className="container">
+          <div className="max-w-3xl">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-5">
+              Katlanır Cam Balkon Nedir?
+            </h2>
+            <div className="space-y-4 text-slate-600 text-base leading-relaxed">
+              <p>
+                Katlanır cam balkon sistemleri, temperli cam kanatların alüminyum ray üzerinde
+                kayarak köşe noktasında içe doğru katlandığı modern cephe kapatma çözümüdür. En
+                önemli avantajı balkon açıklığının %100 oranında kullanılabilmesidir.
+              </p>
+              <p>
+                Düz, L tipi, U tipi ve oval balkon geometrilerinin tamamına milimetrik olarak
+                uygulanabilir. 8 mm veya 10 mm temperli güvenlik camı ve su tahliye kanallı
+                alüminyum profiller ile yüksek rüzgâr ve yağmur dayanımı sunar.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-16 lg:py-24 bg-slate-50 border-b border-slate-200/80">
+        <div className="container">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-10">
+            Katlanır Cam Balkon Teknik Avantajları
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {features.map((feature) => (
+              <div
+                key={feature.index}
+                className="bg-white rounded-xl p-6 border border-slate-200 hover:border-slate-900 transition-colors group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-slate-100 text-slate-800 group-hover:bg-[var(--primary)] group-hover:text-white flex items-center justify-center transition-colors">
+                    {feature.icon}
+                  </div>
+                  <span className="text-xs font-mono font-semibold text-slate-400">
+                    {feature.index}
+                  </span>
                 </div>
-                <div className="container relative z-10">
-                    <div className="max-w-2xl">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-[var(--accent)] mb-6">
-                            <span className="w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse" />
-                            En Popüler Sistem
-                        </span>
-                        <h1
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
-                            style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                            Katlanır{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">
-                                Cam Balkon
-                            </span>
-                        </h1>
-                        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                            Cam panellerin tamamen katlanarak toplandığı esnek sistem.
-                            Balkonunuzu istediğinizde %100 açık hale getirin. Manzaralı
-                            balkonlar için ideal çözüm.
-                        </p>
-                        <div className="flex flex-wrap gap-4">
-                            <Link
-                                href="/iletisim"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg shadow-red-500/25"
-                            >
-                                Ücretsiz Keşif
-                            </Link>
-                            <a
-                                href="https://wa.me/905314002959"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-press inline-flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300"
-                            >
-                                WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                <h3 className="font-bold text-slate-900 mb-1.5">{feature.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* What is */}
-            <section className="py-16 lg:py-20 bg-white">
-                <div className="container">
-                    <div className="max-w-4xl mx-auto">
-                        <h2
-                            className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center"
-                            style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                            Katlanır Cam Balkon Nedir?
-                        </h2>
-                        <div className="prose prose-lg max-w-none text-gray-600">
-                            <p>
-                                Katlanır cam balkon sistemleri, cam panellerin menteşelerle birbirine
-                                bağlı olduğu ve akordiyon tarzı katlanan cam balkon çözümüdür. En büyük
-                                avantajı balkonun %100 açılabilmesidir.
-                            </p>
-                            <p>
-                                Özellikle deniz manzaralı balkonlarda, geniş teraslarda ve açık hava
-                                keyfi istenilen alanlarda tercih edilen katlanır sistem, balkonunuzu
-                                yazın tamamen açık, kışın tamamen kapalı kullanmanıza olanak tanır.
-                            </p>
-                            <p>
-                                Katlanır sistemde genellikle 8 mm temperli cam kullanılır. Paneller
-                                tek elle kolayca açılıp kapatılabilir ve özel kilitleme sistemi ile
-                                güvenli şekilde sabitlenir.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      {/* Comparison Table */}
+      <section className="py-16 lg:py-20 bg-white border-b border-slate-200/80">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8">
+              Katlanır vs Sürme Sistem Karşılaştırma
+            </h2>
+            <div className="overflow-x-auto rounded-xl border border-slate-200">
+              <table className="w-full border-collapse text-sm">
+                <thead>
+                  <tr className="bg-slate-900 text-white">
+                    <th className="p-4 text-left font-semibold">Teknik Kriter</th>
+                    <th className="p-4 text-center font-semibold bg-red-600">Katlanır Sistem</th>
+                    <th className="p-4 text-center font-semibold">Sürme Sistem</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 bg-white">
+                  <tr>
+                    <td className="p-4 font-medium text-slate-800">Net Açılım Oranı</td>
+                    <td className="p-4 text-center font-bold text-slate-900 bg-red-50/50">%100</td>
+                    <td className="p-4 text-center text-slate-600">%75 — %80</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-800">Dış Cam Temizliği</td>
+                    <td className="p-4 text-center font-bold text-slate-900 bg-red-50/50">İçeriden Tam Erişim</td>
+                    <td className="p-4 text-center text-slate-600">Ray Üzerinden</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-800">L / U Balkon Uyumu</td>
+                    <td className="p-4 text-center font-bold text-slate-900 bg-red-50/50">Köşe Dönüşlü Tam Uyum</td>
+                    <td className="p-4 text-center text-slate-600">Sabit Köşe Kayıtlı</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-medium text-slate-800">Eşik Yapısı</td>
+                    <td className="p-4 text-center font-semibold text-slate-800 bg-red-50/50">Damlalıklı Kasa</td>
+                    <td className="p-4 text-center text-slate-600">Eşikli / Eşiksiz Ray</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Features */}
-            <section className="py-16 lg:py-20 bg-gray-50">
-                <div className="container">
-                    <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 text-center"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                        Katlanır Cam Balkon Avantajları
-                    </h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                        {features.map((feature, index) => (
-                            <div
-                                key={index}
-                                className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
-                            >
-                                <div className="text-3xl mb-3">{feature.icon}</div>
-                                <h3
-                                    className="font-bold text-gray-900 mb-2"
-                                    style={{ fontFamily: 'var(--font-heading)' }}
-                                >
-                                    {feature.title}
-                                </h3>
-                                <p className="text-gray-600 text-sm">{feature.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+      <WhyAtaYapi />
 
-            {/* Comparison */}
-            <section className="py-16 lg:py-20 bg-white">
-                <div className="container">
-                    <h2
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-12 text-center"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                        Katlanır vs Sürme Sistem Karşılaştırma
-                    </h2>
-                    <div className="max-w-3xl mx-auto">
-                        <div className="overflow-x-auto">
-                            <table className="w-full border-collapse">
-                                <thead>
-                                    <tr className="bg-gray-100">
-                                        <th className="p-4 text-left font-semibold text-gray-900">Özellik</th>
-                                        <th className="p-4 text-center font-semibold text-gray-900 bg-[var(--primary)]/10">Katlanır</th>
-                                        <th className="p-4 text-center font-semibold text-gray-900">Sürme</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100">
-                                    <tr>
-                                        <td className="p-4 text-gray-700">Açılım Oranı</td>
-                                        <td className="p-4 text-center font-medium text-[var(--accent)] bg-[var(--primary)]/5">%100</td>
-                                        <td className="p-4 text-center text-gray-500">%70-80</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="p-4 text-gray-700">Kullanım Kolaylığı</td>
-                                        <td className="p-4 text-center font-medium text-[var(--accent)] bg-[var(--primary)]/5">Çok Kolay</td>
-                                        <td className="p-4 text-center text-gray-500">Kolay</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="p-4 text-gray-700">Manzara Keyfi</td>
-                                        <td className="p-4 text-center font-medium text-[var(--accent)] bg-[var(--primary)]/5">Mükemmel</td>
-                                        <td className="p-4 text-center text-gray-500">İyi</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="p-4 text-gray-700">Fiyat</td>
-                                        <td className="p-4 text-center text-gray-700 bg-[var(--primary)]/5">Premium</td>
-                                        <td className="p-4 text-center text-gray-500">Ekonomik</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      <FAQSection title="Katlanır Cam Balkon Hakkında Sıkça Sorulan Sorular" faqs={faqs} />
 
-            {/* Why Ata Yapı */}
-            <WhyAtaYapi />
+      <section className="py-12 bg-slate-50 border-t border-slate-200">
+        <div className="container">
+          <h2 className="text-lg font-bold text-slate-900 mb-4">
+            Diğer Cam Balkon Sistemleri
+          </h2>
+          <div className="flex flex-wrap gap-3 text-sm font-medium">
+            <Link
+              href="/cam-balkon/isi-camli"
+              className="px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-slate-700 hover:border-slate-900 hover:text-slate-900 transition-colors"
+            >
+              Isıcamlı Cam Balkon
+            </Link>
+            <Link
+              href="/cam-balkon/surme"
+              className="px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-slate-700 hover:border-slate-900 hover:text-slate-900 transition-colors"
+            >
+              Sürme Cam Balkon
+            </Link>
+            <Link
+              href="/cam-balkon"
+              className="px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-slate-700 hover:border-slate-900 hover:text-slate-900 transition-colors"
+            >
+              Tüm Cam Balkon Sistemleri →
+            </Link>
+          </div>
+        </div>
+      </section>
 
-            {/* FAQ */}
-            <FAQSection title="Katlanır Cam Balkon Hakkında Sıkça Sorulan Sorular" faqs={faqs} />
-
-            {/* Related Links */}
-            <section className="py-12 bg-gray-50">
-                <div className="container">
-                    <h2 className="text-xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
-                        Diğer Cam Balkon Sistemleri
-                    </h2>
-                    <div className="flex flex-wrap gap-3">
-                        <Link
-                            href="/cam-balkon/isi-camli"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
-                        >
-                            Isı Camlı Sistem
-                        </Link>
-                        <Link
-                            href="/cam-balkon/surme"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
-                        >
-                            Sürme Cam Balkon
-                        </Link>
-                        <Link
-                            href="/cam-balkon"
-                            className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
-                        >
-                            Tüm Cam Balkon Sistemleri →
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA */}
-            <CTABlock
-                title="Katlanır Cam Balkon Yaptırmak İster misiniz?"
-                description="%100 açılım ve manzara keyfi için ücretsiz keşif randevusu alın."
-            />
-        </>
-    );
+      <CTABlock
+        title="Katlanır Cam Balkon Teklifi Alın"
+        description="%100 açılım ve doğrudan imalatçı fiyat avantajı için ücretsiz keşif randevusu oluşturun."
+      />
+    </>
+  );
 }

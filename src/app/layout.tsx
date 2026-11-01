@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { LanguageProvider } from "@/lib/i18n";
+import VisitorTracker from "@/components/VisitorTracker";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,9 +19,9 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.xn--atayap-u9a.site"),
-  title: "Ata Yapı | Giyotin Cam Sistemleri, Teleskopik Garaj & Cam Balkon",
+  title: "Ata Yapı | Giyotin Cam Sistemleri, Cam Balkon & Mimari Cephe",
   description:
-    "Ata Yapı — giyotin cam sistemleri, motorlu giyotin, teleskopik garaj, cam balkon, sineklik ve tente çözümleri. Balıkesir, Edremit, Altınoluk, İzmir, Çanakkale ve İstanbul'da ölçüye özel üretim, profesyonel montaj, ücretsiz keşif. Bayi ve kurumsal satış.",
+    "Ata Yapı — motorlu giyotin cam sistemleri, ısıcamlı cam balkon, plise sineklik ve kasetli tente çözümlerinde ölçüye özel üretim, profesyonel montaj ve Avrupa toptan ihracat tedariği.",
   keywords: [
     "giyotin cam",
     "giyotin cam sistemi",
@@ -27,30 +29,22 @@ export const metadata: Metadata = {
     "motorlu giyotin sistem",
     "giyotin cam fiyatları",
     "giyotin sistem imalatı",
-    "giyotin sistem montajı",
-    "teleskopik garaj",
-    "katlanır garaj",
-    "açılır kapanır garaj",
-    "teleskopik garaj sistemi",
     "cam balkon",
     "cam balkon sistemleri",
+    "ısıcamlı cam balkon",
     "katlanır cam balkon",
     "sürme cam balkon",
-    "sineklik",
-    "tente",
+    "pileli sineklik",
+    "kedi sinekliği",
+    "kasetli tente",
+    "motorlu tente",
     "pimapen tamir",
+    "cam balkon maltepe",
     "giyotin cam balıkesir",
     "giyotin cam edremit",
     "giyotin cam altınoluk",
     "giyotin cam izmir",
     "giyotin cam çanakkale",
-    "cam balkon maltepe",
-    "Balıkesir",
-    "Edremit",
-    "Altınoluk",
-    "Akçay",
-    "İzmir",
-    "Çanakkale",
     "İstanbul",
   ],
   authors: [{ name: "Ata Yapı" }],
@@ -65,33 +59,30 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
   },
   openGraph: {
-    title: "Ata Yapı | Giyotin Cam Sistemleri, Teleskopik Garaj & Cam Balkon",
+    title: "Ata Yapı | Giyotin Cam Sistemleri, Cam Balkon & Mimari Cephe",
     description:
-      "Giyotin cam sistemleri, teleskopik garaj, cam balkon, sineklik ve tente çözümlerinde ölçüye özel üretim. Balıkesir, İzmir, Çanakkale, İstanbul.",
+      "Motorlu giyotin cam sistemleri, cam balkon, sineklik ve tente çözümlerinde ölçüye özel üretim, profesyonel montaj ve ihracat tedariği.",
     locale: "tr_TR",
     type: "website",
     url: "https://www.xn--atayap-u9a.site",
     siteName: "Ata Yapı",
     images: [
       {
-        url: "/logo.png",
-        width: 512,
-        height: 512,
-        alt: "Ata Yapı Logo",
+        url: "/giyotin-cam-hero.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Ata Yapı Mimari Cam ve Alüminyum Sistemleri",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ata Yapı | Giyotin Cam Sistemleri, Teleskopik Garaj & Cam Balkon",
+    title: "Ata Yapı | Giyotin Cam Sistemleri, Cam Balkon & Mimari Cephe",
     description:
-      "Giyotin cam sistemleri, teleskopik garaj ve cam balkon çözümlerinde ölçüye özel üretim. Ücretsiz keşif.",
-    images: ["/logo.png"],
+      "Motorlu giyotin cam sistemleri ve cam balkon çözümlerinde ölçüye özel üretim. Ücretsiz keşif.",
+    images: ["/giyotin-cam-hero.jpg"],
   },
 };
-
-import { LanguageProvider } from "@/lib/i18n";
-import VisitorTracker from "@/components/VisitorTracker";
 
 export default function RootLayout({
   children,
@@ -103,11 +94,8 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <GoogleAnalytics />
         <VisitorTracker />
-        <LanguageProvider>
-          {children}
-        </LanguageProvider>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );
 }
-

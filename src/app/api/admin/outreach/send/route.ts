@@ -5,36 +5,10 @@ import {
     getEmailSubject,
     getEmailHtml,
     getEmailPlainText,
-    TemplateContact
+    TemplateContact,
 } from '@/lib/outreach-templates';
-
-// Contacts definition
-const ALL_CONTACTS: TemplateContact[] = [
-    { id: 1, name: "FenSon GmbH", email: "info@fenson.de", country: "Germany", group: "business", category: "Pencere, Kapı & Sineklik Sistemleri" },
-    { id: 2, name: "ATRO Element GmbH - Arno Endress", email: "aendress@atro-element.de", country: "Germany", group: "business", category: "Cephe & Yapı Elemanları" },
-    { id: 3, name: "SaMa Flyscreen GbR", email: "info@sama-flyscreen.de", country: "Germany", group: "business", category: "Sineklik & Böcek Koruma Sistemleri" },
-    { id: 4, name: "Görmar und Sohn GmbH", email: "info@goermar.de", country: "Germany", group: "business", category: "Pencere, Güneşlik & Stor Sistemleri" },
-    { id: 5, name: "De Raamfabriek", email: "info@deraamfabriek.be", country: "Belgium", group: "business", category: "PVC & Alüminyum Doğrama Fabrikası" },
-    { id: 6, name: "Ramen Willems", email: "info@ramenwillems.be", country: "Belgium", group: "business", category: "Kış Bahçesi, Veranda & Cam Balkon" },
-    { id: 7, name: "Kozijnenfabriek Nederland", email: "info@kozijnenfabrieknederland.nl", country: "Netherlands", group: "business", category: "Doğrama & Pencere İmalatı" },
-    { id: 8, name: "Vliegenraam.com", email: "info@vliegenraam.com", country: "Belgium", group: "business", category: "Özel Plise & Stor Sineklik Üreticisi" },
-    { id: 9, name: "GZ Montage", email: "office@gz-montage.at", country: "Austria", group: "business", category: "Pencere, Kapı & Cam Montaj Firması" },
-    { id: 10, name: "Immosan Fenster Türen Sonnenschutz GmbH", email: "office@immosan-fts.at", country: "Austria", group: "business", category: "Güneşlik, Tente, Kapı & Pencere" },
-    { id: 11, name: "Seiler Storen AG", email: "info@seilerstoren.ch", country: "Switzerland", group: "business", category: "Güneş Kırıcı, Panjur & Stor" },
-    { id: 12, name: "Fischer Storen GmbH", email: "info@fischerstoren.ch", country: "Switzerland", group: "business", category: "Tente, Gölgelendirme & Panjur" },
-    { id: 13, name: "Filtoldos", email: "geral@filtoldos.com", country: "Portugal", group: "business", category: "Tente & Dış Mekan Kapatma" },
-    { id: 14, name: "Glavas Aluminum & PVC Systems", email: "info@glavas-systems.gr", country: "Greece", group: "business", category: "Alüminyum & PVC Profil İmalatı" },
-    { id: 15, name: "Alevitische Gemeinde Deutschland (AABF)", email: "info@aabf.de", country: "Germany", group: "alevi", category: "Almanya Alevi Birlikleri Federasyonu" },
-    { id: 16, name: "Alevilerin Sesi - Editorial / Ads", email: "alevilerinsesi@alevi.com", country: "Germany", group: "alevi", category: "Avrupa Alevi Yayın ve Basın Organı" }
-];
-
-declare global {
-    var __ataYapiOutreachSentLog: Record<number, { lastSentAt: string; status: 'delivered'; language: 'tr' | 'en' }> | undefined;
-}
-
-if (!global.__ataYapiOutreachSentLog) {
-    global.__ataYapiOutreachSentLog = {};
-}
+import { getAllOutreachContacts, markOutreachContactSent } from '@/lib/outreach-store';
+import { requireAdmin } from '@/lib/admin-auth';
 
 function getTransporter() {
     const user = process.env.SMTP_USER || 'atayapicambalkon@gmail.com';
@@ -43,18 +17,21 @@ function getTransporter() {
     return nodemailer.createTransport({
         host: process.env.SMTP_HOST || 'smtp.gmail.com',
         port: Number(process.env.SMTP_PORT) || 587,
-        secure: false, // TLS on 587
+        secure: false,
         auth: {
             user,
             pass,
         },
         tls: {
-            rejectUnauthorized: false
-        }
+            rejectUnauthorized: false,
+        },
     });
 }
 
 export async function POST(request: NextRequest) {
+    const authError = requireAdmin(request);
+    if (authError) return authError;
+
     try {
         const body = await request.json();
         const {
@@ -64,20 +41,20 @@ export async function POST(request: NextRequest) {
             lang = 'tr',
             customSubject,
             isTest = false,
-            testEmail = 'atayapicambalkon@gmail.com'
+            testEmail = 'atayapicambalkon@gmail.com',
         } = body;
 
+        const allContacts = getAllOutreachContacts();
         const transporter = getTransporter();
 
-        // 1. Determine target list
         let targets: TemplateContact[] = [];
 
         if (sendAll) {
-            targets = ALL_CONTACTS;
+            targets = allContacts;
         } else if (Array.isArray(contactIds) && contactIds.length > 0) {
-            targets = ALL_CONTACTS.filter(c => contactIds.includes(c.id));
+            targets = allContacts.filter((c) => contactIds.includes(c.id));
         } else if (contactId) {
-            const single = ALL_CONTACTS.find(c => c.id === contactId);
+            const single = allContacts.find((c) => c.id === contactId);
             if (!single) {
                 return NextResponse.json({ success: false, error: 'Firma bulunamadı.' }, { status: 404 });
             }
@@ -87,12 +64,13 @@ export async function POST(request: NextRequest) {
         }
 
         const results: { id: number; name: string; email: string; success: boolean; error?: string }[] = [];
+        const safeLang: 'tr' | 'en' = lang === 'en' ? 'en' : 'tr';
 
         for (const target of targets) {
             const recipient = isTest ? testEmail : target.email;
-            const subject = customSubject || getEmailSubject(target, lang as 'tr' | 'en');
-            const html = getEmailHtml(target, lang as 'tr' | 'en');
-            const text = getEmailPlainText(target, lang as 'tr' | 'en');
+            const subject = customSubject || getEmailSubject(target, safeLang);
+            const html = getEmailHtml(target, safeLang);
+            const text = getEmailPlainText(target, safeLang);
 
             try {
                 await transporter.sendMail({
@@ -105,11 +83,7 @@ export async function POST(request: NextRequest) {
                 });
 
                 if (!isTest) {
-                    global.__ataYapiOutreachSentLog![target.id] = {
-                        lastSentAt: new Date().toISOString(),
-                        status: 'delivered',
-                        language: lang as 'tr' | 'en'
-                    };
+                    markOutreachContactSent(target.id, safeLang);
                 }
 
                 results.push({
@@ -119,24 +93,24 @@ export async function POST(request: NextRequest) {
                     success: true,
                 });
 
-                // Small pause between multiple emails to prevent SMTP throttle
                 if (targets.length > 1) {
-                    await new Promise(res => setTimeout(res, 600));
+                    await new Promise((res) => setTimeout(res, 600));
                 }
-            } catch (err: any) {
+            } catch (err: unknown) {
+                const errMsg = err instanceof Error ? err.message : 'E-posta gönderimi başarısız oldu.';
                 console.error(`Error sending email to ${recipient}:`, err);
                 results.push({
                     id: target.id,
                     name: target.name,
                     email: recipient,
                     success: false,
-                    error: err?.message || 'E-posta gönderimi başarısız oldu.',
+                    error: errMsg,
                 });
             }
         }
 
-        const successfulCount = results.filter(r => r.success).length;
-        const failedCount = results.filter(r => !r.success).length;
+        const successfulCount = results.filter((r) => r.success).length;
+        const failedCount = results.filter((r) => !r.success).length;
 
         return NextResponse.json({
             success: successfulCount > 0,
@@ -147,13 +121,17 @@ export async function POST(request: NextRequest) {
             results,
             message: isTest
                 ? `Test maili başarıyla ${testEmail} adresine iletildi!`
-                : `${successfulCount} firmaya e-posta başarıyla gönderildi.`
+                : `${successfulCount} firmaya e-posta başarıyla gönderildi.`,
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const errMsg = error instanceof Error ? error.message : 'E-posta gönderim servisi sırasında bir hata oluştu.';
         console.error('Outreach send error:', error);
-        return NextResponse.json({
-            success: false,
-            error: error?.message || 'E-posta gönderim servisi sırasında bir hata oluştu.'
-        }, { status: 500 });
+        return NextResponse.json(
+            {
+                success: false,
+                error: errMsg,
+            },
+            { status: 500 }
+        );
     }
 }

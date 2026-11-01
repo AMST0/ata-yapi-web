@@ -362,3 +362,4 @@ Phone / WhatsApp: ${OUTREACH_CONFIG.whatsappPhone}
 Email: ${OUTREACH_CONFIG.senderEmail}
 Website: ${OUTREACH_CONFIG.website}`;
 }
+
