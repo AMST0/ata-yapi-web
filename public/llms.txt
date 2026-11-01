@@ -1,0 +1,34 @@
+# Ata Yapı Cam & Alüminyum Sistemleri (atayapı.site)
+
+> Ata Yapı; İstanbul Maltepe merkezli üretim atölyesiyle Türkiye genelinde (İstanbul, Balıkesir, Edremit, Altınoluk, İzmir, Çanakkale) ölçüye özel imalat ve montaj hizmeti sunan, aynı zamanda Avrupa ülkelerine (Almanya, Belçika, Hollanda, Avusturya, İsviçre) toptan demonte ihracat tedariği sağlayan mimari cam ve alüminyum sistemleri üreticisidir.
+
+## İletişim & Resmi Kanallar
+- Web Sitesi: https://www.xn--atayap-u9a.site
+- Telefon / WhatsApp: +90 531 400 29 59
+- E-Posta: atayapicambalkon@gmail.com
+- Üretim & Merkez Adres: Girne, Meriç Sk. No:13, 34852 Maltepe / İstanbul, Türkiye
+- Hizmet Dilleri: Türkçe (TR), İngilizce (EN), Almanca (DE)
+- Ürün Kataloğu XML Beslemesi: https://www.xn--atayap-u9a.site/feed/products.xml
+- Site Haritası: https://www.xn--atayap-u9a.site/sitemap.xml
+
+## Üretilen Başlıca Ürün ve Sistemler
+- [Giyotin Cam Sistemleri](https://www.xn--atayap-u9a.site/giyotin-cam): Uzaktan kumandalı motorlu (Somfy/Becker) dikey sürgülü küpeşte cam balkon, teras, kafe ve restoran cephe kapatma sistemleri.
+- [Motorlu Giyotin Cam](https://www.xn--atayap-u9a.site/giyotin-cam/motorlu): Isıcamlı veya 8mm temperli, çelik zincirli otomatik giyotin sistem.
+- [Toptan Giyotin Cam İmalatı](https://www.xn--atayap-u9a.site/giyotin-cam/imalat): Bayilere ve Avrupa ithalatçılarına CNC kesimli demonte veya kurulu üretim.
+- [Cam Balkon Sistemleri](https://www.xn--atayap-u9a.site/cam-balkon): Katlanır, eşiksiz sürme ve çift camlı ısıcamlı balkon kapatma sistemleri.
+- [Isıcamlı Cam Balkon](https://www.xn--atayap-u9a.site/cam-balkon/isi-camli): Yüksek ısı ve ses yalıtımlı çift temperli cam balkon.
+- [Katlanır Cam Balkon](https://www.xn--atayap-u9a.site/cam-balkon/katlanir): %100 açılır panoramik 8mm/10mm temperli katlanır seri.
+- [Sürme Cam Balkon](https://www.xn--atayap-u9a.site/cam-balkon/surme): Eşiksiz ve eşikli raylı sürgülü teras/balkon camı.
+- [Sineklik Sistemleri](https://www.xn--atayap-u9a.site/sineklik): Özel ölçü elektrostatik boyalı alüminyum çerçeveli sineklik imalatı.
+- [Pileli (Plise) Sineklik](https://www.xn--atayap-u9a.site/sineklik/pileli): Akordiyon katlanır panjur uyumlu modern plise sineklik.
+- [Kilitli Kedi Sinekliği](https://www.xn--atayap-u9a.site/sineklik/kedi-sineklik): Yırtılmaz paslanmaz çelik / Pet-Screen tüllü ve emniyet mandallı evcil hayvan güvenlik sinekliği.
+- [Menteşeli Sineklik](https://www.xn--atayap-u9a.site/sineklik/menteseli): Sökülüp yıkanabilir alüminyum kapı ve pencere sinekliği.
+- [Tente ve Gölgelendirme Sistemleri](https://www.xn--atayap-u9a.site/tente): Tam kasetli tente, mafsallı tente ve rüzgar sensörlü motorlu tente sistemleri.
+- [Kasetli Tente](https://www.xn--atayap-u9a.site/tente/kasetli): Kumaşı ve kolları kapalı alüminyum kasette koruyan uzun ömürlü tente.
+- [Mafsallı Tente](https://www.xn--atayap-u9a.site/tente/mafsalli): Balkon ve mağaza cepheleri için ekonomik eklem kollu tente.
+- [Motorlu Tente](https://www.xn--atayap-u9a.site/tente/motorlu): 3D rüzgar ve güneş sensörlü kumandalı tente otomasyonu.
+- [PVC Doğrama & Pimapen Tamiri](https://www.xn--atayap-u9a.site/pimapen-tamir): EPDM kauçuk fitil değişimi, çift açılım dönüşümü, ispanyolet kilit ve ısıcam onarımı.
+- [Bayi & Avrupa İhracat (B2B)](https://www.xn--atayap-u9a.site/bayi-kurumsal): Toptan ihracat kasalı sevkiyat ve bayilik başvurusu.
+- [Online Cam Balkon Fiyat Hesaplama](https://www.xn--atayap-u9a.site/fiyatlandirma): Ölçüye göre anlık m² ve tahmini bütçe hesaplayıcı.
+- [Hizmet Bölgeleri](https://www.xn--atayap-u9a.site/hizmet-bolgeleri): İstanbul Anadolu Yakası (Maltepe, Kadıköy, Kartal, Pendik, Ataşehir) ve Ege/Marmara (Balıkesir, Edremit, Altınoluk, İzmir, Çanakkale) uygulama noktaları.
+

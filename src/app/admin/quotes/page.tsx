@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import {
+    formatLetterheadDate,
+    generateAtaYapiQuotePdf,
+} from "@/lib/pdf-quote";
 
 interface QuoteItem {
     description: string;
@@ -126,6 +130,26 @@ export default function QuotesPage() {
         return new Intl.NumberFormat("tr-TR").format(amount);
     };
 
+    const handleDownloadSavedQuotePdf = async (quote: Quote) => {
+        try {
+            await generateAtaYapiQuotePdf({
+                quoteNumber: quote.quoteNumber,
+                headerTitle: "CAM BALKON SİSTEMLERİ",
+                dateText: formatLetterheadDate(new Date(quote.createdAt)),
+                customerName: quote.customerName,
+                customerPhone: quote.customerPhone,
+                projectAddress: quote.projectAddress || "",
+                items: quote.items || [],
+                total: Number(quote.total) || 0,
+                vatLabel: "+ KDV",
+                notes: quote.notes || "",
+                validityDays: quote.validityDays,
+            });
+        } catch (err) {
+            console.error("Failed to download saved quote PDF:", err);
+        }
+    };
+
     const stats = {
         total: quotes.length,
         sent: quotes.filter((q) => q.status === "sent").length,
@@ -228,21 +252,20 @@ export default function QuotesPage() {
                             type="button"
                             key={status}
                             onClick={() => setFilter(status)}
-                            className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
-                                filter === status
-                                    ? "bg-[var(--primary)] text-white"
-                                    : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"
-                            }`}
+                            className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${filter === status
+                                ? "bg-[var(--primary)] text-white"
+                                : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"
+                                }`}
                         >
                             {status === "all"
                                 ? "Tümü"
                                 : status === "draft"
-                                ? "Taslak"
-                                : status === "sent"
-                                ? "Gönderildi"
-                                : status === "accepted"
-                                ? "Onaylandı"
-                                : "Reddedildi"}
+                                    ? "Taslak"
+                                    : status === "sent"
+                                        ? "Gönderildi"
+                                        : status === "accepted"
+                                            ? "Onaylandı"
+                                            : "Reddedildi"}
                         </button>
                     ))}
                 </div>
@@ -275,11 +298,10 @@ export default function QuotesPage() {
                                         <tr
                                             key={quote.id}
                                             onClick={() => setSelectedQuote(quote)}
-                                            className={`cursor-pointer transition-colors ${
-                                                selectedQuote?.id === quote.id
-                                                    ? "bg-slate-800/80"
-                                                    : "hover:bg-slate-800/40"
-                                            }`}
+                                            className={`cursor-pointer transition-colors ${selectedQuote?.id === quote.id
+                                                ? "bg-slate-800/80"
+                                                : "hover:bg-slate-800/40"
+                                                }`}
                                         >
                                             <td className="px-4 py-3.5 text-white font-mono text-xs font-semibold">
                                                 {quote.quoteNumber}
@@ -302,6 +324,14 @@ export default function QuotesPage() {
                                                 onClick={(e) => e.stopPropagation()}
                                             >
                                                 <div className="flex items-center justify-end gap-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleDownloadSavedQuotePdf(quote)}
+                                                        className="px-2.5 py-1.5 text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs font-semibold transition-colors cursor-pointer"
+                                                        title="Antetli PDF İndir"
+                                                    >
+                                                        PDF
+                                                    </button>
                                                     <button
                                                         type="button"
                                                         onClick={() => {
@@ -358,13 +388,22 @@ export default function QuotesPage() {
                                         {selectedQuote.projectAddress || "Adres belirtilmedi"}
                                     </div>
                                 </div>
-                                <button
-                                    type="button"
-                                    onClick={() => handleDeleteQuote(selectedQuote)}
-                                    className="px-2.5 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/25 text-red-300 text-xs font-semibold cursor-pointer"
-                                >
-                                    Sil
-                                </button>
+                                <div className="flex items-center gap-1.5">
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDownloadSavedQuotePdf(selectedQuote)}
+                                        className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-semibold cursor-pointer"
+                                    >
+                                        PDF İndir
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDeleteQuote(selectedQuote)}
+                                        className="px-2.5 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/25 text-red-300 text-xs font-semibold cursor-pointer"
+                                    >
+                                        Sil
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="space-y-2.5 mb-5">

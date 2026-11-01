@@ -1,37 +1,19 @@
 import type { Metadata } from "next";
+import ProductSeoSchema from "@/components/seo/ProductSeoSchema";
+import { buildProductMetadata } from "@/lib/seo-catalog";
 import CamBalkonContent from "./CamBalkonContent";
 
-export const metadata: Metadata = {
-    title: "Cam Balkon Sistemleri | Katlanır & Sürme & Isıcamlı | Ata Yapı",
-    description:
-        "Katlanır cam balkon, sürme cam balkon ve ısıcamlı balkon sistemleri. Ata Yapı fabrikasından ölçüye özel üretim, 2 yıl garanti ve Avrupa toptan ihracat.",
-    keywords: ["cam balkon", "katlanır cam balkon", "sürme cam balkon", "ısı camlı cam balkon", "cam balkon sistemleri"],
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/cam-balkon',
-    },
-};
+export const metadata: Metadata = buildProductMetadata("cam-balkon", {
+  title: "Cam Balkon Sistemleri | Isıcamlı, Katlanır & Sürme Cam Balkon | Ata Yapı",
+  description:
+    "Isıcamlı cam balkon, katlanır cam balkon ve eşiksiz sürme cam balkon sistemleri. Ata Yapı fabrikasından ölçüye özel üretim, ücretsiz keşif, 2 yıl garanti ve Avrupa ihracat.",
+});
 
 export default function CamBalkonPage() {
-    return (
-        <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "Service",
-                        name: "Cam Balkon Sistemleri",
-                        description: "Katlanır, sürme ve ısıcamlı cam balkon çözümleri.",
-                        provider: {
-                            "@type": "LocalBusiness",
-                            name: "Ata Yapı",
-                            url: "https://www.xn--atayap-u9a.site",
-                        },
-                        url: "https://www.xn--atayap-u9a.site/cam-balkon",
-                    }),
-                }}
-            />
-            <CamBalkonContent />
-        </>
-    );
+  return (
+    <>
+      <ProductSeoSchema productId="cam-balkon" />
+      <CamBalkonContent />
+    </>
+  );
 }

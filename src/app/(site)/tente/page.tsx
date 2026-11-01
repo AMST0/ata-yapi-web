@@ -1,37 +1,19 @@
 import type { Metadata } from "next";
+import ProductSeoSchema from "@/components/seo/ProductSeoSchema";
+import { buildProductMetadata } from "@/lib/seo-catalog";
 import TenteContent from "./TenteContent";
 
-export const metadata: Metadata = {
-    title: "Tente Sistemleri | Kasetli & Mafsallı & Motorlu Tente | Ata Yapı",
-    description:
-        "Kasetli tente, mafsallı tente ve uzaktan kumandalı motorlu tente sistemleri. UV korumalı ithal akrilik kumaşlar ve Avrupa toptan ihracat avantajı.",
-    keywords: ["tente", "kasetli tente", "mafsallı tente", "motorlu tente", "tente sistemleri"],
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/tente',
-    },
-};
+export const metadata: Metadata = buildProductMetadata("tente", {
+  title: "Tente Sistemleri | Kasetli, Mafsallı & Motorlu Tente Fiyatları | Ata Yapı",
+  description:
+    "Tam kasetli tente, mafsallı tente ve uzaktan kumandalı motorlu tente sistemleri. UV korumalı solmaz ithal akrilik kumaşlar, ücretsiz keşif ve Avrupa ihracat avantajı.",
+});
 
 export default function TentePage() {
-    return (
-        <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "Service",
-                        name: "Tente Sistemleri",
-                        description: "Kasetli, mafsallı ve motorlu tente sistemleri montajı.",
-                        provider: {
-                            "@type": "LocalBusiness",
-                            name: "Ata Yapı",
-                            url: "https://www.xn--atayap-u9a.site",
-                        },
-                        url: "https://www.xn--atayap-u9a.site/tente",
-                    }),
-                }}
-            />
-            <TenteContent />
-        </>
-    );
+  return (
+    <>
+      <ProductSeoSchema productId="tente" />
+      <TenteContent />
+    </>
+  );
 }

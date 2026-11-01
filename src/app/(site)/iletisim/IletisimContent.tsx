@@ -10,6 +10,7 @@ import {
   ClockIcon,
   MailIcon,
   WhatsAppIcon,
+  InstagramIcon,
 } from "@/components/icons/ArchitecturalIcons";
 
 export default function IletisimContent() {
@@ -20,8 +21,8 @@ export default function IletisimContent() {
     language === "de"
       ? "Guten Tag, ich interessiere mich für Ihre Produkte und möchte ein Angebot anfordern."
       : language === "en"
-      ? "Hello, I would like to inquire about your products and request a quote."
-      : "Merhaba, ürünleriniz hakkında bilgi ve fiyat teklifi almak istiyorum.";
+        ? "Hello, I would like to inquire about your products and request a quote."
+        : "Merhaba, ürünleriniz hakkında bilgi ve fiyat teklifi almak istiyorum.";
 
   return (
     <>
@@ -124,6 +125,23 @@ export default function IletisimContent() {
                     <div>
                       <div className="font-semibold text-slate-900 mb-0.5">{p.hours_title}</div>
                       <div className="text-slate-600">{p.hours_val}</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-tr from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white flex items-center justify-center shrink-0">
+                      <InstagramIcon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-slate-900 mb-0.5">Instagram</div>
+                      <a
+                        href={SITE_CONTACT.instagramUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-slate-600 hover:text-[var(--primary)] font-medium transition-colors"
+                      >
+                        {SITE_CONTACT.instagramHandle}
+                      </a>
                     </div>
                   </div>
                 </div>

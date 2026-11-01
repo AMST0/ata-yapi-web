@@ -5,6 +5,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import FAQSection from "@/components/seo/FAQSection";
 import CTABlock from "@/components/seo/CTABlock";
 import WhyAtaYapi from "@/components/seo/WhyAtaYapi";
+import ProductSeoSchema from "@/components/seo/ProductSeoSchema";
+import { buildProductMetadata } from "@/lib/seo-catalog";
 import { getWhatsAppUrl } from "@/lib/constants";
 import {
   ShieldIcon,
@@ -17,14 +19,11 @@ import {
   ArrowRightIcon,
 } from "@/components/icons/ArchitecturalIcons";
 
-export const metadata: Metadata = {
-  title: "Isıcamlı Cam Balkon Sistemleri | Çift Cam Yalıtım | Ata Yapı",
+export const metadata: Metadata = buildProductMetadata("cam-balkon-isicamli", {
+  title: "Isıcamlı Cam Balkon Sistemleri & Fiyatları | Çift Cam Yalıtım | Ata Yapı",
   description:
-    "Isıcamlı (çift camlı) cam balkon sistemleri ile 4 mevsim oda konforu. Yüksek ısı ve ses yalıtımı, enerji tasarrufu, temperli çift cam güvenliği.",
-  alternates: {
-    canonical: "https://www.xn--atayap-u9a.site/cam-balkon/isi-camli",
-  },
-};
+    "Isıcamlı (çift camlı) cam balkon sistemleri ile 4 mevsim oda konforu. Yüksek ısı ve ses yalıtımı, enerji tasarrufu, temperli çift cam güvenliği ve ücretsiz keşif.",
+});
 
 const faqs = [
   {
@@ -91,6 +90,7 @@ const benefits = [
 export default function IsiCamliPage() {
   return (
     <>
+      <ProductSeoSchema productId="cam-balkon-isicamli" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container">
           <Breadcrumb

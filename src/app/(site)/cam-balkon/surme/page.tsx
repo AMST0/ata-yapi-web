@@ -5,6 +5,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import FAQSection from "@/components/seo/FAQSection";
 import CTABlock from "@/components/seo/CTABlock";
 import WhyAtaYapi from "@/components/seo/WhyAtaYapi";
+import ProductSeoSchema from "@/components/seo/ProductSeoSchema";
+import { buildProductMetadata } from "@/lib/seo-catalog";
 import {
   LayersIcon,
   ShieldIcon,
@@ -15,14 +17,11 @@ import {
   ArrowRightIcon,
 } from "@/components/icons/ArchitecturalIcons";
 
-export const metadata: Metadata = {
-  title: "Sürme Cam Balkon Sistemleri | Eşikli & Eşiksiz | Ata Yapı",
+export const metadata: Metadata = buildProductMetadata("cam-balkon-surme", {
+  title: "Sürme Cam Balkon Sistemleri & Fiyatları | Eşikli & Eşiksiz | Ata Yapı",
   description:
-    "Sürme cam balkon sistemleri ile ekonomik, yer kaplamayan mimari çözüm. Çok raylı yatay kayar paneller, perde dostu kullanım. Ücretsiz keşif.",
-  alternates: {
-    canonical: "https://www.xn--atayap-u9a.site/cam-balkon/surme",
-  },
-};
+    "Sürme cam balkon sistemleri ile ekonomik, yer kaplamayan mimari çözüm. Çok raylı yatay kayar paneller, eşikli ve eşiksiz seçenekler, ücretsiz keşif.",
+});
 
 const faqs = [
   {
@@ -89,6 +88,7 @@ const features = [
 export default function SurmeCamBalkonPage() {
   return (
     <>
+      <ProductSeoSchema productId="cam-balkon-surme" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container">
           <Breadcrumb

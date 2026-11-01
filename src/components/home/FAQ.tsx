@@ -16,8 +16,25 @@ export default function FAQ() {
 
   const items = t.faq.items;
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <section className="py-20 lg:py-28 bg-slate-50 border-b border-slate-200/80">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="container">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           {/* Left Sticky Engineering Support Card */}
@@ -70,9 +87,8 @@ export default function FAQ() {
               return (
                 <div
                   key={index}
-                  className={`rounded-xl border transition-colors overflow-hidden bg-white ${
-                    isOpen ? "border-slate-900 shadow-sm" : "border-slate-200 hover:border-slate-300"
-                  }`}
+                  className={`rounded-xl border transition-colors overflow-hidden bg-white ${isOpen ? "border-slate-900 shadow-sm" : "border-slate-200 hover:border-slate-300"
+                    }`}
                 >
                   <button
                     type="button"
@@ -82,11 +98,10 @@ export default function FAQ() {
                   >
                     <div className="flex items-start gap-3.5">
                       <span
-                        className={`text-xs font-mono font-bold mt-0.5 px-2 py-0.5 rounded ${
-                          isOpen
-                            ? "bg-[var(--primary)] text-white"
-                            : "bg-slate-100 text-slate-500"
-                        }`}
+                        className={`text-xs font-mono font-bold mt-0.5 px-2 py-0.5 rounded ${isOpen
+                          ? "bg-[var(--primary)] text-white"
+                          : "bg-slate-100 text-slate-500"
+                          }`}
                       >
                         {String(index + 1).padStart(2, "0")}
                       </span>
@@ -96,9 +111,8 @@ export default function FAQ() {
                     </div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${
-                        isOpen ? "rotate-180 text-slate-900" : ""
-                      }`}
+                      className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180 text-slate-900" : ""
+                        }`}
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"

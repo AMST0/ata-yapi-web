@@ -1,32 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
-import {
-    OUTREACH_CONFIG,
-    getEmailSubject,
-    getEmailHtml,
-    getEmailPlainText,
-    TemplateContact,
-} from '@/lib/outreach-templates';
-import { getAllOutreachContacts, markOutreachContactSent } from '@/lib/outreach-store';
+import { TemplateContact } from '@/lib/outreach-templates';
+import { getAllOutreachContacts } from '@/lib/outreach-store';
 import { requireAdmin } from '@/lib/admin-auth';
-
-function getTransporter() {
-    const user = process.env.SMTP_USER || 'atayapicambalkon@gmail.com';
-    const pass = process.env.SMTP_PASSWORD || 'jdyn pfds zxcu agnb';
-
-    return nodemailer.createTransport({
-        host: process.env.SMTP_HOST || 'smtp.gmail.com',
-        port: Number(process.env.SMTP_PORT) || 587,
-        secure: false,
-        auth: {
-            user,
-            pass,
-        },
-        tls: {
-            rejectUnauthorized: false,
-        },
-    });
-}
+import {
+    SendOutreachMailResult,
+    createOutreachTransporter,
+    sendSingleOutreachMail,
+} from '@/lib/outreach-mailer';
 
 export async function POST(request: NextRequest) {
     const authError = requireAdmin(request);
@@ -45,7 +25,7 @@ export async function POST(request: NextRequest) {
         } = body;
 
         const allContacts = getAllOutreachContacts();
-        const transporter = getTransporter();
+        const transporter = createOutreachTransporter();
 
         let targets: TemplateContact[] = [];
 
@@ -63,49 +43,22 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ success: false, error: 'Gönderilecek hedef firma belirtilmedi.' }, { status: 400 });
         }
 
-        const results: { id: number; name: string; email: string; success: boolean; error?: string }[] = [];
+        const results: SendOutreachMailResult[] = [];
         const safeLang: 'tr' | 'en' = lang === 'en' ? 'en' : 'tr';
 
         for (const target of targets) {
-            const recipient = isTest ? testEmail : target.email;
-            const subject = customSubject || getEmailSubject(target, safeLang);
-            const html = getEmailHtml(target, safeLang);
-            const text = getEmailPlainText(target, safeLang);
+            const sendRes = await sendSingleOutreachMail({
+                contact: target,
+                lang: safeLang,
+                customSubject,
+                isTest,
+                testEmail,
+                transporter,
+            });
+            results.push(sendRes);
 
-            try {
-                await transporter.sendMail({
-                    from: `"${OUTREACH_CONFIG.senderName}" <${OUTREACH_CONFIG.senderEmail}>`,
-                    to: recipient,
-                    replyTo: OUTREACH_CONFIG.senderEmail,
-                    subject: isTest ? `[TEST MAİLİ] ${subject}` : subject,
-                    text,
-                    html,
-                });
-
-                if (!isTest) {
-                    markOutreachContactSent(target.id, safeLang);
-                }
-
-                results.push({
-                    id: target.id,
-                    name: target.name,
-                    email: recipient,
-                    success: true,
-                });
-
-                if (targets.length > 1) {
-                    await new Promise((res) => setTimeout(res, 600));
-                }
-            } catch (err: unknown) {
-                const errMsg = err instanceof Error ? err.message : 'E-posta gönderimi başarısız oldu.';
-                console.error(`Error sending email to ${recipient}:`, err);
-                results.push({
-                    id: target.id,
-                    name: target.name,
-                    email: recipient,
-                    success: false,
-                    error: errMsg,
-                });
+            if (targets.length > 1) {
+                await new Promise((res) => setTimeout(res, 600));
             }
         }
 

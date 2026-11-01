@@ -5,6 +5,8 @@ import Breadcrumb from '@/components/Breadcrumb';
 import FAQSection from '@/components/seo/FAQSection';
 import CTABlock from '@/components/seo/CTABlock';
 import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import ProductSeoSchema from '@/components/seo/ProductSeoSchema';
+import { buildProductMetadata } from '@/lib/seo-catalog';
 import { SITE_CONTACT, getWhatsAppUrl } from '@/lib/constants';
 import {
     ArrowRightIcon,
@@ -14,14 +16,11 @@ import {
     WhatsAppIcon,
 } from '@/components/icons/ArchitecturalIcons';
 
-export const metadata: Metadata = {
-    title: 'Motorlu Tente Sistemleri | Ata Yapı',
+export const metadata: Metadata = buildProductMetadata('tente-motorlu', {
+    title: 'Motorlu Tente Sistemleri & Fiyatları | Uzaktan Kumandalı & Sensörlü | Ata Yapı',
     description:
-        'Uzaktan kumandalı motorlu tente sistemleri. Rüzgar ve güneş sensörü otomasyonu, Somfy ve Becker tüp motor seçenekleri. Maltepe ücretsiz keşif.',
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/tente/motorlu',
-    },
-};
+        'Uzaktan kumandalı motorlu tente sistemleri. Rüzgar ve güneş sensörü otomasyonu, Somfy ve Becker tüp motor seçenekleri ve ücretsiz keşif.',
+});
 
 const faqs = [
     {
@@ -88,6 +87,7 @@ const brands = ['Somfy', 'Becker', 'Mosel', 'Nice', 'Dooya'];
 export default function MotorluTentePage() {
     return (
         <>
+            <ProductSeoSchema productId="tente-motorlu" />
             {/* Breadcrumb */}
             <div className="bg-slate-50 border-b border-slate-200/80">
                 <div className="container">

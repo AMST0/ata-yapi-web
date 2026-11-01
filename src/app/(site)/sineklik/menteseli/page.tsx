@@ -5,6 +5,8 @@ import Breadcrumb from '@/components/Breadcrumb';
 import FAQSection from '@/components/seo/FAQSection';
 import CTABlock from '@/components/seo/CTABlock';
 import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import ProductSeoSchema from '@/components/seo/ProductSeoSchema';
+import { buildProductMetadata } from '@/lib/seo-catalog';
 import { SITE_CONTACT, getWhatsAppUrl } from '@/lib/constants';
 import {
     ArrowRightIcon,
@@ -14,14 +16,11 @@ import {
     WhatsAppIcon,
 } from '@/components/icons/ArchitecturalIcons';
 
-export const metadata: Metadata = {
-    title: 'Menteşeli Sineklik Sistemleri | Ata Yapı',
+export const metadata: Metadata = buildProductMetadata('sineklik-menteseli', {
+    title: 'Menteşeli Sineklik Sistemleri & Fiyatları | Kapı & Pencere | Ata Yapı',
     description:
-        'Menteşeli sineklik sistemleri ile kapı ve pencere tipi pratik açılım. Balkon kapıları için dayanıklı çözüm. Maltepe ve çevresinde ücretsiz keşif.',
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/sineklik/menteseli',
-    },
-};
+        'Menteşeli sineklik sistemleri ile balkon kapısı ve pencerelerde pratik, dayanıklı ve ekonomik açılım. Mıknatıslı kilitli alüminyum çerçeve, ücretsiz keşif.',
+});
 
 const faqs = [
     {
@@ -93,6 +92,7 @@ const usageAreas = [
 export default function MenteseliSineklikPage() {
     return (
         <>
+            <ProductSeoSchema productId="sineklik-menteseli" />
             {/* Breadcrumb */}
             <div className="bg-slate-50 border-b border-slate-200/80">
                 <div className="container">

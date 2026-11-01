@@ -27,6 +27,26 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.xn--atayap-u9a.site/giyotin-cam/uygulamalar",
   },
+  openGraph: {
+    title: "Giyotin Cam Uygulama Alanları | Restoran, Kafe, Villa & Teras | Ata Yapı",
+    description:
+      "Kafe, restoran, otel, kış bahçesi ve müstakil villa teraslarında motorlu giyotin cam sistemleri.",
+    url: "https://www.xn--atayap-u9a.site/giyotin-cam/uygulamalar",
+    images: [
+      {
+        url: "/giyotin-cam-terrace.png",
+        width: 1200,
+        height: 630,
+        alt: "Ata Yapı Giyotin Cam Uygulama Alanları",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Giyotin Cam Uygulama Alanları | Ata Yapı",
+    description: "Kafe, restoran, otel ve villa teraslarında motorlu giyotin cam çözümleri.",
+    images: ["/giyotin-cam-terrace.png"],
+  },
 };
 
 const applications = [

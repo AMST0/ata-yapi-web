@@ -20,9 +20,23 @@ export const metadata: Metadata = {
         canonical: "https://www.xn--atayap-u9a.site/bayi-kurumsal",
     },
     openGraph: {
-        title: "Bayi ve Kurumsal Satış | Ata Yapı",
-        description: "Giyotin cam ve cam balkon toptan ihracat ve bayilik fırsatı.",
+        title: "Bayi ve Kurumsal Satış | Ata Yapı İş Ortaklığı & İhracat",
+        description: "Giyotin cam ve cam balkon toptan Avrupa ihracat ve bayilik fırsatı.",
         url: "https://www.xn--atayap-u9a.site/bayi-kurumsal",
+        images: [
+            {
+                url: "/giyotin-cam-detail.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Ata Yapı B2B İhracat ve Bayilik",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Bayi ve Kurumsal Satış | Ata Yapı",
+        description: "Demonte giyotin cam ve cam balkon toptan üretici tedariği.",
+        images: ["/giyotin-cam-detail.jpg"],
     },
 };
 

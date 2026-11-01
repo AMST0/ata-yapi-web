@@ -5,6 +5,7 @@
  * Each district-service combination has unique content, FAQs, and metadata.
  */
 
+import { extraDistrictPages } from "./extra-districts";
 export interface FAQ {
     question: string;
     answer: string;
@@ -14,7 +15,7 @@ export interface DistrictPage {
     slug: string;
     district: string;
     districtSlug: string;
-    service: 'cam-balkon' | 'sineklik' | 'tente' | 'giyotin-cam' | 'teleskopik-garaj';
+    service: 'cam-balkon' | 'sineklik' | 'tente' | 'giyotin-cam' | 'pimapen-tamir' | 'teleskopik-garaj';
     serviceTitle: string;
     serviceHref: string;
     title: string;
@@ -1113,6 +1114,7 @@ districtPages.push(
     altinolukGiyotinCam,
     izmirGiyotinCam,
     canakkaleGiyotinCam,
+    ...extraDistrictPages,
 );
 
 // Helper function to get a district page by slug
@@ -1131,7 +1133,7 @@ export const getPagesByDistrict = (districtSlug: string): DistrictPage[] => {
 };
 
 // Group pages by service
-export const getPagesByService = (service: 'cam-balkon' | 'sineklik' | 'tente' | 'giyotin-cam' | 'teleskopik-garaj'): DistrictPage[] => {
+export const getPagesByService = (service: 'cam-balkon' | 'sineklik' | 'tente' | 'giyotin-cam' | 'pimapen-tamir' | 'teleskopik-garaj'): DistrictPage[] => {
     return districtPages.filter((page) => page.service === service);
 };
 

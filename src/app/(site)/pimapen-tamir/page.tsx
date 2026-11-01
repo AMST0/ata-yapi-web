@@ -1,37 +1,19 @@
 import type { Metadata } from "next";
+import ProductSeoSchema from "@/components/seo/ProductSeoSchema";
+import { buildProductMetadata } from "@/lib/seo-catalog";
 import PimapenTamirContent from "./PimapenTamirContent";
 
-export const metadata: Metadata = {
-    title: "Pimapen Tamir & PVC Sistemleri | Ata Yapı",
-    description:
-        "PVC pencere ve kapı montajı, ısıcam değişimi, fitil, kilit ve menteşe tamiri. Ata Yapı kaliteli işçilik ve hızlı servis.",
-    keywords: ["pimapen tamir", "pvc pencere tamiri", "pimapen montajı", "cam değişimi"],
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/pimapen-tamir',
-    },
-};
+export const metadata: Metadata = buildProductMetadata("pimapen-tamir", {
+  title: "Pimapen Tamir & PVC Pencere Fitil, Kilit, Menteşe Servisi | Ata Yapı",
+  description:
+    "PVC pencere ve kapı tamiri, EPDM izolasyon fitili değişimi, çift açılım dönüşümü, menteşe/kilit onarımı ve ısıcam değişimi. Maltepe ve Anadolu Yakası hızlı servis.",
+});
 
 export default function PimapenTamirPage() {
-    return (
-        <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "Service",
-                        name: "Pimapen Tamir & Montaj",
-                        description: "PVC pencere tamiri, fitil değişimi, cam değişimi, menteşe ve kilit tamiri.",
-                        provider: {
-                            "@type": "LocalBusiness",
-                            name: "Ata Yapı",
-                            url: "https://www.xn--atayap-u9a.site",
-                        },
-                        url: "https://www.xn--atayap-u9a.site/pimapen-tamir",
-                    }),
-                }}
-            />
-            <PimapenTamirContent />
-        </>
-    );
+  return (
+    <>
+      <ProductSeoSchema productId="pimapen-tamir" />
+      <PimapenTamirContent />
+    </>
+  );
 }

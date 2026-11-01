@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import CTABlock from "@/components/seo/CTABlock";
+import ProductSeoSchema from "@/components/seo/ProductSeoSchema";
+import { buildProductMetadata } from "@/lib/seo-catalog";
 import {
   RulerIcon,
   FactoryIcon,
@@ -11,22 +13,11 @@ import {
   WrenchIcon,
 } from "@/components/icons/ArchitecturalIcons";
 
-export const metadata: Metadata = {
-  title: "Giyotin Cam İmalatı ve Montajı | Ata Yapı Kendi Üretimimiz",
+export const metadata: Metadata = buildProductMetadata("giyotin-cam-imalat", {
+  title: "Giyotin Cam İmalatı ve Toptan Üretim | Ata Yapı Fabrika Satış",
   description:
-    "Ata Yapı giyotin cam imalatı ve profesyonel montaj süreçleri. Kendi atölyemizde CNC kesim, elektrostatik fırın boya, temperli cam ve titiz kalite kontrol. 2 yıl garanti.",
-  keywords: [
-    "giyotin cam imalatı",
-    "giyotin cam üretimi",
-    "giyotin cam montajı",
-    "giyotin cam fabrikası",
-    "yerli giyotin cam üretici",
-    "giyotin cam profil üretimi",
-  ],
-  alternates: {
-    canonical: "https://www.xn--atayap-u9a.site/giyotin-cam/imalat",
-  },
-};
+    "Ata Yapı giyotin cam imalatı, demonte toptan sistem üretimi ve profesyonel montaj süreçleri. CNC kesim, elektrostatik fırın boya, temperli cam ve Avrupa ihracat kasalama.",
+});
 
 const productionSteps = [
   {
@@ -76,6 +67,7 @@ const productionSteps = [
 export default function GiyotinImalatPage() {
   return (
     <>
+      <ProductSeoSchema productId="giyotin-cam-imalat" />
       <section className="relative py-20 lg:py-28 bg-[#0b0f19] text-white overflow-hidden border-b border-slate-800">
         <div className="absolute inset-0">
           <Image

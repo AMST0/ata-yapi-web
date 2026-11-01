@@ -70,6 +70,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.8,
         },
+        {
+            url: `${baseUrl}/hizmet-bolgeleri`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
+            priority: 0.85,
+        },
     ];
 
     // Giyotin cam sub-pages

@@ -1,16 +1,20 @@
 "use client";
 
+import { SITE_CONTACT } from "@/lib/constants";
+import { SEO_PRODUCT_CATALOG, buildProductJsonLd } from "@/lib/seo-catalog";
+
 export default function JsonLd() {
     const localBusinessSchema = {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Ata Yapı",
+        "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+        "name": SITE_CONTACT.companyName,
+        "alternateName": SITE_CONTACT.fullCompanyName,
         "description": "Motorlu giyotin cam sistemleri, ısıcamlı cam balkon, plise sineklik, kasetli tente ve PVC doğrama çözümlerinde ölçüye özel üretim, profesyonel montaj ve B2B ihracat tedariği.",
-        "image": "https://www.xn--atayap-u9a.site/giyotin-cam-hero.jpg",
-        "@id": "https://www.xn--atayap-u9a.site",
-        "url": "https://www.xn--atayap-u9a.site",
-        "telephone": "+905314002959",
-        "email": "atayapicambalkon@gmail.com",
+        "image": `${SITE_CONTACT.siteUrl}/giyotin-cam-hero.jpg`,
+        "@id": `${SITE_CONTACT.siteUrl}/#localbusiness`,
+        "url": SITE_CONTACT.siteUrl,
+        "telephone": SITE_CONTACT.phoneRaw,
+        "email": SITE_CONTACT.email,
         "priceRange": "₺₺",
         "address": {
             "@type": "PostalAddress",
@@ -25,6 +29,7 @@ export default function JsonLd() {
             "latitude": 40.9465,
             "longitude": 29.1384
         },
+        "hasMap": SITE_CONTACT.mapDirectionsUrl,
         "openingHoursSpecification": [
             {
                 "@type": "OpeningHoursSpecification",
@@ -34,7 +39,8 @@ export default function JsonLd() {
             }
         ],
         "sameAs": [
-            "https://wa.me/905314002959"
+            SITE_CONTACT.instagramUrl,
+            `https://wa.me/${SITE_CONTACT.whatsappNumber}`
         ],
         "areaServed": [
             { "@type": "City", "name": "Maltepe, İstanbul" },
@@ -58,6 +64,7 @@ export default function JsonLd() {
                     "itemOffered": {
                         "@type": "Service",
                         "name": "Giyotin Cam Sistemleri",
+                        "url": `${SITE_CONTACT.siteUrl}/giyotin-cam`,
                         "description": "Motorlu giyotin cam balkon, dikey sürgülü küpeşte cam, teras ve restoran cephe kapatma sistemleri."
                     }
                 },
@@ -66,6 +73,7 @@ export default function JsonLd() {
                     "itemOffered": {
                         "@type": "Service",
                         "name": "Cam Balkon Sistemleri",
+                        "url": `${SITE_CONTACT.siteUrl}/cam-balkon`,
                         "description": "Isıcamlı cam balkon, katlanır cam balkon ve eşiksiz sürme cam balkon sistemleri."
                     }
                 },
@@ -74,6 +82,7 @@ export default function JsonLd() {
                     "itemOffered": {
                         "@type": "Service",
                         "name": "Sineklik Sistemleri",
+                        "url": `${SITE_CONTACT.siteUrl}/sineklik`,
                         "description": "Pileli (plise) sineklik, menteşeli sineklik ve çelik tüllü kedi sinekliği imalatı."
                     }
                 },
@@ -82,6 +91,7 @@ export default function JsonLd() {
                     "itemOffered": {
                         "@type": "Service",
                         "name": "Tente ve Gölgelendirme Sistemleri",
+                        "url": `${SITE_CONTACT.siteUrl}/tente`,
                         "description": "Tam kasetli tente, mafsallı tente ve sensörlü motorlu tente sistemleri."
                     }
                 },
@@ -90,6 +100,7 @@ export default function JsonLd() {
                     "itemOffered": {
                         "@type": "Service",
                         "name": "PVC Doğrama & Pimapen Tamiri",
+                        "url": `${SITE_CONTACT.siteUrl}/pimapen-tamir`,
                         "description": "PVC pencere ve kapı mekanizma onarımı, fitil ve çift açılım dönüşümü."
                     }
                 }
@@ -100,13 +111,17 @@ export default function JsonLd() {
     const organizationSchema = {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "Ata Yapı",
-        "url": "https://www.xn--atayap-u9a.site",
-        "logo": "https://www.xn--atayap-u9a.site/logo.png",
+        "name": SITE_CONTACT.companyName,
+        "url": SITE_CONTACT.siteUrl,
+        "logo": `${SITE_CONTACT.siteUrl}/logo.png`,
+        "sameAs": [
+            SITE_CONTACT.instagramUrl,
+            `https://wa.me/${SITE_CONTACT.whatsappNumber}`
+        ],
         "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+90-531-400-2959",
-            "email": "atayapicambalkon@gmail.com",
+            "email": SITE_CONTACT.email,
             "contactType": "customer service",
             "areaServed": ["TR", "DE", "BE", "NL", "AT", "CH"],
             "availableLanguage": ["Turkish", "English", "German"]
@@ -116,9 +131,22 @@ export default function JsonLd() {
     const websiteSchema = {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Ata Yapı",
-        "url": "https://www.xn--atayap-u9a.site",
+        "name": SITE_CONTACT.companyName,
+        "url": SITE_CONTACT.siteUrl,
         "inLanguage": ["tr", "en", "de"]
+    };
+
+    const productCatalogSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Ata Yapı Ürün ve Sistem Kataloğu",
+        "numberOfItems": SEO_PRODUCT_CATALOG.length,
+        "itemListElement": SEO_PRODUCT_CATALOG.map((product, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "url": `${SITE_CONTACT.siteUrl}${product.path}`,
+            "item": buildProductJsonLd(product),
+        })),
     };
 
     return (
@@ -134,6 +162,10 @@ export default function JsonLd() {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(productCatalogSchema) }}
             />
         </>
     );

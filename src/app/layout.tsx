@@ -82,6 +82,28 @@ export const metadata: Metadata = {
       "Motorlu giyotin cam sistemleri ve cam balkon çözümlerinde ölçüye özel üretim. Ücretsiz keşif.",
     images: ["/giyotin-cam-hero.jpg"],
   },
+  alternates: {
+    canonical: "https://www.xn--atayap-u9a.site",
+    types: {
+      "application/rss+xml": "https://www.xn--atayap-u9a.site/feed/products.xml",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || undefined,
+  },
+  category: "construction",
 };
 
 export default function RootLayout({

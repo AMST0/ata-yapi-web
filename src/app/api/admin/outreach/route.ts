@@ -7,6 +7,7 @@ import {
     removeCustomOutreachContact,
 } from '@/lib/outreach-store';
 import { requireAdmin } from '@/lib/admin-auth';
+import { processDueScheduledOutreachJobs } from '@/lib/outreach-schedule-store';
 
 export type { OutreachContact };
 
@@ -14,6 +15,7 @@ export async function GET(request: NextRequest) {
     const authError = requireAdmin(request);
     if (authError) return authError;
 
+    await processDueScheduledOutreachJobs().catch(() => {});
     const contacts = getAllOutreachContacts();
     const uniqueCountries = new Set(contacts.map((c) => c.countryCode));
 

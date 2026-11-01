@@ -5,6 +5,8 @@ import Breadcrumb from '@/components/Breadcrumb';
 import FAQSection from '@/components/seo/FAQSection';
 import CTABlock from '@/components/seo/CTABlock';
 import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import ProductSeoSchema from '@/components/seo/ProductSeoSchema';
+import { buildProductMetadata } from '@/lib/seo-catalog';
 import { SITE_CONTACT, getWhatsAppUrl } from '@/lib/constants';
 import {
     ArrowRightIcon,
@@ -13,14 +15,11 @@ import {
     WhatsAppIcon,
 } from '@/components/icons/ArchitecturalIcons';
 
-export const metadata: Metadata = {
-    title: 'Mafsallı Tente Sistemleri | Ata Yapı',
+export const metadata: Metadata = buildProductMetadata('tente-mafsalli', {
+    title: 'Mafsallı Tente Sistemleri & Fiyatları | Balkon, Teras & Esnaf | Ata Yapı',
     description:
-        'Mafsallı tente sistemleri ile balkon, teras ve mağaza cephelerinde ekonomik ve dayanıklı gölgelendirme. Maltepe ve çevresinde ücretsiz keşif.',
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/tente/mafsalli',
-    },
-};
+        'Mafsallı tente sistemleri ile balkon, teras ve mağaza cephelerinde ekonomik ve dayanıklı gölgelendirme. UV korumalı akrilik kumaş, ücretsiz keşif.',
+});
 
 const faqs = [
     {
@@ -85,6 +84,7 @@ const features = [
 export default function MafsalliTentePage() {
     return (
         <>
+            <ProductSeoSchema productId="tente-mafsalli" />
             {/* Breadcrumb */}
             <div className="bg-slate-50 border-b border-slate-200/80">
                 <div className="container">

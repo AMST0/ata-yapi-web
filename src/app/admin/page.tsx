@@ -146,17 +146,15 @@ export default function AdminDashboard() {
                         <>
                             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
                                 <span
-                                    className={`w-2 h-2 rounded-full ${
-                                        systemInfo.dbMode === "postgresql" ? "bg-emerald-400" : "bg-amber-400"
-                                    }`}
+                                    className={`w-2 h-2 rounded-full ${systemInfo.dbMode === "postgresql" ? "bg-emerald-400" : "bg-amber-400"
+                                        }`}
                                 />
                                 DB: {systemInfo.dbMode === "postgresql" ? "PostgreSQL" : "Sunucu Belleği"}
                             </span>
                             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
                                 <span
-                                    className={`w-2 h-2 rounded-full ${
-                                        systemInfo.smtpConfigured ? "bg-emerald-400" : "bg-amber-400"
-                                    }`}
+                                    className={`w-2 h-2 rounded-full ${systemInfo.smtpConfigured ? "bg-emerald-400" : "bg-amber-400"
+                                        }`}
                                 />
                                 SMTP Mail: {systemInfo.smtpConfigured ? "Aktif" : "Varsayılan"}
                             </span>
@@ -177,7 +175,28 @@ export default function AdminDashboard() {
             </div>
 
             {/* Quick Actions Bar */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3.5">
+                <Link
+                    href="/admin/seo"
+                    className="group p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-pink-950/30 hover:from-slate-900 hover:to-pink-950/50 border border-pink-500/30 hover:border-pink-500/60 transition-all flex items-center justify-between"
+                >
+                    <div>
+                        <div className="text-xs font-semibold uppercase tracking-wider text-pink-400">
+                            Ücretsiz Görünürlük
+                        </div>
+                        <div className="text-sm font-bold text-white mt-0.5">
+                            Google &amp; Instagram SEO
+                        </div>
+                        <div className="text-xs text-slate-400 mt-0.5">
+                            IndexNow • XML Feed • Post Stüdyosu
+                        </div>
+                    </div>
+                    <span className="w-9 h-9 rounded-xl bg-pink-500/15 text-pink-400 flex items-center justify-center">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg>
+                    </span>
+                </Link>
                 <Link
                     href="/teklif"
                     target="_blank"
@@ -428,10 +447,10 @@ export default function AdminDashboard() {
                                             {q.status === "accepted"
                                                 ? "Onaylandı"
                                                 : q.status === "sent"
-                                                ? "Gönderildi"
-                                                : q.status === "rejected"
-                                                ? "Reddedildi"
-                                                : "Taslak"}
+                                                    ? "Gönderildi"
+                                                    : q.status === "rejected"
+                                                        ? "Reddedildi"
+                                                        : "Taslak"}
                                         </div>
                                     </div>
                                 </Link>

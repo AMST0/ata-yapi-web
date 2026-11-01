@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import CTABlock from "@/components/seo/CTABlock";
 import FAQSection from "@/components/seo/FAQSection";
+import ProductSeoSchema from "@/components/seo/ProductSeoSchema";
+import { buildProductMetadata } from "@/lib/seo-catalog";
 import { getWhatsAppUrl } from "@/lib/constants";
 import {
   MotorIcon,
@@ -14,38 +16,16 @@ import {
   ArrowRightIcon,
 } from "@/components/icons/ArchitecturalIcons";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildProductMetadata("giyotin-cam-motorlu", {
   title: "Motorlu Giyotin Cam Sistemleri | Otomatik Açılır Kapanır | Ata Yapı",
   description:
     "Motorlu ve uzaktan kumandalı giyotin cam sistemleri. Somfy ve Becker motor seçenekleri, rüzgar ve yağmur sensörü entegrasyonu, sessiz çalışma, 2 yıl garanti.",
-  keywords: [
-    "motorlu giyotin cam",
-    "otomatik giyotin cam",
-    "uzaktan kumandalı giyotin cam",
-    "elektrikli giyotin cam sistemi",
+  extraKeywords: [
     "motorlu cam balkon",
-    "somfy motorlu giyotin",
     "otomatik dikey sürgülü cam",
     "motorlu giyotin fiyatları",
   ],
-  alternates: {
-    canonical: "https://www.xn--atayap-u9a.site/giyotin-cam/motorlu",
-  },
-  openGraph: {
-    title: "Motorlu Giyotin Cam Sistemleri | Ata Yapı",
-    description:
-      "Tek tuşla açılıp kapanan motorlu giyotin cam sistemleri. Uzaktan kumandalı, sensörlü ve akıllı ev uyumlu çözümler.",
-    url: "https://www.xn--atayap-u9a.site/giyotin-cam/motorlu",
-    images: [
-      {
-        url: "/giyotin-cam-hero.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Motorlu Giyotin Cam Sistemleri",
-      },
-    ],
-  },
-};
+});
 
 const motorFeatures = [
   {
@@ -118,25 +98,7 @@ const faqs = [
 export default function MotorluGiyotinPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Service",
-            name: "Motorlu Giyotin Cam Sistemleri",
-            description:
-              "Otomatik açılır kapanır, uzaktan kumandalı motorlu giyotin cam balkon ve teras çözümleri.",
-            provider: {
-              "@type": "LocalBusiness",
-              name: "Ata Yapı",
-              url: "https://www.xn--atayap-u9a.site",
-            },
-            areaServed: ["Balıkesir", "Edremit", "Altınoluk", "İzmir", "Çanakkale", "İstanbul"],
-            url: "https://www.xn--atayap-u9a.site/giyotin-cam/motorlu",
-          }),
-        }}
-      />
+      <ProductSeoSchema productId="giyotin-cam-motorlu" />
 
       {/* Hero */}
       <section className="relative py-20 lg:py-28 bg-[#0b0f19] text-white overflow-hidden border-b border-slate-800">

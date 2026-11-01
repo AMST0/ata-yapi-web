@@ -5,6 +5,8 @@ import Breadcrumb from '@/components/Breadcrumb';
 import FAQSection from '@/components/seo/FAQSection';
 import CTABlock from '@/components/seo/CTABlock';
 import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import ProductSeoSchema from '@/components/seo/ProductSeoSchema';
+import { buildProductMetadata } from '@/lib/seo-catalog';
 import { SITE_CONTACT, getWhatsAppUrl } from '@/lib/constants';
 import {
     ArrowRightIcon,
@@ -13,14 +15,11 @@ import {
     WhatsAppIcon,
 } from '@/components/icons/ArchitecturalIcons';
 
-export const metadata: Metadata = {
-    title: 'Kasetli Tente Sistemleri | Ata Yapı',
+export const metadata: Metadata = buildProductMetadata('tente-kasetli', {
+    title: 'Tam Kasetli Tente Sistemleri & Fiyatları | Motorlu & LED | Ata Yapı',
     description:
-        'Tam kasetli tente sistemleri ile akrilik kumaş ve mekanizma koruması. Motorlu kontrol, modern alüminyum gövde. Maltepe ve çevresinde ücretsiz keşif.',
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/tente/kasetli',
-    },
-};
+        'Tam kasetli tente sistemleri ile akrilik kumaş ve mekanizma koruması. Uzaktan kumandalı motorlu kontrol, modern alüminyum gövde ve ücretsiz keşif.',
+});
 
 const faqs = [
     {
@@ -85,6 +84,7 @@ const features = [
 export default function KasetliTentePage() {
     return (
         <>
+            <ProductSeoSchema productId="tente-kasetli" />
             {/* Breadcrumb */}
             <div className="bg-slate-50 border-b border-slate-200/80">
                 <div className="container">

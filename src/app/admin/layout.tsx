@@ -61,6 +61,15 @@ const navItems: NavItem[] = [
         ),
     },
     {
+        href: "/admin/seo",
+        label: "Google & Instagram SEO",
+        icon: (
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+        ),
+    },
+    {
         href: "/admin/visitors",
         label: "Ziyaretçi Kayıtları",
         icon: (
@@ -252,22 +261,20 @@ export default function AdminLayout({
                                     href={item.href}
                                     target={item.external ? "_blank" : undefined}
                                     onClick={() => setMobileOpen(false)}
-                                    className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
-                                        isActive
-                                            ? "bg-[var(--primary)] text-white shadow-lg shadow-red-950/40 font-semibold"
-                                            : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
-                                    }`}
+                                    className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-150 ${isActive
+                                        ? "bg-[var(--primary)] text-white shadow-lg shadow-red-950/40 font-semibold"
+                                        : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
+                                        }`}
                                 >
                                     <span>{item.icon}</span>
                                     <span className="text-sm">{item.label}</span>
 
                                     {item.badgeKey === "unread" && unreadCount > 0 && (
                                         <span
-                                            className={`ml-auto px-2 py-0.5 rounded-full text-xs font-bold ${
-                                                isActive
-                                                    ? "bg-white text-[var(--primary)]"
-                                                    : "bg-red-500/20 text-red-300 border border-red-500/30"
-                                            }`}
+                                            className={`ml-auto px-2 py-0.5 rounded-full text-xs font-bold ${isActive
+                                                ? "bg-white text-[var(--primary)]"
+                                                : "bg-red-500/20 text-red-300 border border-red-500/30"
+                                                }`}
                                         >
                                             {unreadCount}
                                         </span>
@@ -275,11 +282,10 @@ export default function AdminLayout({
 
                                     {item.badgeKey === "outreach" && outreachCount > 0 && (
                                         <span
-                                            className={`ml-auto px-2 py-0.5 rounded-full text-xs font-semibold ${
-                                                isActive
-                                                    ? "bg-white/20 text-white"
-                                                    : "bg-emerald-500/15 text-emerald-300 border border-emerald-500/25"
-                                            }`}
+                                            className={`ml-auto px-2 py-0.5 rounded-full text-xs font-semibold ${isActive
+                                                ? "bg-white/20 text-white"
+                                                : "bg-emerald-500/15 text-emerald-300 border border-emerald-500/25"
+                                                }`}
                                         >
                                             {outreachCount}
                                         </span>

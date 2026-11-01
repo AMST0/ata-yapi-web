@@ -12,6 +12,7 @@ import {
   MapPinIcon,
   ClockIcon,
   MailIcon,
+  InstagramIcon,
 } from "@/components/icons/ArchitecturalIcons";
 
 export default function Footer() {
@@ -21,7 +22,9 @@ export default function Footer() {
     { href: "/giyotin-cam", label: t.nav.giyotin_cam },
     { href: "/giyotin-cam/motorlu", label: t.nav.motorlu_giyotin },
     { href: "/cam-balkon", label: t.nav.cam_balkon },
+    { href: "/cam-balkon/isi-camli", label: t.nav.cam_balkon_isicamli },
     { href: "/sineklik", label: t.nav.sineklik },
+    { href: "/sineklik/kedi-sineklik", label: "Kedi Sinekliği" },
     { href: "/tente", label: t.nav.tente },
     { href: "/pimapen-tamir", label: t.nav.pimapen_tamir },
   ];
@@ -30,16 +33,18 @@ export default function Footer() {
     { href: "/bayi-kurumsal", label: t.nav.bayi_kurumsal },
     { href: "/fiyatlandirma", label: t.nav.fiyatlandirma },
     { href: "/giyotin-cam/uygulamalar", label: t.nav.uygulamalar },
+    { href: "/hizmet-bolgeleri", label: "Hizmet Bölgeleri & Katalog" },
     { href: "/iletisim", label: t.nav.iletisim },
   ];
 
   const regionLinks = [
-    { href: "/bolge/maltepe-cam-balkon", label: "İstanbul / Maltepe" },
-    { href: "/bolge/balikesir-giyotin-cam", label: "Balıkesir" },
-    { href: "/bolge/edremit-giyotin-cam", label: "Edremit" },
-    { href: "/bolge/altinoluk-giyotin-cam", label: "Altınoluk" },
-    { href: "/bolge/izmir-giyotin-cam", label: "İzmir" },
-    { href: "/bolge/canakkale-giyotin-cam", label: "Çanakkale" },
+    { href: "/bolge/maltepe-giyotin-cam", label: "Maltepe Giyotin Cam" },
+    { href: "/bolge/maltepe-cam-balkon", label: "Maltepe Cam Balkon" },
+    { href: "/bolge/kadikoy-giyotin-cam", label: "Kadıköy Giyotin Cam" },
+    { href: "/bolge/atasehir-giyotin-cam", label: "Ataşehir Giyotin Cam" },
+    { href: "/bolge/balikesir-giyotin-cam", label: "Balıkesir / Edremit" },
+    { href: "/bolge/izmir-giyotin-cam", label: "İzmir & Çanakkale" },
+    { href: "/hizmet-bolgeleri", label: "Tüm Bölgeler (24+) →" },
   ];
 
   return (
@@ -60,7 +65,7 @@ export default function Footer() {
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
               {t.footer.about_desc}
             </p>
-            <div className="flex items-center gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
               <a
                 href={getWhatsAppUrl()}
                 target="_blank"
@@ -80,6 +85,16 @@ export default function Footer() {
               >
                 <PhoneIcon className="w-4 h-4" />
                 {SITE_CONTACT.phoneDisplay}
+              </a>
+              <a
+                href={SITE_CONTACT.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:opacity-95 text-white text-xs font-semibold transition-opacity"
+                aria-label="Instagram"
+              >
+                <InstagramIcon className="w-4 h-4" />
+                <span>Instagram</span>
               </a>
             </div>
           </div>

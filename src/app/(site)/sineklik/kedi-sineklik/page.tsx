@@ -5,6 +5,8 @@ import Breadcrumb from '@/components/Breadcrumb';
 import FAQSection from '@/components/seo/FAQSection';
 import CTABlock from '@/components/seo/CTABlock';
 import WhyAtaYapi from '@/components/seo/WhyAtaYapi';
+import ProductSeoSchema from '@/components/seo/ProductSeoSchema';
+import { buildProductMetadata } from '@/lib/seo-catalog';
 import { SITE_CONTACT, getWhatsAppUrl } from '@/lib/constants';
 import {
     ArrowRightIcon,
@@ -13,14 +15,11 @@ import {
     WhatsAppIcon,
 } from '@/components/icons/ArchitecturalIcons';
 
-export const metadata: Metadata = {
-    title: 'Kedi Sinekliği Sistemleri | Ata Yapı - Çelik & Pet Tül',
+export const metadata: Metadata = buildProductMetadata('sineklik-kedi', {
+    title: 'Kedi Sinekliği Sistemleri & Fiyatları | Yırtılmaz Çelik & Pet Tül | Ata Yapı',
     description:
-        'Kedi sinekliği ile evcil hayvanlarınızı yüksekten düşmeye karşı koruyun. Yırtılmaz çelik ve pet tül, kilitli alüminyum çerçeve. Maltepe ücretsiz keşif.',
-    alternates: {
-        canonical: 'https://www.xn--atayap-u9a.site/sineklik/kedi-sineklik',
-    },
-};
+        'Kedi sinekliği ile evcil hayvanlarınızı yüksekten düşmeye karşı koruyun. Yırtılmaz paslanmaz çelik ve Pet-Screen tül, kilitli alüminyum çerçeve, ücretsiz keşif.',
+});
 
 const faqs = [
     {
@@ -85,6 +84,7 @@ const features = [
 export default function KediSineklikPage() {
     return (
         <>
+            <ProductSeoSchema productId="sineklik-kedi" />
             {/* Breadcrumb */}
             <div className="bg-slate-50 border-b border-slate-200/80">
                 <div className="container">

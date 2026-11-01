@@ -5,6 +5,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import FAQSection from "@/components/seo/FAQSection";
 import CTABlock from "@/components/seo/CTABlock";
 import WhyAtaYapi from "@/components/seo/WhyAtaYapi";
+import ProductSeoSchema from "@/components/seo/ProductSeoSchema";
+import { buildProductMetadata } from "@/lib/seo-catalog";
 import { getWhatsAppUrl } from "@/lib/constants";
 import {
   LayersIcon,
@@ -17,14 +19,11 @@ import {
   ArrowRightIcon,
 } from "@/components/icons/ArchitecturalIcons";
 
-export const metadata: Metadata = {
-  title: "Katlanır Cam Balkon Sistemleri | Ata Yapı",
+export const metadata: Metadata = buildProductMetadata("cam-balkon-katlanir", {
+  title: "Katlanır Cam Balkon Sistemleri & Fiyatları | %100 Açılır | Ata Yapı",
   description:
-    "Katlanır cam balkon sistemleri ile %100 açılım imkanı. Paslanmaz rulman takımı, 8mm temperli cam, şık mimari tasarım. Ücretsiz keşif.",
-  alternates: {
-    canonical: "https://www.xn--atayap-u9a.site/cam-balkon/katlanir",
-  },
-};
+    "Katlanır cam balkon sistemleri ile %100 açılım imkanı. Paslanmaz rulman takımı, 8mm/10mm temperli cam, şık mimari tasarım ve doğrudan üretici fiyatları.",
+});
 
 const faqs = [
   {
@@ -96,6 +95,7 @@ const features = [
 export default function KatlanirCamBalkonPage() {
   return (
     <>
+      <ProductSeoSchema productId="cam-balkon-katlanir" />
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container">
           <Breadcrumb

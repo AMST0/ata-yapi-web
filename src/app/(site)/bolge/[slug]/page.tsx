@@ -24,6 +24,14 @@ export async function generateStaticParams() {
   }));
 }
 
+const SERVICE_OG_IMAGES: Record<string, string> = {
+  "giyotin-cam": "/giyotin-cam-hero.jpg",
+  "cam-balkon": "/hero-balcony.png",
+  sineklik: "/sineklik-service.png",
+  tente: "/kasetli-tente.png",
+  "pimapen-tamir": "/pimapen-service.png",
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -38,17 +46,43 @@ export async function generateMetadata({
     };
   }
 
+  const image = SERVICE_OG_IMAGES[page.service] || "/giyotin-cam-hero.jpg";
+  const canonicalUrl = `https://www.xn--atayap-u9a.site/bolge/${page.slug}`;
+
   return {
     title: page.metaTitle,
     description: page.metaDescription,
+    keywords: [
+      `${page.district.toLowerCase()} ${page.serviceTitle.toLowerCase()}`,
+      `${page.district.toLowerCase()} ${page.serviceTitle.toLowerCase()} fiyatları`,
+      `${page.district.toLowerCase()} ${page.serviceTitle.toLowerCase()} montajı`,
+      page.title,
+      "Ata Yapı",
+    ],
     openGraph: {
       title: page.metaTitle,
       description: page.metaDescription,
+      url: canonicalUrl,
+      siteName: "Ata Yapı",
       locale: "tr_TR",
       type: "website",
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: page.h1,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: page.metaTitle,
+      description: page.metaDescription,
+      images: [image],
     },
     alternates: {
-      canonical: `https://www.xn--atayap-u9a.site/bolge/${page.slug}`,
+      canonical: canonicalUrl,
     },
   };
 }
@@ -69,8 +103,63 @@ export default async function DistrictPage({
     (p) => p.slug !== page.slug
   );
 
+  const canonicalUrl = `https://www.xn--atayap-u9a.site/bolge/${page.slug}`;
+  const image = SERVICE_OG_IMAGES[page.service] || "/giyotin-cam-hero.jpg";
+
+  const localServiceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: page.h1,
+    description: page.metaDescription,
+    url: canonicalUrl,
+    image: `https://www.xn--atayap-u9a.site${image}`,
+    areaServed: {
+      "@type": "City",
+      name: page.district,
+    },
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Ata Yapı",
+      telephone: "+905314002959",
+      url: "https://www.xn--atayap-u9a.site",
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Ata Yapı",
+        item: "https://www.xn--atayap-u9a.site",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Hizmet Bölgeleri",
+        item: "https://www.xn--atayap-u9a.site/hizmet-bolgeleri",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: page.h1,
+        item: canonicalUrl,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localServiceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Breadcrumb */}
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="container">

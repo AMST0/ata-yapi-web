@@ -8,7 +8,7 @@ import { useLanguage } from "@/lib/i18n";
 import LanguageSelector from "@/components/LanguageSelector";
 import { SITE_CONTACT, getWhatsAppUrl } from "@/lib/constants";
 import { trackPhoneClick, trackWhatsAppClick } from "@/lib/analytics";
-import { PhoneIcon, WhatsAppIcon, FactoryIcon, ClockIcon } from "@/components/icons/ArchitecturalIcons";
+import { PhoneIcon, WhatsAppIcon, FactoryIcon, ClockIcon, InstagramIcon } from "@/components/icons/ArchitecturalIcons";
 
 export default function Header() {
   const { t } = useLanguage();
@@ -108,6 +108,17 @@ export default function Header() {
               <WhatsAppIcon className="w-3.5 h-3.5" />
               WhatsApp
             </a>
+            <span className="text-slate-700">|</span>
+            <a
+              href={SITE_CONTACT.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-pink-400 hover:text-pink-300 font-medium transition-colors"
+              aria-label="Instagram"
+            >
+              <InstagramIcon className="w-3.5 h-3.5" />
+              <span>{SITE_CONTACT.instagramHandle}</span>
+            </a>
           </div>
         </div>
       </div>
@@ -152,19 +163,17 @@ export default function Header() {
                         onClick={() =>
                           setOpenDropdown(openDropdown === link.label ? null : link.label)
                         }
-                        className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
-                          active
-                            ? "text-[var(--primary)] font-semibold"
-                            : "text-slate-700 hover:text-slate-950"
-                        }`}
+                        className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${active
+                          ? "text-[var(--primary)] font-semibold"
+                          : "text-slate-700 hover:text-slate-950"
+                          }`}
                         aria-expanded={openDropdown === link.label}
                         aria-haspopup="true"
                       >
                         {link.label}
                         <svg
-                          className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 ${
-                            openDropdown === link.label ? "rotate-180" : ""
-                          }`}
+                          className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 ${openDropdown === link.label ? "rotate-180" : ""
+                            }`}
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -175,11 +184,10 @@ export default function Header() {
                       </button>
 
                       <div
-                        className={`absolute top-full left-0 pt-2 transition-all duration-150 ${
-                          openDropdown === link.label
-                            ? "opacity-100 visible translate-y-0"
-                            : "opacity-0 invisible -translate-y-1.5 pointer-events-none"
-                        }`}
+                        className={`absolute top-full left-0 pt-2 transition-all duration-150 ${openDropdown === link.label
+                          ? "opacity-100 visible translate-y-0"
+                          : "opacity-0 invisible -translate-y-1.5 pointer-events-none"
+                          }`}
                       >
                         <div className="bg-white rounded-xl shadow-xl shadow-slate-900/10 border border-slate-200/90 py-2 min-w-[230px]">
                           {link.children.map((child) => {
@@ -189,11 +197,10 @@ export default function Header() {
                                 key={child.href}
                                 href={child.href}
                                 onClick={() => setOpenDropdown(null)}
-                                className={`flex items-center justify-between px-4 py-2.5 text-sm transition-colors border-l-2 ${
-                                  childActive
-                                    ? "border-[var(--primary)] bg-slate-50 text-[var(--primary)] font-semibold"
-                                    : "border-transparent text-slate-700 hover:bg-slate-50 hover:text-slate-950 hover:border-slate-300"
-                                }`}
+                                className={`flex items-center justify-between px-4 py-2.5 text-sm transition-colors border-l-2 ${childActive
+                                  ? "border-[var(--primary)] bg-slate-50 text-[var(--primary)] font-semibold"
+                                  : "border-transparent text-slate-700 hover:bg-slate-50 hover:text-slate-950 hover:border-slate-300"
+                                  }`}
                               >
                                 <span>{child.label}</span>
                               </Link>
@@ -205,11 +212,10 @@ export default function Header() {
                   ) : (
                     <Link
                       href={link.href}
-                      className={`link-hover text-sm font-medium transition-colors ${
-                        active
-                          ? "text-[var(--primary)] font-semibold"
-                          : "text-slate-700 hover:text-slate-950"
-                      }`}
+                      className={`link-hover text-sm font-medium transition-colors ${active
+                        ? "text-[var(--primary)] font-semibold"
+                        : "text-slate-700 hover:text-slate-950"
+                        }`}
                     >
                       {link.label}
                     </Link>
@@ -285,9 +291,8 @@ export default function Header() {
                       >
                         <span>{link.label}</span>
                         <svg
-                          className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                            openMobileAccordion === link.label ? "rotate-180" : ""
-                          }`}
+                          className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${openMobileAccordion === link.label ? "rotate-180" : ""
+                            }`}
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -303,11 +308,10 @@ export default function Header() {
                               key={child.href}
                               href={child.href}
                               onClick={() => setIsMenuOpen(false)}
-                              className={`block py-2 px-3 text-sm rounded-lg ${
-                                pathname === child.href
-                                  ? "bg-red-50 text-[var(--primary)] font-semibold"
-                                  : "text-slate-600 hover:text-slate-900"
-                              }`}
+                              className={`block py-2 px-3 text-sm rounded-lg ${pathname === child.href
+                                ? "bg-red-50 text-[var(--primary)] font-semibold"
+                                : "text-slate-600 hover:text-slate-900"
+                                }`}
                             >
                               {child.label}
                             </Link>
@@ -319,9 +323,8 @@ export default function Header() {
                     <Link
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`block py-3.5 font-semibold ${
-                        pathname === link.href ? "text-[var(--primary)]" : "text-slate-900"
-                      }`}
+                      className={`block py-3.5 font-semibold ${pathname === link.href ? "text-[var(--primary)]" : "text-slate-900"
+                        }`}
                     >
                       {link.label}
                     </Link>
@@ -358,6 +361,15 @@ export default function Header() {
                   WhatsApp
                 </a>
               </div>
+              <a
+                href={SITE_CONTACT.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white rounded-xl font-semibold text-xs"
+              >
+                <InstagramIcon className="w-4 h-4" />
+                <span>Instagram {SITE_CONTACT.instagramHandle}</span>
+              </a>
             </div>
           </div>
         </div>
