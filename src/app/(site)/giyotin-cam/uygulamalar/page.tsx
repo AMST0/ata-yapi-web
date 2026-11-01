@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import CTABlock from "@/components/seo/CTABlock";
 
 export const metadata: Metadata = {
     title: "Giyotin Cam Uygulama Alanları | Restoran, Kafe, Villa & Teras | Ata Yapı",
@@ -108,15 +109,7 @@ export default function GiyotinUygulamalarPage() {
                 </div>
             </section>
 
-            <section className="py-16 bg-gray-900 text-white text-center">
-                <div className="container">
-                    <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: "var(--font-heading)" }}>Mekanınız İçin Özel Çözüm Üretelim</h2>
-                    <p className="text-gray-400 max-w-xl mx-auto mb-8">Projenizin fotoğraflarını ve ölçülerini paylaşın, aynı gün içerisinde size özel keşif ve fiyat çalışması sunalım.</p>
-                    <Link href="/iletisim" className="btn-press bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white font-bold px-8 py-4 rounded-xl inline-block shadow-lg">
-                        Ücretsiz Keşif Talep Edin
-                    </Link>
-                </div>
-            </section>
+            <CTABlock />
         </>
     );
 }

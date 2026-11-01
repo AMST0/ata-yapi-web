@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/lib/i18n";
 
 export default function ContactForm() {
+    const { t } = useLanguage();
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -14,6 +16,7 @@ export default function ContactForm() {
         const data = {
             name: formData.get("name"),
             phone: formData.get("phone"),
+            email: formData.get("email"),
             service: formData.get("service"),
             message: formData.get("message"),
         };
@@ -29,10 +32,9 @@ export default function ContactForm() {
 
             setStatus("success");
             (e.target as HTMLFormElement).reset();
-        } catch (err) {
-            // Error logged silently in production or sent to error monitor
+        } catch {
             setStatus("error");
-            setErrorMessage("Bir hata oluştu, lütfen daha sonra tekrar deneyin.");
+            setErrorMessage(t.contact.form_error);
         }
     }
 
@@ -44,13 +46,12 @@ export default function ContactForm() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Mesajınız Alındı!</h3>
-                <p className="text-gray-600 mb-6">En kısa sürede size geri dönüş yapacağız.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{t.contact.form_success}</h3>
                 <button
                     onClick={() => setStatus("idle")}
-                    className="text-[var(--primary)] font-semibold hover:underline"
+                    className="text-[var(--primary)] font-semibold hover:underline mt-4 inline-block"
                 >
-                    Yeni Mesaj Gönder
+                    {t.common.back}
                 </button>
             </div>
         );
@@ -59,49 +60,72 @@ export default function ContactForm() {
     return (
         <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Ad Soyad *</label>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                    {t.contact.form_name} *
+                </label>
                 <input
                     type="text"
                     id="name"
                     name="name"
                     required
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition"
-                    placeholder="Adınız Soyadınız"
+                    placeholder={t.contact.form_name}
                 />
             </div>
-            <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Telefon *</label>
-                <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    required
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition"
-                    placeholder="0532 XXX XX XX"
-                />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                        {t.contact.form_phone} *
+                    </label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        required
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition"
+                        placeholder="+90 / +49 ..."
+                    />
+                </div>
+                <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                        {t.contact.form_email}
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition"
+                        placeholder="info@example.com"
+                    />
+                </div>
             </div>
             <div>
-                <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">Hizmet</label>
+                <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
+                    {t.contact.form_service}
+                </label>
                 <select
                     id="service"
                     name="service"
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition appearance-none bg-white"
                 >
-                    <option value="">Seçiniz</option>
-                    <option value="cam-balkon">Cam Balkon</option>
-                    <option value="sineklik">Sineklik</option>
-                    <option value="tente">Tente</option>
-                    <option value="diger">Diğer</option>
+                    <option value="">{t.contact.form_service_select}</option>
+                    <option value="giyotin-cam">{t.nav.giyotin_cam}</option>
+                    <option value="cam-balkon">{t.nav.cam_balkon}</option>
+                    <option value="sineklik">{t.nav.sineklik}</option>
+                    <option value="tente">{t.nav.tente}</option>
+                    <option value="bayi-b2b">{t.nav.bayi_kurumsal}</option>
                 </select>
             </div>
             <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Mesaj</label>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                    {t.contact.form_message}
+                </label>
                 <textarea
                     id="message"
                     name="message"
                     rows={4}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition resize-none"
-                    placeholder="Mesajınız..."
+                    placeholder={t.contact.form_message}
                 />
             </div>
 
@@ -119,9 +143,11 @@ export default function ContactForm() {
                 {status === "loading" ? (
                     <>
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        Gönderiliyor...
+                        {t.contact.form_submitting}
                     </>
-                ) : "Gönder"}
+                ) : (
+                    t.contact.form_submit
+                )}
             </button>
         </form>
     );

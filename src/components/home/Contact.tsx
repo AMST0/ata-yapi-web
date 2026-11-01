@@ -2,8 +2,17 @@
 
 import Link from "next/link";
 import { trackWhatsAppClick, trackPhoneClick } from "@/lib/analytics";
+import { useLanguage } from "@/lib/i18n";
 
 export default function Contact() {
+    const { t, language } = useLanguage();
+    const whatsappText =
+        language === "de"
+            ? "Hallo, ich interessiere mich für Ihre Glassysteme."
+            : language === "en"
+            ? "Hello, I would like to inquire about your glass systems."
+            : "Merhaba, ücretsiz keşif için bilgi almak istiyorum.";
+
     return (
         <section className="py-20 lg:py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
             <div className="container">
@@ -11,17 +20,16 @@ export default function Contact() {
                     {/* Left Content */}
                     <div>
                         <span className="inline-block text-sm font-semibold text-[var(--accent)] uppercase tracking-wider mb-3">
-                            İletişim
+                            {t.contact.title}
                         </span>
                         <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
-                            Ücretsiz Keşif İçin{" "}
+                            {t.contact.title}{" "}
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]">
-                                Bize Ulaşın
+                                Ata Yapı
                             </span>
                         </h2>
                         <p className="text-gray-300 text-lg mb-8">
-                            Projeleriniz için ücretsiz keşif ve fiyat teklifi alın. Uzman
-                            ekibimiz size en uygun çözümü sunmak için hazır.
+                            {t.contact.subtitle}
                         </p>
 
                         {/* Contact Info */}
@@ -43,8 +51,8 @@ export default function Contact() {
                                     </svg>
                                 </div>
                                 <div>
-                                    <div className="text-sm text-gray-400">Adres</div>
-                                    <div className="font-medium">Girne, Meriç Sk. No:13, 34852 Maltepe/İstanbul</div>
+                                    <div className="text-sm text-gray-400">{t.contact.location_label}</div>
+                                    <div className="font-medium">{t.pages.iletisim.addr_val}</div>
                                 </div>
                             </div>
 
@@ -64,13 +72,13 @@ export default function Contact() {
                                     </svg>
                                 </div>
                                 <div>
-                                    <div className="text-sm text-gray-400">Telefon</div>
+                                    <div className="text-sm text-gray-400">{t.contact.phone_label}</div>
                                     <a
                                         href="tel:+905314002959"
                                         onClick={trackPhoneClick}
                                         className="font-medium hover:text-[var(--primary)] transition-colors"
                                     >
-                                        0531 400 29 59
+                                        +90 531 400 29 59
                                     </a>
                                 </div>
                             </div>
@@ -92,8 +100,8 @@ export default function Contact() {
                                     </svg>
                                 </div>
                                 <div>
-                                    <div className="text-sm text-gray-400">Çalışma Saatleri</div>
-                                    <div className="font-medium">Pzt - Cmt: 09:00 - 19:00</div>
+                                    <div className="text-sm text-gray-400">{t.pages.iletisim.hours_title}</div>
+                                    <div className="font-medium">{t.pages.iletisim.hours_val}</div>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +109,7 @@ export default function Contact() {
                         {/* CTAs */}
                         <div className="flex flex-wrap gap-4">
                             <a
-                                href="https://wa.me/905314002959?text=Merhaba, ücretsiz keşif için bilgi almak istiyorum."
+                                href={`https://wa.me/905314002959?text=${encodeURIComponent(whatsappText)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={trackWhatsAppClick}
@@ -121,7 +129,7 @@ export default function Contact() {
                                 href="/iletisim"
                                 className="btn-press inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl font-medium backdrop-blur-sm border border-white/20 transition-colors"
                             >
-                                İletişim Formu
+                                {t.shared.cta_form}
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="w-4 h-4"
@@ -139,7 +147,7 @@ export default function Contact() {
                         </div>
                     </div>
 
-                    {/* Right - Map Placeholder */}
+                    {/* Right - Map */}
                     <div className="relative aspect-square lg:aspect-[4/3] rounded-2xl overflow-hidden bg-gray-800">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3013.5!2d29.13!3d40.93!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sGirne%2C%20Meri%C3%A7%20Sk.%20No%3A13%2C%2034852%20Maltepe%2F%C4%B0stanbul!5e0!3m2!1str!2str"
@@ -149,7 +157,7 @@ export default function Contact() {
                             allowFullScreen
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
-                            title="Ata Yapı Konum - Girne, Meriç Sk. No:13, 34852 Maltepe/İstanbul"
+                            title="Ata Yapı Konum"
                         />
                     </div>
                 </div>

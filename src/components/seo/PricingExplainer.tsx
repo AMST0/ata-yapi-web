@@ -1,3 +1,7 @@
+"use client";
+
+import { useLanguage } from "@/lib/i18n";
+
 interface PricingExplainerProps {
     customNote?: string;
 }
@@ -7,9 +11,7 @@ interface PricingExplainerProps {
  * Helps set realistic expectations without showing fixed prices
  */
 export default function PricingExplainer({ customNote }: PricingExplainerProps) {
-    const defaultNote = `Fiyatlar proje ölçülerine, seçilen malzeme kalitesine ve sisteme göre değişiklik gösterir. 
-    Net fiyat için mutlaka yerinde ölçüm yapılması gerekmektedir. 
-    Ücretsiz keşif hizmetimiz ile size özel fiyat teklifi sunuyoruz.`;
+    const { t } = useLanguage();
 
     return (
         <section className="py-12 bg-amber-50 border-y border-amber-100">
@@ -36,10 +38,10 @@ export default function PricingExplainer({ customNote }: PricingExplainerProps) 
                                 className="font-bold text-gray-900 mb-2"
                                 style={{ fontFamily: 'var(--font-heading)' }}
                             >
-                                Fiyatlar Neden Ölçüye Göre Değişir?
+                                {t.shared.price_why_title}
                             </h3>
                             <p className="text-gray-700 leading-relaxed">
-                                {customNote || defaultNote}
+                                {customNote || t.shared.price_why_note}
                             </p>
                         </div>
                     </div>

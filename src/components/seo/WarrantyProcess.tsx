@@ -1,7 +1,13 @@
+"use client";
+
+import { useLanguage } from "@/lib/i18n";
+
 /**
  * "Garanti ve montaj süreci" explainer block
  */
 export default function WarrantyProcess() {
+    const { t } = useLanguage();
+
     return (
         <section className="py-16 bg-gray-900 text-white">
             <div className="container">
@@ -11,10 +17,10 @@ export default function WarrantyProcess() {
                             className="text-2xl md:text-3xl font-bold mb-4"
                             style={{ fontFamily: 'var(--font-heading)' }}
                         >
-                            Garanti ve Montaj Süreci
+                            {t.shared.warranty_title}
                         </h2>
                         <p className="text-gray-400">
-                            Kaliteli işçilik ve güvenilir garanti ile hizmetinizdeyiz.
+                            {t.shared.warranty_desc}
                         </p>
                     </div>
 
@@ -38,7 +44,7 @@ export default function WarrantyProcess() {
                                     </svg>
                                 </div>
                                 <h3 className="text-xl font-bold" style={{ fontFamily: 'var(--font-heading)' }}>
-                                    Garanti Kapsamı
+                                    {t.shared.w_scope_title}
                                 </h3>
                             </div>
                             <ul className="space-y-3 text-gray-300">
@@ -46,25 +52,25 @@ export default function WarrantyProcess() {
                                     <svg className="w-5 h-5 text-[var(--accent)] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span>2 yıl işçilik ve montaj garantisi</span>
+                                    <span>{t.shared.w1}</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <svg className="w-5 h-5 text-[var(--accent)] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span>Cam ve profillerde 10 yıl üretici garantisi</span>
+                                    <span>{t.shared.w2}</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <svg className="w-5 h-5 text-[var(--accent)] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span>Tente kumaşlarında 5 yıl renk garantisi</span>
+                                    <span>{t.shared.w3}</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <svg className="w-5 h-5 text-[var(--accent)] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span>Ücretsiz teknik destek hattı</span>
+                                    <span>{t.shared.w4}</span>
                                 </li>
                             </ul>
                         </div>
@@ -88,7 +94,7 @@ export default function WarrantyProcess() {
                                     </svg>
                                 </div>
                                 <h3 className="text-xl font-bold" style={{ fontFamily: 'var(--font-heading)' }}>
-                                    Montaj Süreci
+                                    {t.shared.w_install_title}
                                 </h3>
                             </div>
                             <ul className="space-y-3 text-gray-300">
@@ -96,25 +102,25 @@ export default function WarrantyProcess() {
                                     <svg className="w-5 h-5 text-[var(--accent)] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span>Deneyimli ve sigortalı montaj ekibi</span>
+                                    <span>{t.shared.i1}</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <svg className="w-5 h-5 text-[var(--accent)] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span>Temiz ve düzenli çalışma ortamı</span>
+                                    <span>{t.shared.i2}</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <svg className="w-5 h-5 text-[var(--accent)] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span>1-2 günde montaj tamamlanır</span>
+                                    <span>{t.shared.i3}</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <svg className="w-5 h-5 text-[var(--accent)] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
-                                    <span>Montaj sonrası kullanım eğitimi</span>
+                                    <span>{t.shared.i4}</span>
                                 </li>
                             </ul>
                         </div>

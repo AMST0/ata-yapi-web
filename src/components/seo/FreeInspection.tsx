@@ -1,27 +1,33 @@
+"use client";
+
+import { useLanguage } from "@/lib/i18n";
+
 /**
- * "Ücretsiz keşif nasıl işliyor?" explainer block
+ * "Keşif ve sipariş süreci" explainer block
  */
 export default function FreeInspection() {
+    const { t } = useLanguage();
+
     const steps = [
         {
             step: 1,
-            title: 'Randevu Alın',
-            description: 'Telefon, WhatsApp veya web formu ile bize ulaşın.',
+            title: t.shared.step1_t,
+            description: t.shared.step1_d,
         },
         {
             step: 2,
-            title: 'Keşif Ziyareti',
-            description: 'Uzman ekibimiz adresinize gelir ve ölçüm yapar.',
+            title: t.shared.step2_t,
+            description: t.shared.step2_d,
         },
         {
             step: 3,
-            title: 'Teklif',
-            description: 'Size özel detaylı fiyat teklifi hazırlarız.',
+            title: t.shared.step3_t,
+            description: t.shared.step3_d,
         },
         {
             step: 4,
-            title: 'Montaj',
-            description: 'Onayınız sonrası üretim ve montaj başlar.',
+            title: t.shared.step4_t,
+            description: t.shared.step4_d,
         },
     ];
 
@@ -33,10 +39,10 @@ export default function FreeInspection() {
                         className="text-2xl md:text-3xl font-bold text-gray-900 mb-4"
                         style={{ fontFamily: 'var(--font-heading)' }}
                     >
-                        Ücretsiz Keşif Nasıl İşliyor?
+                        {t.shared.free_insp_title}
                     </h2>
                     <p className="text-gray-600">
-                        4 basit adımda balkonunuzu dönüştürün.
+                        {t.shared.free_insp_desc}
                     </p>
                 </div>
 

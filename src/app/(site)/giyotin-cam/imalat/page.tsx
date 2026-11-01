@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import CTABlock from "@/components/seo/CTABlock";
 
 export const metadata: Metadata = {
     title: "Giyotin Cam İmalatı ve Montajı | Ata Yapı Kendi Üretimimiz",
@@ -110,15 +111,7 @@ export default function GiyotinImalatPage() {
                 </div>
             </section>
 
-            <section className="py-16 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] text-white text-center">
-                <div className="container">
-                    <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: "var(--font-heading)" }}>Doğrudan İmalatçı Avantajıyla Teklif Alın</h2>
-                    <p className="text-white/80 max-w-xl mx-auto mb-8">Aracı komisyonu olmadan, en uygun fiyat ve 2 yıl tam garanti ile projenizi hayata geçirin.</p>
-                    <Link href="/iletisim" className="btn-press bg-white text-[var(--primary)] font-bold px-8 py-4 rounded-xl inline-block shadow-lg">
-                        Ücretsiz Keşif Randevusu Al
-                    </Link>
-                </div>
-            </section>
+            <CTABlock />
         </>
     );
 }

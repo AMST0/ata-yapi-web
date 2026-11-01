@@ -1,0 +1,140 @@
+"use client";
+
+import Link from "next/link";
+import { useLanguage } from "@/lib/i18n";
+import FreeInspection from "@/components/seo/FreeInspection";
+import WarrantyProcess from "@/components/seo/WarrantyProcess";
+
+export default function SineklikContent() {
+    const { t, language } = useLanguage();
+    const p = t.pages.sineklik;
+
+    const whatsappText =
+        language === "de"
+            ? "Hallo, ich interessiere mich für Ihre Insektenschutz-Systeme (Plissees / Fliegengitter)."
+            : language === "en"
+            ? "Hello, I am inquiring about your pleated and hinged insect screen systems."
+            : "Merhaba, sineklik sistemleri hakkında bilgi almak istiyorum.";
+
+    const types = [
+        {
+            title: p.s1_t,
+            description: p.s1_d,
+            href: "/sineklik/pileli",
+            icon: "🪟",
+        },
+        {
+            title: p.s2_t,
+            description: p.s2_d,
+            href: "/sineklik/menteseli",
+            icon: "🚪",
+        },
+        {
+            title: p.s3_t,
+            description: p.s3_d,
+            href: "/sineklik/kedi-sineklik",
+            icon: "🐾",
+        },
+    ];
+
+    const features = [
+        { title: p.f1_t, description: p.f1_d, icon: "🕸️" },
+        { title: p.f2_t, description: p.f2_d, icon: "🎨" },
+        { title: p.f3_t, description: p.f3_d, icon: "🧼" },
+    ];
+
+    return (
+        <>
+            {/* Hero */}
+            <section className="relative py-24 lg:py-32 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+                <div className="container relative z-10">
+                    <div className="max-w-3xl">
+                        <nav aria-label="Breadcrumb" className="mb-6">
+                            <ol className="flex items-center gap-2 text-sm text-gray-400">
+                                <li>
+                                    <Link href="/" className="hover:text-white transition-colors">
+                                        {t.common.back}
+                                    </Link>
+                                </li>
+                                <li><span className="mx-1">/</span></li>
+                                <li className="text-white font-medium">{p.hero_title}</li>
+                            </ol>
+                        </nav>
+
+                        <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-[var(--accent)] mb-6">
+                            <span className="w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse" />
+                            {p.hero_badge}
+                        </span>
+                        <h1
+                            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
+                            style={{ fontFamily: "var(--font-heading)" }}
+                        >
+                            {p.hero_title}
+                        </h1>
+                        <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
+                            {p.hero_desc}
+                        </p>
+                        <div className="flex flex-wrap gap-4">
+                            <Link
+                                href="/iletisim"
+                                className="btn-press inline-flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-lg"
+                            >
+                                {t.nav.free_discovery}
+                            </Link>
+                            <a
+                                href={`https://wa.me/905314002959?text=${encodeURIComponent(whatsappText)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-press inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20BD5A] text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-lg"
+                            >
+                                WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Types */}
+            <section className="py-20 bg-gray-50">
+                <div className="container">
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {types.map((item, idx) => (
+                            <Link
+                                key={idx}
+                                href={item.href}
+                                className="group block bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-[var(--primary)]/30 transition-all duration-300"
+                            >
+                                <div className="text-4xl mb-4">{item.icon}</div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-[var(--primary)] transition-colors">
+                                    {item.title}
+                                </h3>
+                                <p className="text-gray-600 text-sm leading-relaxed mb-4">{item.description}</p>
+                                <span className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--primary)]">
+                                    {t.services.explore_button} →
+                                </span>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Features */}
+            <section className="py-20 bg-white">
+                <div className="container">
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {features.map((feat, idx) => (
+                            <div key={idx} className="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+                                <div className="text-4xl mb-4">{feat.icon}</div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">{feat.title}</h3>
+                                <p className="text-gray-600 text-sm leading-relaxed">{feat.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <FreeInspection />
+            <WarrantyProcess />
+        </>
+    );
+}

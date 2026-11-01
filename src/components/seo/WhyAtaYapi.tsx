@@ -1,38 +1,44 @@
+"use client";
+
+import { useLanguage } from "@/lib/i18n";
+
 /**
  * "Neden Ata Yapı?" trust-building content block
  * Reusable across district and service pages
  */
 export default function WhyAtaYapi() {
+    const { t } = useLanguage();
+
     const reasons = [
         {
             icon: '🏆',
-            title: '10+ Yıl Deneyim',
-            description: 'Maltepe ve çevresinde binlerce başarılı proje tamamladık.',
+            title: t.shared.r1_t,
+            description: t.shared.r1_d,
         },
         {
             icon: '✅',
-            title: '2 Yıl Garanti',
-            description: 'Tüm montaj ve malzemelerimize 2 yıl tam garanti veriyoruz.',
+            title: t.shared.r2_t,
+            description: t.shared.r2_d,
         },
         {
             icon: '📏',
-            title: 'Ölçüye Özel Üretim',
-            description: 'Her proje için birebir ölçüm yaparak özel üretim gerçekleştiriyoruz.',
+            title: t.shared.r3_t,
+            description: t.shared.r3_d,
         },
         {
             icon: '👷',
-            title: 'Profesyonel Ekip',
-            description: 'Deneyimli montaj ekibimiz ile hızlı ve temiz iş garantisi.',
+            title: t.shared.r4_t,
+            description: t.shared.r4_d,
         },
         {
-            icon: '💳',
-            title: 'Uygun Ödeme',
-            description: 'Kredi kartına taksit ve elden taksit seçenekleri sunuyoruz.',
+            icon: '💰',
+            title: t.shared.r5_t,
+            description: t.shared.r5_d,
         },
         {
-            icon: '🚗',
-            title: 'Ücretsiz Keşif',
-            description: 'Adresinize gelir, ölçüm yapar ve size özel teklif hazırlarız.',
+            icon: '🚚',
+            title: t.shared.r6_t,
+            description: t.shared.r6_d,
         },
     ];
 
@@ -44,10 +50,10 @@ export default function WhyAtaYapi() {
                         className="text-2xl md:text-3xl font-bold text-gray-900 mb-4"
                         style={{ fontFamily: 'var(--font-heading)' }}
                     >
-                        Neden <span className="text-[var(--primary)]">Ata Yapı</span>?
+                        {t.shared.why_title}
                     </h2>
                     <p className="text-gray-600">
-                        Kalite, güven ve müşteri memnuniyeti odaklı hizmet anlayışımızla fark yaratıyoruz.
+                        {t.shared.why_subtitle}
                     </p>
                 </div>
 

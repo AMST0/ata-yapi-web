@@ -7,6 +7,11 @@ export interface LanguageOption {
   nativeName: string;
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
 export interface TranslationSchema {
   nav: {
     giyotin_systems: string;
@@ -136,5 +141,152 @@ export interface TranslationSchema {
     back: string;
     language: string;
     factory_direct: string;
+    read_more: string;
+    contact_us: string;
+    get_offer: string;
+  };
+  shared: {
+    why_title: string;
+    why_subtitle: string;
+    r1_t: string; r1_d: string;
+    r2_t: string; r2_d: string;
+    r3_t: string; r3_d: string;
+    r4_t: string; r4_d: string;
+    r5_t: string; r5_d: string;
+    r6_t: string; r6_d: string;
+    cta_title: string;
+    cta_desc: string;
+    cta_whatsapp: string;
+    cta_phone: string;
+    cta_form: string;
+    free_insp_title: string;
+    free_insp_desc: string;
+    step1_t: string; step1_d: string;
+    step2_t: string; step2_d: string;
+    step3_t: string; step3_d: string;
+    step4_t: string; step4_d: string;
+    warranty_title: string;
+    warranty_desc: string;
+    w_scope_title: string;
+    w1: string; w2: string; w3: string; w4: string;
+    w_install_title: string;
+    i1: string; i2: string; i3: string; i4: string;
+    price_why_title: string;
+    price_why_note: string;
+  };
+  faq: {
+    title: string;
+    subtitle: string;
+    items: FAQItem[];
+  };
+  pages: {
+    bayi: {
+      hero_badge: string;
+      hero_title: string;
+      hero_desc: string;
+      models_title: string;
+      m1_t: string; m1_d: string;
+      m2_t: string; m2_d: string;
+      m3_t: string; m3_d: string;
+      m4_t: string; m4_d: string;
+      adv_title: string;
+      adv1_t: string; adv1_d: string;
+      adv2_t: string; adv2_d: string;
+      adv3_t: string; adv3_d: string;
+      adv4_t: string; adv4_d: string;
+      adv5_t: string; adv5_d: string;
+      adv6_t: string; adv6_d: string;
+      proc_title: string;
+      p1_t: string; p1_d: string;
+      p2_t: string; p2_d: string;
+      p3_t: string; p3_d: string;
+      p4_t: string; p4_d: string;
+      form_title: string;
+      form_desc: string;
+      form_company: string;
+      form_country: string;
+      form_submit: string;
+    };
+    giyotin: {
+      hero_badge: string;
+      hero_title: string;
+      hero_desc: string;
+      sub1_t: string; sub1_d: string;
+      sub2_t: string; sub2_d: string;
+      sub3_t: string; sub3_d: string;
+      feat_title: string;
+      f1_t: string; f1_d: string;
+      f2_t: string; f2_d: string;
+      f3_t: string; f3_d: string;
+      f4_t: string; f4_d: string;
+      areas_title: string;
+      a1_t: string; a1_d: string;
+      a2_t: string; a2_d: string;
+      a3_t: string; a3_d: string;
+      a4_t: string; a4_d: string;
+    };
+    cam_balkon: {
+      hero_badge: string;
+      hero_title: string;
+      hero_desc: string;
+      s1_t: string; s1_d: string;
+      s2_t: string; s2_d: string;
+      s3_t: string; s3_d: string;
+      adv_title: string;
+      adv1_t: string; adv1_d: string;
+      adv2_t: string; adv2_d: string;
+      adv3_t: string; adv3_d: string;
+    };
+    sineklik: {
+      hero_badge: string;
+      hero_title: string;
+      hero_desc: string;
+      s1_t: string; s1_d: string;
+      s2_t: string; s2_d: string;
+      s3_t: string; s3_d: string;
+      f1_t: string; f1_d: string;
+      f2_t: string; f2_d: string;
+      f3_t: string; f3_d: string;
+    };
+    tente: {
+      hero_badge: string;
+      hero_title: string;
+      hero_desc: string;
+      s1_t: string; s1_d: string;
+      s2_t: string; s2_d: string;
+      s3_t: string; s3_d: string;
+      f1_t: string; f1_d: string;
+      f2_t: string; f2_d: string;
+      f3_t: string; f3_d: string;
+    };
+    fiyat: {
+      hero_title: string;
+      hero_desc: string;
+      calc_box_title: string;
+      calc_box_desc: string;
+      factors_title: string;
+      fact1_t: string; fact1_d: string;
+      fact2_t: string; fact2_d: string;
+      fact3_t: string; fact3_d: string;
+    };
+    pimapen: {
+      hero_title: string;
+      hero_desc: string;
+      s1_t: string; s1_d: string;
+      s2_t: string; s2_d: string;
+      s3_t: string; s3_d: string;
+    };
+    iletisim: {
+      hero_title: string;
+      hero_desc: string;
+      addr_title: string;
+      addr_val: string;
+      phone_title: string;
+      phone_val: string;
+      hours_title: string;
+      hours_val: string;
+      form_title: string;
+      form_desc: string;
+    };
   };
 }

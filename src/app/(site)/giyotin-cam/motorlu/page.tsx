@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import CTABlock from "@/components/seo/CTABlock";
 
 export const metadata: Metadata = {
     title: "Motorlu Giyotin Cam Sistemleri | Otomatik Açılır Kapanır | Ata Yapı",
@@ -224,15 +225,7 @@ export default function MotorluGiyotinPage() {
             </section>
 
             {/* CTA */}
-            <section className="py-16 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] text-white text-center">
-                <div className="container">
-                    <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: "var(--font-heading)" }}>Mekanınıza Uygun Motorlu Giyotin Projesi İçin</h2>
-                    <p className="text-white/80 max-w-xl mx-auto mb-8">Ücretsiz keşif ekibimiz yerinde ölçüm alarak size özel motorlu giyotin cam projesi hazırlasın.</p>
-                    <Link href="/iletisim" className="btn-press bg-white text-[var(--primary)] font-bold px-8 py-4 rounded-xl hover:bg-gray-100 transition-colors inline-block shadow-lg">
-                        Hemen Randevu Alın
-                    </Link>
-                </div>
-            </section>
+            <CTABlock />
         </>
     );
 }
